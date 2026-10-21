@@ -26,7 +26,7 @@ export function Acordeao({
   itens,
   modo = "varios",
   abertosIniciais = [],
-  aparencia = "linhas",
+  aparencia = "cartoes",
   nivelDoTitulo = 3,
 }: {
   itens: ItemDoAcordeao[];
@@ -34,7 +34,7 @@ export function Acordeao({
   modo?: "um" | "varios";
   /** Índices dos itens que começam abertos (no modo "um", vale só o primeiro). */
   abertosIniciais?: number[];
-  /** "linhas": itens separados por linhas; "cartoes": cada item numa caixa com borda. */
+  /** "cartoes": cada item num cartão arredondado (segue o raio do tema); "linhas": itens separados por linhas finas. */
   aparencia?: "linhas" | "cartoes";
   /** Nível do heading que envolve cada título, para encaixar na hierarquia da página. */
   nivelDoTitulo?: 2 | 3 | 4 | 5 | 6;
@@ -54,17 +54,27 @@ export function Acordeao({
     });
 
   return (
-    <div className={cartoes ? "flex w-full flex-col gap-3" : "w-full divide-y divide-rule border-y border-rule"}>
+    <div className={cartoes ? "flex w-full flex-col gap-2" : "w-full divide-y divide-rule border-y border-rule"}>
       {itens.map((item, indice) => {
         const aberto = abertos.includes(indice);
         const idBotao = `${id}-botao-${indice}`;
         const idPainel = `${id}-painel-${indice}`;
         return (
-          <div key={indice} className={cartoes ? "overflow-hidden rounded-xl border border-rule bg-page" : ""}>
+          <div
+            key={indice}
+            // O foco aparece no cartão inteiro (o botão cobre a linha toda); o aberto ganha a cor de destaque na borda
+            className={
+              cartoes
+                ? `overflow-hidden rounded-2xl border bg-page outline-accent transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 ${
+                    aberto ? "border-accent/40 bg-surface/40" : "border-rule"
+                  }`
+                : ""
+            }
+          >
             {/* O botão cobre a linha inteira (after:inset-0); o extra fica por cima só nos elementos clicáveis */}
             <div
-              className={`relative flex items-center gap-3 transition-colors ${cartoes ? "px-4 py-3" : "px-2 py-3"} ${
-                aberto || cartoes ? "bg-surface" : "hover:bg-surface/60"
+              className={`relative flex items-center gap-3 transition-colors ${cartoes ? "px-4 py-4" : "px-2 py-3"} ${
+                cartoes ? "hover:bg-surface/60" : aberto ? "bg-surface" : "hover:bg-surface/60"
               }`}
             >
               <Titulo className="min-w-0 flex-1 text-base font-normal">
@@ -75,20 +85,31 @@ export function Acordeao({
                   aria-controls={idPainel}
                   disabled={item.desativado}
                   onClick={() => alternar(indice)}
-                  className="flex w-full cursor-pointer items-center gap-3 rounded-sm text-left outline-accent after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className={`flex w-full cursor-pointer items-center gap-3 rounded-sm text-left outline-accent after:absolute after:inset-0 after:content-[''] disabled:cursor-not-allowed disabled:opacity-50 ${
+                    cartoes ? "focus-visible:outline-none" : "focus-visible:outline-2 focus-visible:outline-offset-2"
+                  }`}
                 >
-                  <svg
+                  {/* Nos cartões a seta fica num círculo, que muda de cor ao abrir */}
+                  <span
                     aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    className={`size-4 shrink-0 text-muted ${semMovimento ? "" : "transition-transform duration-200"} ${aberto ? "rotate-90" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    className={`grid shrink-0 place-items-center ${
+                      cartoes
+                        ? `size-8 rounded-[max(var(--radius-sm),calc(var(--radius-2xl)_-_var(--spacing)*4))] transition-colors ${aberto ? "bg-accent/15 text-accent" : "bg-surface text-muted"}`
+                        : "size-4 text-muted"
+                    }`}
                   >
-                    <path d="m9 6 6 6-6 6" />
-                  </svg>
+                    <svg
+                      viewBox="0 0 24 24"
+                      className={`size-4 ${semMovimento ? "" : "transition-transform duration-200"} ${aberto ? "rotate-90" : ""}`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m9 6 6 6-6 6" />
+                    </svg>
+                  </span>
                   <span className="min-w-0 flex-1">
                     <span className="block font-semibold text-ink">{item.titulo}</span>
                     {item.subtitulo && <span className="mt-0.5 block text-sm text-ink-2">{item.subtitulo}</span>}
@@ -112,7 +133,7 @@ export function Acordeao({
               }`}
             >
               <div className="min-h-0 overflow-hidden">
-                <div className={`text-sm text-ink ${cartoes ? "border-t border-rule px-4 py-4" : "bg-surface pt-1 pr-2 pb-4 pl-9"}`}>
+                <div className={`text-sm text-ink ${cartoes ? "border-t border-rule px-4 py-4 pl-[4.25rem]" : "bg-surface pt-1 pr-2 pb-4 pl-9"}`}>
                   {item.conteudo}
                 </div>
               </div>

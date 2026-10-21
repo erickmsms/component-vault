@@ -53,8 +53,9 @@ const PEDIDOS: ItemDoAcordeao[] = [
   },
 ];
 
+// Botão no lado direito do cartão (rounded-2xl, a 4 unidades da borda): o raio acompanha o do cartão
 const BOTAO =
-  "inline-flex min-h-9 cursor-pointer items-center rounded-lg border border-rule bg-page px-3 text-xs font-medium text-ink outline-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2";
+  "inline-flex min-h-9 cursor-pointer items-center rounded-[max(var(--radius-sm),calc(var(--radius-2xl)_-_var(--spacing)*4))] border border-rule bg-page px-3 text-xs font-medium text-ink outline-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2";
 
 const VERSOES: ItemDoAcordeao[] = [
   {
@@ -92,10 +93,10 @@ const PERGUNTAS: ItemDoAcordeao[] = [
 ];
 
 export default defineStories({
-  args: { modo: "varios", aparencia: "linhas", primeiroAberto: true },
+  args: { modo: "varios", aparencia: "cartoes", primeiroAberto: true },
   controls: {
     modo: { type: "select", options: ["um", "varios"] },
-    aparencia: { type: "select", options: ["linhas", "cartoes"] },
+    aparencia: { type: "select", options: ["cartoes", "linhas"] },
     primeiroAberto: { type: "boolean", label: "primeiro item aberto" },
   },
   render: (a) => (
@@ -110,13 +111,13 @@ export default defineStories({
     </div>
   ),
   stories: [
-    { name: "Linhas com valores" },
-    { name: "Cartões", args: { aparencia: "cartoes" } },
+    { name: "Cartões com valores" },
+    { name: "Linhas", args: { aparencia: "linhas" } },
     {
       name: "Histórico com ações",
       render: () => (
         <div className="w-full max-w-2xl">
-          <Acordeao itens={VERSOES} aparencia="cartoes" modo="um" />
+          <Acordeao itens={VERSOES} modo="um" />
         </div>
       ),
     },
@@ -124,7 +125,7 @@ export default defineStories({
       name: "Perguntas frequentes (um por vez)",
       render: () => (
         <div className="w-full max-w-2xl">
-          <Acordeao itens={PERGUNTAS} modo="um" abertosIniciais={[0]} nivelDoTitulo={2} />
+          <Acordeao itens={PERGUNTAS} modo="um" abertosIniciais={[0]} nivelDoTitulo={2} aparencia="linhas" />
         </div>
       ),
     },
