@@ -168,7 +168,7 @@ export function CampoDeEtiquetas({
             {valor.map((etiqueta, i) => (
               <li
                 key={`${etiqueta}-${i}`}
-                className="inline-flex max-w-full items-center gap-1 rounded-full border border-rule bg-surface py-0.5 pr-1 pl-3 text-sm text-ink"
+                className="inline-flex max-w-full items-center gap-1 rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*2))] border border-rule bg-surface py-0.5 pr-1 pl-3 text-sm text-ink"
               >
                 <span className="min-w-0 truncate">{etiqueta}</span>
                 {!desativado && (
@@ -176,7 +176,7 @@ export function CampoDeEtiquetas({
                     type="button"
                     onClick={() => remover(i)}
                     aria-label={textos.remover(etiqueta)}
-                    className="grid size-6 shrink-0 cursor-pointer place-items-center rounded-full text-muted outline-accent hover:bg-page hover:text-accent focus-visible:outline-2"
+                    className="grid size-6 shrink-0 cursor-pointer place-items-center rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3))] text-muted outline-accent hover:bg-page hover:text-accent focus-visible:outline-2"
                   >
                     <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round">
                       <path d="M6 6l12 12M18 6 6 18" />
