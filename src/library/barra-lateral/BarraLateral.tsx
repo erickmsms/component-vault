@@ -131,7 +131,7 @@ export function BarraLateral({
         <span className={`min-w-0 flex-1 truncate whitespace-nowrap ${transicao} ${someRecolhida}`}>{item.rotulo}</span>
         {item.contador !== undefined && (
           <span
-            className={`shrink-0 rounded-full px-2 py-0.5 text-xs leading-none font-semibold tabular-nums ${transicao} ${someRecolhida} ${
+            className={`shrink-0 rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3))] px-2 py-0.5 text-xs leading-none font-semibold tabular-nums ${transicao} ${someRecolhida} ${
               item.ativo ? "bg-accent text-page" : "bg-surface text-ink-2"
             }`}
           >

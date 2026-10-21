@@ -384,7 +384,7 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
                   {coluna.titulo}
                 </h3>
               </div>
-              <span className="shrink-0 rounded-full bg-page px-2 py-0.5 text-xs text-ink-2 tabular-nums">
+              <span className="shrink-0 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))] bg-page px-2 py-0.5 text-xs text-ink-2 tabular-nums">
                 <span aria-hidden="true">{coluna.cartoes.length}</span>
                 <span className="sr-only">{textos.contagem(coluna.cartoes.length)}</span>
               </span>
