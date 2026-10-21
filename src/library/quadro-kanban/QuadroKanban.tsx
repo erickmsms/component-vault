@@ -375,9 +375,9 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
               if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setAlvo((a) => (a?.coluna === coluna.id ? null : a));
             }}
             onDrop={(e) => aoSoltar(e, coluna.id)}
-            className={`flex max-h-full shrink-0 flex-col rounded-xl border border-rule bg-surface p-3 ${larguraDaColuna}`}
+            className={`flex max-h-full shrink-0 flex-col rounded-xl border border-rule bg-surface py-3 pr-1.5 pl-3 ${larguraDaColuna}`}
           >
-            <header className="mb-3 flex items-center justify-between gap-2 px-1">
+            <header className="mr-1.5 mb-3 flex items-center justify-between gap-2 px-1">
               <div className="flex min-w-0 items-center gap-2">
                 <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full" style={{ background: coluna.cor ?? "var(--muted)" }} />
                 <h3 id={idTitulo} className="truncate text-sm font-semibold text-ink">
@@ -391,7 +391,7 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
             </header>
 
             <ol
-              className={`flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))] border border-dashed p-1.5 ${
+              className={`flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))] border border-dashed py-1.5 pr-1 pl-1.5 ${
                 sobre ? "border-accent bg-accent/5" : coluna.cartoes.length === 0 ? "border-rule" : "border-transparent"
               }`}
             >
