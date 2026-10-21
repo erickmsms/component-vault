@@ -251,13 +251,15 @@ export function AreaDeUpload({
           {arquivos.map((arquivo, i) => {
             const pct = progresso?.get(arquivo);
             const meta = [extensao(arquivo.name), formatarTamanho(arquivo.size)].filter(Boolean).join(" · ");
+            // O botão fica a 3 (grade) ou 4 (lista) unidades da borda do cartão: o raio acompanha essa folga
+            const raioDoBotao = exibicao === "grade" ? "rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))]" : "rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))]";
             const botaoRemover = (
               <button
                 type="button"
                 onClick={() => remover(i)}
                 aria-label={mensagens.remover(arquivo.name)}
                 title={mensagens.remover(arquivo.name)}
-                className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted outline-accent hover:bg-critical/10 hover:text-critical focus-visible:outline-2"
+                className={`flex size-8 shrink-0 cursor-pointer items-center justify-center ${raioDoBotao} text-muted outline-accent hover:bg-critical/10 hover:text-critical focus-visible:outline-2`}
               >
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
                   <path d="M6 6l12 12M18 6 6 18" />
@@ -295,10 +297,10 @@ export function AreaDeUpload({
                   <p className="text-xs text-muted">{formatarTamanho(arquivo.size)}</p>
                   {barra}
                 </div>
-                <span className="absolute top-3 right-3 rounded-md bg-page/90">{botaoRemover}</span>
+                <span className={`absolute top-3 right-3 ${raioDoBotao} bg-page/90`}>{botaoRemover}</span>
               </li>
             ) : (
-              <li key={`${arquivo.name}-${arquivo.lastModified}-${i}`} className="flex items-center gap-3 rounded-xl border border-rule bg-page p-2 pr-3">
+              <li key={`${arquivo.name}-${arquivo.lastModified}-${i}`} className="flex items-center gap-3 rounded-xl border border-rule bg-page p-2 pr-4">
                 <MiniaturaDeArquivo arquivo={arquivo} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm text-ink" title={arquivo.name}>

@@ -97,7 +97,8 @@ export function MiniaturaDeArquivo({
   );
 
   const caixa =
-    tamanho === "grande" ? "aspect-square w-full rounded-lg" : "size-12 rounded-md";
+    // Dentro do cartão (rounded-xl, p-2): raio do cartão menos o espaçamento, para a curva acompanhar o contorno
+    `${tamanho === "grande" ? "aspect-square w-full" : "size-12"} rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*2))]`;
 
   return (
     <span className={`relative flex shrink-0 items-center justify-center overflow-hidden border border-rule bg-surface ${caixa}`}>
