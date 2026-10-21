@@ -164,7 +164,7 @@ export function EtapasInterativas({
 
                     {/* Rótulo: só o título quando comprimida; a descrição aparece na etapa aberta. */}
                     <div
-                      className={`absolute inset-x-3 bottom-3 rounded-2xl p-4 backdrop-blur-sm lg:inset-x-4 lg:bottom-4 lg:p-5 ${cores.rotulo}`}
+                      className={`absolute inset-x-3 bottom-3 rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*3))] p-4 backdrop-blur-sm lg:inset-x-4 lg:bottom-4 lg:rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*4))] lg:p-5 ${cores.rotulo}`}
                     >
                       <h3>
                         <button
