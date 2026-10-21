@@ -15,8 +15,8 @@ export type OpcaoDeAba<T extends string> = {
 };
 
 const TAMANHOS = {
-  sm: { casca: "gap-0.5 p-0.5", opcao: "h-7 px-2.5 text-xs" },
-  md: { casca: "gap-1 p-1", opcao: "h-8 px-3 text-sm" },
+  sm: { casca: "gap-0.5 p-0.5", raio: "rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*0.5))]", opcao: "h-7 px-2.5 text-xs" },
+  md: { casca: "gap-1 p-1", raio: "rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*1))]", opcao: "h-8 px-3 text-sm" },
 } as const;
 
 /**
@@ -101,7 +101,7 @@ export function Abas<T extends string>({
             title={o.dica}
             disabled={desabilitado}
             onClick={() => aoMudar(o.valor)}
-            className={`inline-flex cursor-pointer items-center gap-1.5 rounded-md font-medium whitespace-nowrap transition-colors outline-accent focus-visible:outline-2 focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 ${t.opcao} ${
+            className={`inline-flex cursor-pointer items-center gap-1.5 ${t.raio} font-medium whitespace-nowrap transition-colors outline-accent focus-visible:outline-2 focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 ${t.opcao} ${
               bloco ? "flex-1 justify-center" : ""
             } ${ativa ? "bg-page text-accent ring-1 ring-rule" : "text-ink-2 hover:text-ink"}`}
           >
