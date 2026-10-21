@@ -4,10 +4,13 @@ export const categories = {
   forms: "Formulários",
   feedback: "Feedback",
   "data-display": "Exibição de dados",
+  charts: "Gráficos",
   navigation: "Navegação",
   layout: "Layout",
+  sections: "Seções",
   overlay: "Overlays",
   media: "Mídia",
+  pages: "Páginas",
   other: "Outros",
 } as const;
 

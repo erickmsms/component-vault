@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ComponentMeta } from "@/registry/types";
 import { backgrounds, Demo } from "./demo-preview";
+import { ScaledThumbnail } from "./scaled-thumbnail";
 
 export function ComponentCard({ component }: { component: ComponentMeta }) {
   const background = backgrounds[component.background ?? "light"];
@@ -8,14 +9,23 @@ export function ComponentCard({ component }: { component: ComponentMeta }) {
   return (
     <div className="relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 transition-colors hover:border-zinc-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-zinc-900 dark:border-zinc-800 dark:hover:border-zinc-600 dark:has-[:focus-visible]:ring-zinc-100">
       {/* Preview em miniatura: inerte para que o card inteiro funcione como link */}
-      <div
-        inert
-        className={`flex h-44 items-center justify-center overflow-hidden p-4 ${background.className}`}
-      >
-        <div className="flex w-full justify-center [zoom:0.75]">
-          <Demo slug={component.slug} />
+      {component.thumbnailWidth ? (
+        <div inert data-mode={background.mode} className={`h-44 overflow-hidden ${background.className}`}>
+          <ScaledThumbnail width={component.thumbnailWidth}>
+            <Demo slug={component.slug} />
+          </ScaledThumbnail>
         </div>
-      </div>
+      ) : (
+        <div
+          inert
+          data-mode={background.mode}
+          className={`flex h-44 items-center-safe justify-center-safe overflow-hidden p-4 ${background.className}`}
+        >
+          <div className="flex w-full justify-center [zoom:0.75]">
+            <Demo slug={component.slug} />
+          </div>
+        </div>
+      )}
       <div className="flex flex-1 flex-col gap-2 border-t border-zinc-200 p-4 dark:border-zinc-800">
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="font-medium">

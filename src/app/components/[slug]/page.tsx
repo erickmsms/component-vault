@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -9,16 +9,46 @@ import { categories } from "@/registry/categories";
 import { CodeBlock } from "@/showcase/code-block";
 import { DemoPreview } from "@/showcase/demo-preview";
 
-const libraryDir = path.join(process.cwd(), "src", "library");
+const srcDir = path.join(process.cwd(), "src");
+
+type Source = { file: string; code: string };
 
 // Lê todos os arquivos da pasta do componente (menos meta.ts), com a demo por último
-function readSources(slug: string) {
-  const dir = path.join(libraryDir, slug);
+function readSources(slug: string): Source[] {
+  const dir = path.join(srcDir, "library", slug);
   return readdirSync(dir, { recursive: true, withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name !== "meta.ts")
     .map((entry) => path.relative(dir, path.join(entry.parentPath, entry.name)).replaceAll("\\", "/"))
     .sort((a, b) => Number(a === "demo.tsx") - Number(b === "demo.tsx") || a.localeCompare(b))
     .map((file) => ({ file, code: readFileSync(path.join(dir, file), "utf-8") }));
+}
+
+// "@/library/dica/Dica" -> "dica"
+function libraryImports(code: string) {
+  return [...code.matchAll(/from "@\/library\/([^/"]+)\//g)].map((match) => match[1]);
+}
+
+/**
+ * Componentes da biblioteca que este usa, direta ou indiretamente (sem contar a
+ * demo): é tudo o que precisa ser copiado junto para outro projeto.
+ */
+function readDependencies(slug: string, sources: Source[]) {
+  const components = new Set<string>();
+  const pending = sources.filter((s) => s.file !== "demo.tsx").map((s) => s.code);
+
+  while (pending.length > 0) {
+    for (const name of libraryImports(pending.pop()!)) {
+      if (name === slug || components.has(name)) continue;
+      components.add(name);
+      pending.push(...readSources(name).filter((s) => s.file !== "demo.tsx").map((s) => s.code));
+    }
+  }
+  return [...components].sort();
+}
+
+function readTheme(theme: string) {
+  const file = path.join(srcDir, "themes", `${theme}.css`);
+  return existsSync(file) ? readFileSync(file, "utf-8") : null;
 }
 
 export function generateStaticParams() {
@@ -49,9 +79,11 @@ async function ComponentDetails({ params }: { params: Params }) {
   if (!component) notFound();
 
   const sources = readSources(component.slug);
+  const dependencies = readDependencies(component.slug, sources);
+  const themeCss = component.theme ? readTheme(component.theme) : null;
 
   return (
-    <article className="mx-auto max-w-4xl space-y-8">
+    <article className="space-y-8">
       <Link
         href="/"
         className="inline-block text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
@@ -110,6 +142,46 @@ async function ComponentDetails({ params }: { params: Params }) {
           <CodeBlock key={file} title={`${component.slug}/${file}`} code={code} />
         ))}
       </section>
+
+      {(dependencies.length > 0 || themeCss) && (
+        <section className="space-y-4">
+          <h2 className="text-lg font-semibold tracking-tight">Para usar em outro projeto, copie também</h2>
+          {dependencies.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Componentes da biblioteca (diretos e indiretos)
+              </h3>
+              <ul className="flex flex-wrap gap-1.5">
+                {dependencies.map((slug) => (
+                  <li key={slug}>
+                    <Link
+                      href={`/components/${slug}`}
+                      className="inline-block rounded-full border border-zinc-200 px-3 py-1 text-sm hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+                    >
+                      {getComponent(slug)?.name ?? slug}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {themeCss && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Tokens do tema “{component.theme}”
+              </h3>
+              <details>
+                <summary className="cursor-pointer py-1 font-mono text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                  src/themes/{component.theme}.css
+                </summary>
+                <div className="mt-2">
+                  <CodeBlock title={`src/themes/${component.theme}.css`} code={themeCss} />
+                </div>
+              </details>
+            </div>
+          )}
+        </section>
+      )}
     </article>
   );
 }

@@ -77,7 +77,8 @@ export function Catalog() {
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row">
-      <aside className="space-y-6 lg:sticky lg:top-8 lg:w-64 lg:shrink-0 lg:self-start">
+      {/* top-24: abaixo do cabeçalho fixo */}
+      <aside className="space-y-6 lg:sticky lg:top-24 lg:w-64 lg:shrink-0 lg:self-start">
         <input
           type="search"
           value={query}
@@ -149,7 +150,8 @@ export function Catalog() {
               {categories[group.id]}
               <span className="text-sm font-normal text-zinc-500">{group.items.length}</span>
             </h2>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {/* Quantas colunas couberem, para ocupar a largura toda em qualquer tela */}
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,20rem),1fr))] gap-4">
               {group.items.map((component) => (
                 <ComponentCard key={component.slug} component={component} />
               ))}
