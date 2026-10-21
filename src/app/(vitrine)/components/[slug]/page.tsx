@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
+import { TrilhaDeNavegacao } from "@/library/trilha-de-navegacao/TrilhaDeNavegacao";
 import { getComponent, registry } from "@/registry";
 import { categories } from "@/registry/categories";
 import { readComponentDocs } from "@/registry/props";
@@ -11,6 +12,7 @@ import { CodeBlock } from "@/showcase/code-block";
 import { ComponentPreview } from "@/showcase/preview/component-preview";
 import { PropsTable } from "@/showcase/props-table";
 import { CurrentThemeCss } from "@/showcase/theme/current-theme-css";
+import { THEME_ATTR } from "@/themes/tokens";
 
 const srcDir = path.join(process.cwd(), "src");
 const EXEMPLOS = "stories.tsx";
@@ -96,30 +98,15 @@ async function ComponentDetails({ params }: { params: Params }) {
     <article className="space-y-10">
       <div className="space-y-6">
         {/* Caminho até aqui; cada parte leva para onde diz (o tipo abre o catálogo filtrado) */}
-        <nav aria-label="Caminho">
-          <ol className="flex flex-wrap items-center gap-2 text-sm">
-            <li>
-              <Link
-                href={`/?tipo=${component.category}`}
-                className="text-zinc-500 underline-offset-4 hover:text-zinc-900 hover:underline dark:hover:text-zinc-100"
-              >
-                {categories[component.category]}
-              </Link>
-            </li>
-            <li aria-hidden="true" className="text-zinc-400">
-              →
-            </li>
-            <li>
-              <Link
-                href={`/components/${component.slug}`}
-                aria-current="page"
-                className="font-medium text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
-              >
-                {component.name}
-              </Link>
-            </li>
-          </ol>
-        </nav>
+        <div data-theme={THEME_ATTR}>
+          <TrilhaDeNavegacao
+            componenteDeLink={Link}
+            itens={[
+              { rotulo: categories[component.category], href: `/?tipo=${component.category}` },
+              { rotulo: component.name, href: `/components/${component.slug}` },
+            ]}
+          />
+        </div>
 
         <header className="space-y-3">
           <div className="flex flex-wrap items-center gap-2 text-sm">
