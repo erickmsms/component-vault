@@ -100,8 +100,9 @@ Controles: `text`, `number` (`min`, `max`, `step`), `boolean`, `select` (`option
 | `source`         | Projeto de origem (filtro "Projeto de origem")                       |
 | `dependencies`   | Pacotes npm exibidos na página do componente                         |
 | `thumbnailWidth` | Largura (px) da miniatura no catálogo, para seções e páginas         |
-| `thumbnailZoom`  | Zoom da miniatura de componentes pequenos (padrão 0.75)              |
 | `previewHeight`  | Altura fixa (px) do iframe de preview, que rola por dentro: para componentes que reagem à rolagem |
+
+Regras das miniaturas do catálogo (e o pre-commit que as confere): [docs/previews.md](docs/previews.md).
 
 ## Temas
 

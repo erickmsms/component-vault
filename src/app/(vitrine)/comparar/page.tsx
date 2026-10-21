@@ -34,7 +34,7 @@ async function Comparacao({ searchParams }: { searchParams: PageProps<"/comparar
         <div className="rounded-xl border border-dashed border-zinc-300 p-10 text-center dark:border-zinc-700">
           <p className="font-medium">Escolha dois componentes para comparar</p>
           <p className="mt-1 text-sm text-zinc-500">
-            No catálogo, use Ctrl + clique (ou o botão + no canto do card) em dois componentes.
+            No catálogo, clique no botão + no canto do card de dois componentes.
           </p>
         </div>
       ) : (

@@ -9,7 +9,9 @@
     "prebuild": "node scripts/gerar-registro.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepare": "husky",
+    "check:previews": "node scripts/verificar-previews.mjs"
   },
   "dependencies": {
     "next": "16.4.2",
@@ -23,6 +25,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

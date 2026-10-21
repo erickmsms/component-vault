@@ -15,11 +15,9 @@ export type ComponentMeta = {
   dependencies?: string[];
   /**
    * Largura (px) em que o card do catálogo renderiza a primeira variação antes
-   * de reduzir para caber. Use em seções e páginas; sem isso, aparece em 75%.
+   * de reduzir para caber. Use em seções e páginas; sem isso, a miniatura se ajusta sozinha.
    */
   thumbnailWidth?: number;
-  /** Zoom da miniatura de componentes pequenos no card (padrão 0.75). */
-  thumbnailZoom?: number;
   /**
    * Altura fixa (px) do iframe de preview, com rolagem dentro dele. Para
    * componentes que reagem à rolagem; sem isso, o iframe cresce com o conteúdo.

@@ -8,5 +8,4 @@ export const meta: ComponentMeta = {
   category: "animation",
   tags: ["número", "kpi", "animação", "contagem", "acessibilidade"],
   source: "nexco",
-  thumbnailWidth: 700,
 };

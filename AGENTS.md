@@ -10,4 +10,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Component Vault
 
-Para adicionar ou remover componentes da biblioteca, siga a seção "Adicionando um componente" do README.md.
+Para adicionar ou remover componentes da biblioteca, siga a seção "Adicionando um componente" do README.md. Regras das miniaturas do catálogo: `docs/previews.md`.

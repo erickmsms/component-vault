@@ -8,5 +8,4 @@ export const meta: ComponentMeta = {
   category: "feedback",
   tags: ["vazio", "erro", "404", "busca", "acessibilidade"],
   source: "acktalabs",
-  thumbnailWidth: 900,
 };

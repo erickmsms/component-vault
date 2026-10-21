@@ -8,5 +8,4 @@ export const meta: ComponentMeta = {
   category: "charts",
   tags: ["heatmap", "grade", "intensidade", "dashboard", "acessibilidade"],
   source: "acktalabs",
-  thumbnailWidth: 1000,
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useState, type MouseEvent, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { getComponent } from "@/registry";
 
 /** Quantos componentes cabem lado a lado na comparação. */
@@ -34,23 +34,15 @@ function useSelecao() {
 }
 
 /**
- * Envolve o card do catálogo: Ctrl (ou Cmd) + clique marca para comparar em vez de abrir,
- * e o botão no canto faz o mesmo para quem não usa o teclado.
+ * Envolve o card do catálogo: o botão no canto marca para comparar. Ctrl (ou Cmd) + clique
+ * no card abre o componente em outra aba, como em qualquer link.
  */
 export function CartaoSelecionavel({ slug, nome, children }: { slug: string; nome: string; children: ReactNode }) {
   const { slugs, alternar } = useSelecao();
   const marcado = slugs.includes(slug);
 
-  function aoClicar(evento: MouseEvent) {
-    if (!evento.ctrlKey && !evento.metaKey) return;
-    evento.preventDefault();
-    evento.stopPropagation();
-    alternar(slug);
-  }
-
   return (
     <div
-      onClickCapture={aoClicar}
       className={`relative rounded-xl ${marcado ? "ring-2 ring-zinc-900 ring-offset-2 ring-offset-white dark:ring-zinc-100 dark:ring-offset-zinc-950" : ""}`}
     >
       {children}
@@ -58,7 +50,7 @@ export function CartaoSelecionavel({ slug, nome, children }: { slug: string; nom
         type="button"
         aria-pressed={marcado}
         aria-label={`Comparar ${nome}`}
-        title="Marcar para comparar (ou Ctrl + clique no card)"
+        title="Marcar para comparar"
         onClick={() => alternar(slug)}
         className="absolute top-2 right-2 z-10 flex size-7 items-center justify-center rounded-full border border-zinc-300 bg-white/90 text-zinc-600 backdrop-blur-sm transition-colors hover:border-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 aria-pressed:border-zinc-900 aria-pressed:bg-zinc-900 aria-pressed:text-white dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:focus-visible:outline-zinc-100 dark:aria-pressed:border-zinc-100 dark:aria-pressed:bg-zinc-100 dark:aria-pressed:text-zinc-900"
       >
@@ -93,7 +85,7 @@ function BarraDeComparacao() {
         ) : (
           <>
             <strong className="font-medium">{nomes[0]}</strong>
-            <span className="opacity-70"> · Ctrl + clique em outro para comparar</span>
+            <span className="opacity-70"> · marque outro (+) para comparar</span>
           </>
         )}
       </p>

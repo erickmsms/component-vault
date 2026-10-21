@@ -4,7 +4,7 @@ import { allStories } from "@/registry/all-stories";
 import { StoryView } from "@/registry/stories";
 import type { ComponentMeta } from "@/registry/types";
 import { THEME_ATTR } from "@/themes/tokens";
-import { ScaledThumbnail } from "./scaled-thumbnail";
+import { FitThumbnail } from "./scaled-thumbnail";
 import { CartaoSelecionavel } from "./selecao";
 
 export function ComponentCard({ component }: { component: ComponentMeta }) {
@@ -22,20 +22,9 @@ export function ComponentCard({ component }: { component: ComponentMeta }) {
     <CartaoSelecionavel slug={component.slug} nome={component.name}>
     <div className="relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 transition-colors hover:border-zinc-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-zinc-900 dark:border-zinc-800 dark:hover:border-zinc-600 dark:has-[:focus-visible]:ring-zinc-100">
       {/* Miniatura da primeira variação, com o tema escolhido: inerte para o card inteiro funcionar como link */}
-      {component.thumbnailWidth ? (
-        <div inert data-miniatura data-theme={THEME_ATTR} className="h-44 overflow-hidden bg-page">
-          <ScaledThumbnail width={component.thumbnailWidth}>{exemplo}</ScaledThumbnail>
-        </div>
-      ) : (
-        <div
-          inert
-          data-miniatura
-          data-theme={THEME_ATTR}
-          className="flex h-44 items-center-safe justify-center-safe overflow-hidden bg-page p-4"
-        >
-          <div className="flex w-full justify-center" style={{ zoom: component.thumbnailZoom ?? 0.75 }}>{exemplo}</div>
-        </div>
-      )}
+      <div inert data-miniatura data-theme={THEME_ATTR} className="h-52 overflow-hidden bg-page">
+        <FitThumbnail largura={component.thumbnailWidth}>{exemplo}</FitThumbnail>
+      </div>
       <div className="flex flex-1 flex-col gap-2 border-t border-zinc-200 p-4 dark:border-zinc-800">
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="font-medium">
