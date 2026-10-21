@@ -101,11 +101,9 @@ function useTopoDaLinha(ativo: boolean) {
   return { linhaRef, topo };
 }
 
-/** A Barra de Filtros da própria biblioteca, ligada à URL e à busca do catálogo. */
+/** A Barra de Filtros da própria biblioteca, ligada à URL. A busca fica no cabeçalho. */
 function BarraDoCatalogo({ topo }: { topo: number }) {
-  const router = useRouter();
   const pathname = usePathname();
-  const { query, setQuery } = useBusca();
   const { category, tags, sources, setParams } = useFiltrosDaUrl();
   const noCatalogo = pathname === "/";
 
@@ -120,15 +118,6 @@ function BarraDoCatalogo({ topo }: { topo: number }) {
         // Em telas estreitas a barra só aparece no catálogo: na página de um componente ela
         // empurraria o preview para baixo da dobra
         className={`lg:w-64 lg:shrink-0 ${noCatalogo ? "" : "hidden lg:block"}`}
-        busca={{
-          valor: query,
-          aoMudar: (valor) => {
-            setQuery(valor);
-            // Buscar a partir da página de um componente leva para o catálogo
-            if (!noCatalogo && valor.trim()) router.push("/");
-          },
-          placeholder: "Buscar por nome, tema, projeto...",
-        }}
         grupos={[
           {
             tipo: "multiplo",
@@ -169,7 +158,7 @@ function BarraDoCatalogo({ topo }: { topo: number }) {
 
 /**
  * Moldura da vitrine: a barra de filtros à esquerda e a página (catálogo ou componente)
- * à direita. Só os Fundamentos ficam sem a barra.
+ * à direita. Só os Fundamentos e o Comparar ficam sem a barra.
  */
 export function VitrineShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
