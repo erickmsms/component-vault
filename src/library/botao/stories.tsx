@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { defineStories } from "@/registry/stories";
+import { GrupoDeBotoes } from "./GrupoDeBotoes";
 import { Botao, classesDoBotao, type TamanhoDoBotao, type VarianteDoBotao } from "./Botao";
 
 function Icone({ children }: { children: ReactNode }) {
@@ -39,6 +40,31 @@ const Reticencias = () => (
     <circle cx="19" cy="12" r="1" />
   </Icone>
 );
+const Voltar = () => (
+  <Icone>
+    <path d="m15 18-6-6 6-6" />
+  </Icone>
+);
+const Avancar = () => (
+  <Icone>
+    <path d="m9 18 6-6-6-6" />
+  </Icone>
+);
+const Negrito = () => (
+  <Icone>
+    <path d="M7 5h6a3.5 3.5 0 0 1 0 7H7zM7 12h7a3.5 3.5 0 0 1 0 7H7z" />
+  </Icone>
+);
+const Italico = () => (
+  <Icone>
+    <path d="M19 4h-9M14 20H5M15 4 9 20" />
+  </Icone>
+);
+const Sublinhado = () => (
+  <Icone>
+    <path d="M7 4v7a5 5 0 0 0 10 0V4M5 20h14" />
+  </Icone>
+);
 const Clipe = () => (
   <Icone>
     <path d="m21 11-9 9a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8" />
@@ -53,6 +79,7 @@ const VARIANTES: { variante: VarianteDoBotao; rotulo: string }[] = [
   { variante: "fantasma", rotulo: "Fantasma" },
   { variante: "perigo", rotulo: "Perigo" },
   { variante: "perigo-suave", rotulo: "Perigo suave" },
+  { variante: "link", rotulo: "Link" },
 ];
 
 /** Clica e fica "Enviando..." por dois segundos, como num envio de verdade. */
@@ -80,6 +107,7 @@ export default defineStories({
     tamanho: "md",
     comIcone: false,
     soIcone: false,
+    arredondado: false,
     carregando: false,
     desabilitado: false,
     larguraTotal: false,
@@ -87,9 +115,10 @@ export default defineStories({
   controls: {
     texto: { type: "text", label: "children" },
     variante: { type: "select", options: VARIANTES.map((v) => v.variante) },
-    tamanho: { type: "select", options: ["sm", "md", "lg"] },
+    tamanho: { type: "select", options: ["xs", "sm", "md", "lg"] },
     comIcone: { type: "boolean", label: "icone" },
     soIcone: { type: "boolean", label: "soIcone (o texto vira aria-label)" },
+    arredondado: { type: "boolean" },
     carregando: { type: "boolean" },
     desabilitado: { type: "boolean", label: "disabled" },
     larguraTotal: { type: "boolean" },
@@ -101,6 +130,7 @@ export default defineStories({
           variante={a.variante as VarianteDoBotao}
           tamanho={a.tamanho as TamanhoDoBotao}
           soIcone={a.soIcone}
+          arredondado={a.arredondado}
           icone={a.comIcone || a.soIcone ? <Mais /> : undefined}
           carregando={a.carregando}
           disabled={a.desabilitado}
@@ -130,6 +160,7 @@ export default defineStories({
       name: "Tamanhos",
       render: () => (
         <div className="flex items-center gap-3">
+          <Botao tamanho="xs">Extra pequeno</Botao>
           <Botao tamanho="sm">Pequeno</Botao>
           <Botao tamanho="md">Médio</Botao>
           <Botao tamanho="lg">Grande</Botao>
@@ -165,7 +196,46 @@ export default defineStories({
         </div>
       ),
     },
+    {
+      name: "Arredondado",
+      render: () => (
+        <div className="flex items-center gap-3">
+          <Botao arredondado iconeFinal={<Avancar />}>
+            Começar agora
+          </Botao>
+          <Botao arredondado variante="contorno">
+            Saiba mais
+          </Botao>
+          <Botao arredondado soIcone variante="secundario" aria-label="Adicionar" icone={<Mais />} />
+        </div>
+      ),
+    },
     { name: "Carregando (clique)", render: () => <EnvioDeArquivo /> },
+    {
+      name: "Grupo de botões",
+      render: () => (
+        <div className="flex flex-col items-start gap-5">
+          <GrupoDeBotoes rotulo="Navegação">
+            <Botao variante="contorno" icone={<Voltar />}>
+              Anterior
+            </Botao>
+            <Botao variante="contorno" iconeFinal={<Avancar />}>
+              Próximo
+            </Botao>
+          </GrupoDeBotoes>
+          <GrupoDeBotoes rotulo="Formatação do texto">
+            <Botao soIcone variante="contorno" aria-label="Negrito" icone={<Negrito />} />
+            <Botao soIcone variante="contorno" aria-label="Itálico" icone={<Italico />} />
+            <Botao soIcone variante="contorno" aria-label="Sublinhado" icone={<Sublinhado />} />
+          </GrupoDeBotoes>
+          <GrupoDeBotoes orientacao="vertical" rotulo="Ordenação">
+            <Botao variante="secundario">Mais recentes</Botao>
+            <Botao variante="secundario">Mais antigos</Botao>
+            <Botao variante="secundario">Nome (A–Z)</Botao>
+          </GrupoDeBotoes>
+        </div>
+      ),
+    },
     {
       name: "Desabilitados",
       render: () => (

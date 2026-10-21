@@ -8,9 +8,11 @@ const VARIANTES = {
   fantasma: "border-transparent text-ink hover:bg-ink/10",
   perigo: "border-transparent bg-critical text-page hover:bg-critical/90",
   "perigo-suave": "border-transparent bg-critical/10 text-critical hover:bg-critical/20",
+  link: "border-transparent text-accent underline-offset-4 hover:underline",
 } as const;
 
 const TAMANHOS = {
+  xs: { caixa: "h-7 px-2.5 text-xs", quadrado: "size-7" },
   sm: { caixa: "h-8 px-3 text-xs", quadrado: "size-8" },
   md: { caixa: "h-10 px-4 text-sm", quadrado: "size-10" },
   lg: { caixa: "h-12 px-6 text-base", quadrado: "size-12" },
@@ -24,19 +26,29 @@ type OpcoesDeEstilo = {
   tamanho?: TamanhoDoBotao;
   larguraTotal?: boolean;
   soIcone?: boolean;
+  /** Cantos totalmente redondos (formato de pílula). */
+  arredondado?: boolean;
 };
 
 /**
  * Classes do botão, para dar o mesmo visual a outro elemento (um `<Link>` do roteador,
  * por exemplo): `<Link className={classesDoBotao({ variante: "contorno" })}>`.
  */
-export function classesDoBotao({ variante = "primario", tamanho = "md", larguraTotal = false, soIcone = false }: OpcoesDeEstilo = {}) {
-  const medidas = soIcone ? TAMANHOS[tamanho].quadrado : TAMANHOS[tamanho].caixa;
+export function classesDoBotao({
+  variante = "primario",
+  tamanho = "md",
+  larguraTotal = false,
+  soIcone = false,
+  arredondado = false,
+}: OpcoesDeEstilo = {}) {
+  // O link é só texto: sem altura fixa nem espaçamento (a não ser que seja só ícone)
+  const medidas = soIcone ? TAMANHOS[tamanho].quadrado : variante === "link" ? "text-sm" : TAMANHOS[tamanho].caixa;
   return [
-    "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border font-medium whitespace-nowrap select-none",
+    "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 border font-medium whitespace-nowrap select-none",
     "outline-accent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:active:scale-[0.97]",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:cursor-progress",
     "[&_svg]:size-4 [&_svg]:shrink-0",
+    arredondado ? "rounded-full" : "rounded-lg",
     VARIANTES[variante],
     medidas,
     larguraTotal ? "w-full" : "",
@@ -73,8 +85,8 @@ export type BotaoProps = OpcoesDeEstilo &
   };
 
 /**
- * Botão com sete variantes (primário, secundário, terciário, contorno, fantasma, perigo e
- * perigo suave), três tamanhos, versão só com ícone e estado de carregamento. Com `href`
+ * Botão com oito variantes (primário, secundário, terciário, contorno, fantasma, perigo,
+ * perigo suave e link), quatro tamanhos, formato arredondado, versão só com ícone e estado de carregamento. Com `href`
  * vira link. Quando só há ícone, passe `aria-label`.
  */
 export function Botao({
@@ -82,6 +94,7 @@ export function Botao({
   tamanho,
   larguraTotal,
   soIcone,
+  arredondado,
   href,
   novaAba,
   type = "button",
@@ -95,7 +108,7 @@ export function Botao({
   children,
   ...resto
 }: BotaoProps) {
-  const classes = `${classesDoBotao({ variante, tamanho, larguraTotal, soIcone })} ${className}`;
+  const classes = `${classesDoBotao({ variante, tamanho, larguraTotal, soIcone, arredondado })} ${className}`;
   const conteudo = soIcone ? (
     // Só ícone: o ícone pode vir em `icone` ou em `children`
     carregando ? <Girando /> : (icone ?? children)
