@@ -20,7 +20,7 @@ function Exemplo({ rotulo, lista }: { rotulo: string; lista: string }) {
   const opcoes = LISTAS[lista] ?? LISTAS.periodo;
   const [valor, setValor] = useState(opcoes[0].valor);
   return (
-    <div className="flex min-h-64 items-start justify-center">
+    <div className="flex min-h-64 items-start justify-center in-data-miniatura:min-h-0">
       <SeletorUnico rotulo={rotulo} opcoes={opcoes} valor={valor} aoEscolher={setValor} />
     </div>
   );

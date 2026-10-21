@@ -37,7 +37,7 @@ function Exemplo({
   }));
   const [selecionados, setSelecionados] = useState(opcoes.slice(0, 2).map((o) => o.valor));
   return (
-    <div className="flex min-h-96 items-start justify-center">
+    <div className="flex min-h-96 items-start justify-center in-data-miniatura:min-h-0">
       <SeletorMultiplo
         rotulo={rotulo}
         opcoes={opcoes}

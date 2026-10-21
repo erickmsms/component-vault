@@ -23,12 +23,13 @@ export function ComponentCard({ component }: { component: ComponentMeta }) {
     <div className="relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 transition-colors hover:border-zinc-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-zinc-900 dark:border-zinc-800 dark:hover:border-zinc-600 dark:has-[:focus-visible]:ring-zinc-100">
       {/* Miniatura da primeira variação, com o tema escolhido: inerte para o card inteiro funcionar como link */}
       {component.thumbnailWidth ? (
-        <div inert data-theme={THEME_ATTR} className="h-44 overflow-hidden bg-page">
+        <div inert data-miniatura data-theme={THEME_ATTR} className="h-44 overflow-hidden bg-page">
           <ScaledThumbnail width={component.thumbnailWidth}>{exemplo}</ScaledThumbnail>
         </div>
       ) : (
         <div
           inert
+          data-miniatura
           data-theme={THEME_ATTR}
           className="flex h-44 items-center-safe justify-center-safe overflow-hidden bg-page p-4"
         >
