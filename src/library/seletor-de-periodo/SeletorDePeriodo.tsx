@@ -1,12 +1,19 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+
 export type UnidadeDoPeriodo = "mes" | "semana" | "dia";
 
 const ROTULOS = {
-  mes: { anterior: "Mês anterior", proximo: "Próximo mês", atual: "Mês atual" },
-  semana: { anterior: "Semana anterior", proximo: "Próxima semana", atual: "Esta semana" },
-  dia: { anterior: "Dia anterior", proximo: "Próximo dia", atual: "Hoje" },
+  mes: { anterior: "Mês anterior", proximo: "Próximo mês", ir: "Ir para o mês atual", intl: "month" },
+  semana: { anterior: "Semana anterior", proximo: "Próxima semana", ir: "Ir para esta semana", intl: "week" },
+  dia: { anterior: "Dia anterior", proximo: "Próximo dia", ir: "Ir para hoje", intl: "day" },
 } as const;
+
+// "Hoje" muda com o relógio: fora do servidor (null), para o HTML pré-renderizado não ficar velho
+const semAssinatura = () => () => {};
+const hojeNoNavegador = () => dataParaIso(new Date());
+const hojeNoServidor = () => null;
 
 const doisDigitos = (n: number) => String(n).padStart(2, "0");
 
@@ -66,6 +73,29 @@ function rotuloPadrao(inicio: Date, fim: Date, unidade: UnidadeDoPeriodo, locali
   );
 }
 
+/** O rótulo em duas partes: o período em destaque e o ano, que aparece mais suave (se houver um só). */
+function partesDoRotulo(inicio: Date, fim: Date, unidade: UnidadeDoPeriodo, localidade: string): { principal: string; ano?: string } {
+  const ano = String(inicio.getFullYear());
+  const formato = (opcoes: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(localidade, opcoes);
+  if (unidade === "mes") return { principal: espacosComuns(maiuscula(formato({ month: "long" }).format(inicio))), ano };
+  if (unidade === "dia") {
+    return { principal: espacosComuns(maiuscula(formato({ weekday: "short", day: "numeric", month: "short" }).format(inicio))), ano };
+  }
+  if (inicio.getFullYear() === fim.getFullYear()) {
+    return { principal: espacosComuns(formato({ day: "numeric", month: "short" }).formatRange(inicio, fim)), ano };
+  }
+  // A semana vira o ano: cada ponta leva o seu
+  return { principal: rotuloPadrao(inicio, fim, unidade, localidade) };
+}
+
+/** Quantos períodos o mostrado está do período de hoje (0 = o atual, -1 = o anterior...). */
+function periodosDeDistancia(inicio: Date, hoje: Date, unidade: UnidadeDoPeriodo, inicioDaSemana: number): number {
+  const atual = inicioDoPeriodo(hoje, unidade, inicioDaSemana);
+  if (unidade === "mes") return (inicio.getFullYear() - atual.getFullYear()) * 12 + inicio.getMonth() - atual.getMonth();
+  const dia = 24 * 60 * 60 * 1000;
+  return Math.round((inicio.getTime() - atual.getTime()) / (dia * (unidade === "semana" ? 7 : 1)));
+}
+
 function Seta({ direcao }: { direcao: "esquerda" | "direita" }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -74,13 +104,16 @@ function Seta({ direcao }: { direcao: "esquerda" | "direita" }) {
   );
 }
 
-const BOTAO =
-  "inline-flex min-h-10 cursor-pointer items-center justify-center rounded-lg border border-rule bg-page text-sm text-ink-2 outline-accent hover:border-accent/50 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:hover:border-rule aria-disabled:hover:text-ink-2";
+// As setas ficam a 1 unidade da borda do controle (rounded-xl, p-1): o raio acompanha essa folga
+const SETA =
+  "inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*1))] text-ink-2 outline-accent hover:bg-surface hover:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-2";
 
 /**
- * Navegação de período ‹ rótulo › por mês, semana ou dia, com botão para voltar
- * ao período atual. As setas ficam inativas nos limites (sem perder o foco) e o
- * rótulo, em português por padrão, é anunciado quando muda.
+ * Navegação de período ‹ rótulo › por mês, semana ou dia, num controle só: o período em
+ * destaque (o ano mais suave) entre as setas e, embaixo, onde ele está em relação a hoje
+ * ("Há 2 semanas") com o atalho para voltar ao período atual, que só aparece quando você
+ * não está nele. As setas ficam inativas nos limites (sem perder o foco) e o rótulo, em
+ * português por padrão, é anunciado quando muda.
  *
  * O valor é uma data local "AAAA-MM-DD" (o mês também aceita "AAAA-MM"); qualquer
  * dia do período serve, e `aoMudar` devolve sempre o primeiro dia do período
@@ -112,9 +145,9 @@ export function SeletorDePeriodo({
   inicioDaSemana?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   /** Localidade das datas no rótulo (Intl). */
   localidade?: string;
-  /** Mostra o botão que volta ao período de hoje. */
+  /** Mostra o atalho que volta ao período de hoje (só quando o período mostrado não é o atual). */
   comBotaoAtual?: boolean;
-  /** Texto do botão de voltar ao período atual (padrão: "Mês atual", "Esta semana" ou "Hoje"). */
+  /** Texto do atalho para o período atual (padrão: "Ir para o mês atual", "Ir para esta semana" ou "Ir para hoje"). */
   rotuloAtual?: string;
   /** Nome do grupo para leitores de tela. */
   rotulo?: string;
@@ -141,38 +174,66 @@ export function SeletorDePeriodo({
     aoMudar(dataParaIso(alvo));
   }
 
+  const hoje = useSyncExternalStore(semAssinatura, hojeNoNavegador, hojeNoServidor);
+  const distancia = hoje === null ? null : periodosDeDistancia(inicio, lerData(hoje), unidade, inicioDaSemana);
+  const relativo =
+    distancia === null
+      ? null
+      : espacosComuns(maiuscula(new Intl.RelativeTimeFormat(localidade, { numeric: "auto" }).format(distancia, textos.intl)));
+
+  const textoCompleto = descrever(inicio);
+  // Com `formatarRotulo` o texto é o seu, inteiro; sem ele, o ano vai à parte e mais suave
+  const partes = formatarRotulo ? { principal: textoCompleto } : partesDoRotulo(inicio, fimDoPeriodo(inicio, unidade), unidade, localidade);
+
   return (
-    <div role="group" aria-label={rotulo} className="inline-flex flex-wrap items-center gap-2">
-      <button
-        type="button"
-        aria-label={`${textos.anterior}: ${descrever(anterior)}`}
-        aria-disabled={!podeVoltar || undefined}
-        onClick={() => podeVoltar && aoMudar(dataParaIso(anterior))}
-        className={`${BOTAO} size-10`}
-      >
-        <Seta direcao="esquerda" />
-      </button>
-      <span
-        aria-live="polite"
-        aria-atomic="true"
-        className="inline-flex min-h-10 min-w-44 items-center justify-center rounded-lg border border-rule bg-surface px-3 text-center text-sm font-medium text-ink tabular-nums"
-      >
-        {descrever(inicio)}
-      </span>
-      <button
-        type="button"
-        aria-label={`${textos.proximo}: ${descrever(proximo)}`}
-        aria-disabled={!podeAvancar || undefined}
-        onClick={() => podeAvancar && aoMudar(dataParaIso(proximo))}
-        className={`${BOTAO} size-10`}
-      >
-        <Seta direcao="direita" />
-      </button>
-      {comBotaoAtual && (
-        <button type="button" onClick={irParaHoje} className={`${BOTAO} px-3 font-medium`}>
-          {rotuloAtual ?? textos.atual}
+    <div role="group" aria-label={rotulo} className="inline-flex flex-col items-center gap-2">
+      <div className="inline-flex items-center rounded-xl border border-rule bg-page p-1">
+        <button
+          type="button"
+          aria-label={`${textos.anterior}: ${descrever(anterior)}`}
+          aria-disabled={!podeVoltar || undefined}
+          onClick={() => podeVoltar && aoMudar(dataParaIso(anterior))}
+          className={SETA}
+        >
+          <Seta direcao="esquerda" />
         </button>
-      )}
+        <span
+          aria-live="polite"
+          aria-atomic="true"
+          className="mx-1 flex min-h-9 min-w-48 items-center justify-center self-stretch border-x border-rule px-4 text-center"
+        >
+          <span className="sr-only">{textoCompleto}</span>
+          <span aria-hidden="true" className="font-display text-base font-semibold text-ink tabular-nums">
+            {partes.principal}
+            {partes.ano && <span className="ml-1.5 font-normal text-muted">{partes.ano}</span>}
+          </span>
+        </span>
+        <button
+          type="button"
+          aria-label={`${textos.proximo}: ${descrever(proximo)}`}
+          aria-disabled={!podeAvancar || undefined}
+          onClick={() => podeAvancar && aoMudar(dataParaIso(proximo))}
+          className={SETA}
+        >
+          <Seta direcao="direita" />
+        </button>
+      </div>
+      {/* Altura reservada: o texto só aparece no navegador (depende de "hoje") e não deve empurrar nada */}
+      <p className="flex min-h-5 items-center gap-2 text-xs text-muted">
+        {relativo}
+        {comBotaoAtual && distancia !== null && distancia !== 0 && (
+          <>
+            <span aria-hidden="true">·</span>
+            <button
+              type="button"
+              onClick={irParaHoje}
+              className="cursor-pointer rounded-sm font-medium text-accent underline-offset-4 outline-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              {rotuloAtual ?? textos.ir}
+            </button>
+          </>
+        )}
+      </p>
     </div>
   );
 }

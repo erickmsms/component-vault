@@ -22,20 +22,15 @@ function Exemplo({
 }) {
   const [valor, setValor] = useState(dataValida(inicial) ? inicial : "2026-09-16");
   return (
-    <div className="flex flex-col items-center gap-3">
-      <SeletorDePeriodo
-        unidade={unidade}
-        valor={valor}
-        aoMudar={setValor}
-        minimo={dataValida(minimo) ? minimo : undefined}
-        maximo={dataValida(maximo) ? maximo : undefined}
-        comBotaoAtual={comBotaoAtual}
-        inicioDaSemana={domingo ? 0 : 1}
-      />
-      <p className="text-xs text-muted">
-        valor: <code>{valor}</code>
-      </p>
-    </div>
+    <SeletorDePeriodo
+      unidade={unidade}
+      valor={valor}
+      aoMudar={setValor}
+      minimo={dataValida(minimo) ? minimo : undefined}
+      maximo={dataValida(maximo) ? maximo : undefined}
+      comBotaoAtual={comBotaoAtual}
+      inicioDaSemana={domingo ? 0 : 1}
+    />
   );
 }
 
@@ -77,7 +72,7 @@ export default defineStories({
     inicial: { type: "text", label: "valor inicial (AAAA-MM-DD)" },
     minimo: { type: "text", label: "minimo (AAAA-MM-DD)" },
     maximo: { type: "text", label: "maximo (AAAA-MM-DD)" },
-    comBotaoAtual: { type: "boolean", label: "botão do período atual" },
+    comBotaoAtual: { type: "boolean", label: "atalho para o período atual" },
     domingo: { type: "boolean", label: "semana começa no domingo" },
   },
   render: (a) => <Exemplo key={`${a.unidade}-${a.inicial}`} {...a} unidade={a.unidade as UnidadeDoPeriodo} />,
