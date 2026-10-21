@@ -11,16 +11,21 @@ const NUMEROS = [
 ];
 
 export default defineStories({
-  args: { quantidade: 4 },
-  controls: { quantidade: { type: "number", label: "itens (quantidade)", min: 1, max: 6 } },
+  args: { quantidade: 4, divisorias: true, destaque: false },
+  controls: {
+    quantidade: { type: "number", label: "itens (quantidade)", min: 1, max: 6 },
+    divisorias: { type: "boolean" },
+    destaque: { type: "boolean" },
+  },
   render: (a) => (
     <div className="w-full">
-      <NumerosPrincipais itens={NUMEROS.slice(0, a.quantidade)} />
+      <NumerosPrincipais itens={NUMEROS.slice(0, a.quantidade)} divisorias={a.divisorias} destaque={a.destaque} />
     </div>
   ),
   stories: [
     { name: "Quatro números" },
     { name: "Três números", args: { quantidade: 3 } },
     { name: "Dois números", args: { quantidade: 2 } },
+    { name: "Sem divisórias, em destaque", args: { quantidade: 3, divisorias: false, destaque: true } },
   ],
 });

@@ -8,6 +8,8 @@ const suavizar = (t: number) => 1 - (1 - t) ** 2;
 
 /**
  * Número que conta de `de` até `valor` quando entra na tela e depois fica parado.
+ * É só a animação: um texto inline que herda fonte, tamanho e cor de onde for
+ * usado (um título, um card, uma frase). O layout fica com quem o usa.
  *
  * O número animado é só visual (`aria-hidden`): leitores de tela recebem o valor
  * final de uma vez, num texto escondido. Uma cópia invisível do valor final
@@ -22,9 +24,8 @@ export function Contador({
   prefixo = "",
   sufixo = "",
   formatar,
-  rotulo,
   rotuloAcessivel,
-  className = "font-display text-6xl leading-none tracking-[-0.02em] text-accent sm:text-7xl",
+  className,
 }: {
   /** Valor final da contagem. */
   valor: number;
@@ -40,11 +41,9 @@ export function Contador({
   sufixo?: string;
   /** Formata o número (já arredondado em `casas`). Padrão: separadores do pt-BR. */
   formatar?: (n: number) => string;
-  /** Texto abaixo do número, que explica o que ele conta. */
-  rotulo?: string;
   /** O que os leitores de tela leem no lugar do número. Padrão: o valor final com prefixo e sufixo. */
   rotuloAcessivel?: string;
-  /** Classes do número (substituem as padrão: tamanho, fonte e cor). */
+  /** Classes extras do número. Sem elas, herda o estilo do texto em volta. */
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -77,16 +76,13 @@ export function Contador({
   const mostrado = semMovimento ? final : escrever(atual);
 
   return (
-    <div className="flex flex-col">
-      <span ref={ref} className={className}>
-        {/* Valor final invisível na mesma célula da grade: guarda a largura máxima. */}
-        <span aria-hidden="true" className="inline-grid tabular-nums">
-          <span className="invisible col-start-1 row-start-1">{final}</span>
-          <span className="col-start-1 row-start-1">{mostrado}</span>
-        </span>
-        <span className="sr-only">{rotuloAcessivel ?? final}</span>
+    <span ref={ref} className={className}>
+      {/* Valor final invisível na mesma célula da grade: guarda a largura máxima. */}
+      <span aria-hidden="true" className="inline-grid tabular-nums">
+        <span className="invisible col-start-1 row-start-1">{final}</span>
+        <span className="col-start-1 row-start-1">{mostrado}</span>
       </span>
-      {rotulo && <span className="mt-3 max-w-xs leading-relaxed text-ink-2">{rotulo}</span>}
-    </div>
+      <span className="sr-only">{rotuloAcessivel ?? final}</span>
+    </span>
   );
 }
