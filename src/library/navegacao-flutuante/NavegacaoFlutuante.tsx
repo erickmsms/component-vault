@@ -147,7 +147,7 @@ export function NavegacaoFlutuante({
           {/* Pílula que desliza sob o item em foco ou sob o mouse. */}
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute top-0 left-0 h-11 rounded-2xl bg-ink/10"
+            className="pointer-events-none absolute top-0 left-0 h-11 rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*1.5))] bg-ink/10"
             style={{
               width: pilula.largura,
               transform: `translate(${pilula.x}px, ${pilula.y}px)`,
@@ -162,7 +162,7 @@ export function NavegacaoFlutuante({
           <a
             href={marca.href}
             aria-current={atual === marca.href ? "page" : undefined}
-            className={`relative z-10 flex h-11 min-w-0 items-center rounded-2xl px-3 text-ink ${FOCO}`}
+            className={`relative z-10 flex h-11 min-w-0 items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*1.5))] px-3 text-ink ${FOCO}`}
             {...eventosDaPilula}
           >
             {marca.logo && (
@@ -196,7 +196,7 @@ export function NavegacaoFlutuante({
                 <a
                   href={l.href}
                   aria-current={atual === l.href ? "page" : undefined}
-                  className={`relative z-10 flex h-11 items-center rounded-2xl px-3.5 text-sm whitespace-nowrap transition-colors duration-300 ${FOCO} ${
+                  className={`relative z-10 flex h-11 items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*1.5))] px-3.5 text-sm whitespace-nowrap transition-colors duration-300 ${FOCO} ${
                     atual === l.href ? "font-medium text-ink" : "text-ink-2 hover:text-ink"
                   }`}
                   {...eventosDaPilula}
@@ -222,7 +222,7 @@ export function NavegacaoFlutuante({
               aria-label={rotuloDoMenu}
               onClick={() => setAberto((a) => !a)}
               onMouseEnter={esconder}
-              className={`relative z-10 ml-1 grid size-11 shrink-0 cursor-pointer place-items-center rounded-2xl text-ink transition-colors hover:bg-ink/10 lg:hidden ${FOCO}`}
+              className={`relative z-10 ml-1 grid size-11 shrink-0 cursor-pointer place-items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*1.5))] text-ink transition-colors hover:bg-ink/10 lg:hidden ${FOCO}`}
             >
               <svg
                 aria-hidden="true"
@@ -260,7 +260,7 @@ export function NavegacaoFlutuante({
                   href={l.href}
                   aria-current={atual === l.href ? "page" : undefined}
                   onClick={() => setAberto(false)}
-                  className={`flex min-h-11 items-center rounded-2xl px-4 text-base transition-colors hover:bg-ink/10 hover:text-ink ${FOCO} ${
+                  className={`flex min-h-11 items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*2))] px-4 text-base transition-colors hover:bg-ink/10 hover:text-ink ${FOCO} ${
                     atual === l.href ? "font-medium text-ink" : "text-ink-2"
                   }`}
                 >
