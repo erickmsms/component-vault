@@ -1,10 +1,12 @@
 @import "tailwindcss";
-@import "../themes/editorial.css";
+@import "../themes/tokens.css";
+
+/* Modo escuro controlado pela vitrine (Claro / Escuro / Sistema), em <html data-mode> */
+@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *));
 
 :root {
   --background: #ffffff;
   --foreground: #18181b;
-  color-scheme: light dark;
 }
 
 @theme inline {
@@ -14,11 +16,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #09090b;
-    --foreground: #f4f4f5;
-  }
+/* Os tokens dos temas usam light-dark(), que segue o color-scheme */
+[data-mode="light"] {
+  color-scheme: light;
+}
+
+[data-mode="dark"] {
+  color-scheme: dark;
+  --background: #09090b;
+  --foreground: #f4f4f5;
 }
 
 body {
@@ -26,18 +32,8 @@ body {
   color: var(--foreground);
 }
 
-/* Botões Claro/Escuro do preview: os tokens dos temas usam light-dark() e seguem o color-scheme */
-[data-mode="light"] {
-  color-scheme: light;
-}
-
-[data-mode="dark"] {
-  color-scheme: dark;
-}
-
-/* Fundo "Pontilhado" do preview de componentes */
+/* Fundo "Pontilhado" do preview: mostra onde o componente começa e termina */
 .preview-dots {
-  background-color: #ffffff;
-  background-image: radial-gradient(#d4d4d8 1px, transparent 1px);
+  background-image: radial-gradient(color-mix(in oklab, var(--ink) 22%, transparent) 1px, transparent 1px);
   background-size: 16px 16px;
 }

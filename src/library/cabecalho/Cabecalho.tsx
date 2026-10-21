@@ -20,8 +20,8 @@ export function Cabecalho({
       <div
         className={`mx-auto flex flex-col gap-2 px-6 py-3 md:flex-row md:items-center md:justify-between md:gap-3 md:py-4 ${larguraMaxima}`}
       >
-        <span className="font-display text-lg font-extrabold tracking-tight">{titulo}</span>
-        {children && <div className="flex flex-wrap items-center gap-3">{children}</div>}
+        <span className="shrink-0 font-display text-lg font-extrabold tracking-tight whitespace-nowrap">{titulo}</span>
+        {children && <div className="flex flex-wrap items-center gap-3 md:justify-end">{children}</div>}
       </div>
     </header>
   );

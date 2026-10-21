@@ -28,7 +28,7 @@ function resumir(opcoes: OpcaoDoSeletor[], selecionados: string[], textos: Texto
 }
 
 const BOTAO_DE_ACAO =
-  "cursor-pointer rounded px-1 text-sm font-medium text-accent underline-offset-2 outline-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-default disabled:text-muted disabled:no-underline";
+  "cursor-pointer rounded-sm px-1 text-sm font-medium text-accent underline-offset-2 outline-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-default disabled:text-muted disabled:no-underline";
 
 /**
  * Caixa de seleção múltipla: um botão com o resumo da escolha que abre uma lista

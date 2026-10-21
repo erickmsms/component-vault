@@ -16,7 +16,7 @@ function Grupo({ titulo, linhas }: GrupoDeMetricas) {
       <h3 className="border-b-2 border-rule-strong pb-2 font-display text-base font-bold">{titulo}</h3>
       <dl>
         {linhas.map((l) => (
-          <div key={l.rotulo} className="flex justify-between gap-4 border-b border-rule py-2.5 text-[15px]">
+          <div key={l.rotulo} className="flex justify-between gap-4 border-b border-rule py-2.5 text-base">
             <dt className="text-ink-2">{l.dica ? <Termo dica={l.dica}>{l.rotulo}</Termo> : l.rotulo}</dt>
             <dd className="font-medium tabular-nums">{l.valor}</dd>
           </div>

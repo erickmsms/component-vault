@@ -8,5 +8,4 @@ export const meta: ComponentMeta = {
   category: "navigation",
   tags: ["header", "sticky", "filtro"],
   source: "climatempo",
-  theme: "editorial",
 };

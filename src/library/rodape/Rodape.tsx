@@ -5,7 +5,7 @@ export type LinkDoRodape = { rotulo: string; href: string };
 /** Rodapé discreto: um texto à esquerda (origem dos dados, período, créditos) e links à direita. */
 export function Rodape({ children, links = [] }: { children: ReactNode; links?: LinkDoRodape[] }) {
   return (
-    <footer className="flex flex-wrap justify-between gap-2 border-t border-rule pt-5 text-[13px] text-muted">
+    <footer className="flex flex-wrap justify-between gap-2 border-t border-rule pt-5 text-xs text-muted">
       <span>{children}</span>
       {links.length > 0 && (
         <nav className="flex flex-wrap gap-4">

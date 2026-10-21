@@ -208,7 +208,7 @@ export function GraficoLinhas({
           role="img"
           aria-label={`${rotulo}. ${descricaoAnotacoes ? `${descricaoAnotacoes}. ` : ""}Use as setas para ver os valores de cada dia.`}
           tabIndex={0}
-          className="block touch-none rounded outline-none select-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="block touch-none rounded-sm outline-none select-none focus-visible:ring-2 focus-visible:ring-accent"
           onPointerMove={aoMoverPonteiro}
           onPointerLeave={() => setAtivo(null)}
           onKeyDown={aoTeclar}
@@ -261,7 +261,7 @@ export function GraficoLinhas({
               return (
                 <g key={`${a.x}-${a.titulo}`} pointerEvents="none" aria-hidden="true">
                   <circle cx={x} cy={yPonto} r={9} fill="var(--page)" stroke={a.cor} strokeWidth={2} />
-                  <text x={x} y={yPonto} dy="0.35em" textAnchor="middle" className="fill-ink text-[11px] font-bold">
+                  <text x={x} y={yPonto} dy="0.35em" textAnchor="middle" className="fill-ink text-xs font-bold">
                     {i + 1}
                   </text>
                 </g>
@@ -273,10 +273,10 @@ export function GraficoLinhas({
             return (
               <g key={`${a.x}-${a.titulo}`} pointerEvents="none" aria-hidden="true">
                 <circle cx={x} cy={yPonto} r={6} fill={a.cor} stroke="var(--page)" strokeWidth={2} />
-                <text x={tx} y={y1} textAnchor={aDireita ? "start" : "end"} className="fill-ink text-[13px] font-semibold" style={HALO}>
+                <text x={tx} y={y1} textAnchor={aDireita ? "start" : "end"} className="fill-ink text-xs font-semibold" style={HALO}>
                   {a.titulo}
                 </text>
-                <text x={tx} y={y1 + 17} textAnchor={aDireita ? "start" : "end"} className="fill-ink-2 text-[13px]" style={HALO}>
+                <text x={tx} y={y1 + 17} textAnchor={aDireita ? "start" : "end"} className="fill-ink-2 text-xs" style={HALO}>
                   {a.texto}
                 </text>
               </g>
@@ -305,7 +305,7 @@ export function GraficoLinhas({
         {tAtivo !== null && (
           <div
             role="status"
-            className="pointer-events-none absolute top-2 z-10 min-w-44 rounded-lg border border-rule bg-page px-3 py-2 text-sm shadow-md"
+            className="pointer-events-none absolute top-2 z-10 min-w-44 rounded-lg border border-rule bg-page px-3 py-2 text-sm shadow-flutuante"
             style={px(tAtivo) > largura * 0.6 ? { right: largura - px(tAtivo) + 12 } : { left: px(tAtivo) + 12 }}
           >
             <div className="mb-1 font-semibold">{formatarDia(paraData(tAtivo), true)}</div>

@@ -18,7 +18,7 @@ import { meta as tabelaDados } from "@/library/tabela-dados/meta";
 import type { ComponentMeta } from "./types";
 
 // Metadados de todos os componentes. Ao adicionar um componente, registre-o
-// aqui e em ./demos.tsx.
+// aqui e em ./all-stories.tsx.
 export const registry: ComponentMeta[] = [
   abertura,
   aviso,

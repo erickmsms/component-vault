@@ -7,7 +7,7 @@ const ESTILO = {
   erro: { rotulo: "Erro", cor: "text-critical", icone: "triangulo" },
 } as const;
 
-type Tipo = keyof typeof ESTILO;
+export type TipoDeAviso = keyof typeof ESTILO;
 
 /** Mensagem de status com ícone e rótulo escrito além da cor, para não depender só dela. */
 export function Aviso({
@@ -15,7 +15,7 @@ export function Aviso({
   rotulo,
   children,
 }: {
-  tipo?: Tipo;
+  tipo?: TipoDeAviso;
   /** Substitui o rótulo padrão do tipo ("Atenção", "Erro"...). */
   rotulo?: string;
   children: ReactNode;

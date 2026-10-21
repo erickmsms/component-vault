@@ -8,5 +8,4 @@ export const meta: ComponentMeta = {
   category: "forms",
   tags: ["dropdown", "checkbox", "filtro"],
   source: "climatempo",
-  theme: "editorial",
 };

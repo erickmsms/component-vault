@@ -54,7 +54,7 @@ export function TabelaDados<T extends object>({
     <div className="-mr-3 overflow-x-auto pr-3">
       <table
         style={{ minWidth: larguraMinima } as CSSProperties}
-        className="w-full border-collapse text-[15px] tabular-nums"
+        className="w-full border-collapse text-base tabular-nums"
       >
         <caption className="sr-only">{legenda}</caption>
         <thead>
@@ -63,7 +63,7 @@ export function TabelaDados<T extends object>({
               <th
                 key={c.chave}
                 scope="col"
-                className={`border-b-2 border-rule-strong px-3 py-2.5 text-[13px] font-semibold whitespace-nowrap text-ink-2 first:pl-0 last:pr-0 ${
+                className={`border-b-2 border-rule-strong px-3 py-2.5 text-xs font-semibold whitespace-nowrap text-ink-2 first:pl-0 last:pr-0 ${
                   NUMERICO.has(c.tipo ?? "texto") ? "text-right" : "text-left"
                 }`}
               >

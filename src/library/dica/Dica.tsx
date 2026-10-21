@@ -85,7 +85,7 @@ export function Dica({ texto, termo }: { texto: string; termo: string }) {
         id={id}
         role="tooltip"
         style={estilo ?? undefined}
-        className={`${aberta ? "fixed" : "hidden"} z-50 rounded-lg border border-rule bg-page px-3.5 py-3 text-left text-sm leading-relaxed font-normal tracking-normal whitespace-normal text-ink normal-case shadow-lg`}
+        className={`${aberta ? "fixed" : "hidden"} z-50 rounded-lg border border-rule bg-page px-3.5 py-3 text-left text-sm leading-relaxed font-normal tracking-normal whitespace-normal text-ink normal-case shadow-flutuante`}
       >
         {texto}
       </span>

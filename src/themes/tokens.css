@@ -1,0 +1,25 @@
+/* Ponte entre os tokens do tema e o Tailwind.
+
+   Os componentes da biblioteca usam classes comuns do Tailwind (p-5, text-sm,
+   rounded-xl...) e as cores semânticas abaixo (bg-page, text-ink...). Dentro de
+   [data-theme="vault"], o tema redefine as variáveis que essas classes leem:
+   --spacing, --text-*, --radius-* e as cores. Os valores vêm do tema escolhido
+   na vitrine (src/themes/presets.ts) e são gerados por themeCss(). */
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-track: var(--track);
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-critical: var(--critical);
+  --font-display: var(--fonte-titulo);
+  --shadow-flutuante: var(--sombra-flutuante);
+}

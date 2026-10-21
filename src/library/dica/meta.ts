@@ -8,5 +8,4 @@ export const meta: ComponentMeta = {
   category: "overlay",
   tags: ["tooltip", "glossário", "acessibilidade"],
   source: "climatempo",
-  theme: "editorial",
 };

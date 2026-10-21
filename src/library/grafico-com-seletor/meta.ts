@@ -8,6 +8,5 @@ export const meta: ComponentMeta = {
   category: "charts",
   tags: ["gráfico de linhas", "seletor", "interativo"],
   source: "climatempo",
-  theme: "editorial",
   thumbnailWidth: 1100,
 };

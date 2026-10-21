@@ -59,9 +59,9 @@ export function Ranking({
                   <span className="text-xs font-semibold tracking-wider text-accent uppercase">{rotuloDoDestaque}</span>
                 )}
               </div>
-              <div aria-hidden="true" className="h-3.5 rounded-r bg-track">
+              <div aria-hidden="true" className="h-3.5 rounded-r-sm bg-track">
                 <div
-                  className="h-3.5 rounded-r"
+                  className="h-3.5 rounded-r-sm"
                   style={{ width: largura(item.valor), background: item.cor ?? "var(--accent)" }}
                 />
               </div>

@@ -27,7 +27,7 @@ export function NumerosPrincipais({
           key={`${n.valor}-${n.texto}`}
           className="flex flex-col gap-2.5 border-t border-rule py-7 first:border-t-0 lg:border-t-0 lg:border-l lg:px-7 lg:first:border-l-0 lg:first:pl-0 lg:last:pr-0"
         >
-          <span className="font-display text-6xl leading-none font-extrabold tracking-[-0.03em] md:text-7xl lg:text-5xl xl:text-[3.25rem]">
+          <span className="font-display text-6xl leading-none font-extrabold tracking-[-0.03em] md:text-7xl lg:text-5xl">
             {n.valor}
           </span>
           <span className="leading-relaxed text-ink-2">{n.texto}</span>

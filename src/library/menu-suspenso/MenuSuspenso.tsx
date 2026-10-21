@@ -80,7 +80,7 @@ export function MenuSuspenso({
           id={idDoPainel}
           role="group"
           aria-label={rotulo}
-          className={`absolute top-full right-0 z-50 mt-2 max-w-[calc(100vw-3rem)] rounded-xl border border-rule bg-page shadow-lg ${larguraDoPainel}`}
+          className={`absolute top-full right-0 z-50 mt-2 max-w-[calc(100vw-3rem)] rounded-xl border border-rule bg-page shadow-flutuante ${larguraDoPainel}`}
         >
           {children(() => setAberto(false))}
         </div>

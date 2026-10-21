@@ -8,6 +8,5 @@ export const meta: ComponentMeta = {
   category: "sections",
   tags: ["hero", "manchete", "tipografia"],
   source: "climatempo",
-  theme: "editorial",
   thumbnailWidth: 1100,
 };

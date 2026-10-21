@@ -1,7 +1,5 @@
 import type { CategoryId } from "./categories";
 
-export type PreviewBackground = "light" | "dark" | "dots";
-
 export type ComponentMeta = {
   /** Usado na URL (/components/<slug>). Deve ser igual ao nome da pasta em src/library. */
   slug: string;
@@ -15,13 +13,9 @@ export type ComponentMeta = {
   source?: string;
   /** Pacotes npm necessários além de react e tailwind. */
   dependencies?: string[];
-  /** Fundo padrão do preview (padrão: light). */
-  background?: PreviewBackground;
-  /** Tema cujos tokens de cor e fonte o componente usa (src/themes/<tema>.css). */
-  theme?: string;
   /**
-   * Largura (px) em que o card do catálogo renderiza a demo antes de reduzir
-   * para caber. Use em seções e páginas; sem isso, a demo aparece em 75%.
+   * Largura (px) em que o card do catálogo renderiza a primeira variação antes
+   * de reduzir para caber. Use em seções e páginas; sem isso, aparece em 75%.
    */
   thumbnailWidth?: number;
 };

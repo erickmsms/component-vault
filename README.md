@@ -1,6 +1,6 @@
 # Component Vault
 
-Biblioteca pessoal de componentes React **genéricos**, garimpados de outros projetos, com uma vitrine em Next.js para navegar por **tipo**, **tema** e **projeto de origem**, com busca e preview de cada componente.
+Biblioteca pessoal de componentes React **genéricos**, garimpados de outros projetos, com uma vitrine em Next.js para navegar por **tipo**, **tema** e **projeto de origem**, testar cada componente com temas, fontes e tamanhos de tela diferentes e mexer nas props ao vivo.
 
 ## Rodando
 
@@ -11,22 +11,43 @@ npm run dev
 
 Abre em http://localhost:3000.
 
+## O que a vitrine faz
+
+- **Catálogo** com busca e filtros por tipo, tema e projeto de origem (os filtros ficam na URL).
+- **Tema global no cabeçalho:** cinco temas prontos (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), modo Claro / Escuro / Sistema e troca das fontes de títulos e texto (qualquer família do Google Fonts). Vale para o catálogo, os previews e o próprio cabeçalho.
+- **Editor de tema** (botão "Editar tema"): cores de cada token nos dois modos, cor da marca que gera o destaque e tinge os neutros, contraste WCAG dos pares de texto e fundo, fontes, tamanho do texto, escala dos títulos, arredondamento, densidade e sombra.
+  - **JSON do tema:** "Copiar JSON" copia o tema inteiro; "Colar JSON" aplica um tema colado (aceita parcial e o bloco ```` ```json ```` das IAs, e avisa o que foi ignorado); "Copiar prompt para IA" copia um pedido que explica o formato, para gerar temas no ChatGPT e colar de volta.
+  - **Exportar:** um `.css` único para outro projeto com Tailwind 4.
+- **Fundamentos** (`/fundamentos`): todos os tokens do tema atual em amostras.
+- **Página de cada componente:**
+  - preview num iframe, com as variações em abas, tamanhos de tela (celular, tablet, notebook, desktop: os breakpoints respondem de verdade) e fundo pontilhado;
+  - playground para mexer nas props ao vivo;
+  - tabela de props gerada dos tipos TypeScript;
+  - o código e o que copiar junto para usar em outro projeto.
+
 ## Estrutura
 
 ```
 src/
   library/<slug>/        um componente por pasta
     <Nome>.tsx           o componente em si (pode ter mais arquivos)
-    demo.tsx             export default com exemplos de uso (vira o preview)
+    stories.tsx          variações e playground (vira o preview e a miniatura)
     meta.ts              metadados: nome, tipo, temas, projeto de origem...
-  themes/<tema>.css      tokens de cor e fonte que os componentes usam (bg-page, text-ink...)
+  themes/
+    tokens.ts            lista de tokens e geração do CSS do tema
+    presets.ts           os temas prontos
+    tokens.css           ponte entre os tokens e as classes do Tailwind
+    fonts.ts, color.ts, json.ts   fontes, cores/contraste e o JSON do tema
   registry/
     index.ts             lista de metadados (registre o meta.ts aqui)
-    demos.tsx            mapa slug -> demo (registre o demo.tsx aqui)
+    all-stories.tsx      mapa slug -> stories (registre o stories.tsx aqui)
+    stories.tsx          formato das variações (defineStories)
+    props.ts             leitura das props pelos tipos TypeScript
     categories.ts        tipos disponíveis e a ordem das seções
-    types.ts             formato do meta.ts
-  showcase/              UI da vitrine (catálogo, cards, preview, código)
-  app/                   rotas: / (catálogo) e /components/[slug] (detalhe)
+  showcase/              UI da vitrine (catálogo, preview, playground, tema)
+  app/
+    (vitrine)/           catálogo, /components/[slug] e /fundamentos
+    preview/[slug]/      a página que vai dentro do iframe de preview
 ```
 
 ## O que entra na biblioteca
@@ -36,22 +57,31 @@ Só componentes **genéricos**, que servem em qualquer projeto:
 - Tudo chega por props: textos, dados, cores e formatação. Nada de tipos, cálculos ou textos do domínio do projeto de origem (ao trazer um componente de um projeto, tire essa parte e troque por props).
 - Valores para exibir chegam já formatados (`valor: "R$ 48 mil"`), ou o componente aceita uma função de formatação (`formatarValor`, `formatar`).
 - Nenhum import de fora da biblioteca, além de React. Um componente pode usar outros da biblioteca (`@/library/<slug>/<Arquivo>`).
-- Estilo pelos tokens do tema (`bg-page`, `text-ink`, `border-rule`, `var(--series-1)`...), para que outro projeto troque as cores redefinindo as variáveis.
-- A demo usa dados de exemplo genéricos, escritos na própria demo.
+- Estilo só por classes comuns do Tailwind e pelos tokens de cor do tema (`bg-page`, `text-ink`, `border-rule`, `var(--series-1)`...). Nada de valores fixos como `text-[13px]` ou `#hex`: o tema controla tamanhos de texto, espaçamento e raios redefinindo as variáveis que o Tailwind usa (`--text-*`, `--spacing`, `--radius-*`). Para sombras flutuantes, use `shadow-flutuante`.
+- Comente as props com `/** */`: o comentário vira a descrição na tabela de props.
 
 ## Adicionando um componente
 
-1. Crie `src/library/<slug>/` com o componente, um `demo.tsx` e um `meta.ts` (use `src/library/aviso/` como modelo). O `slug` do meta tem que ser igual ao nome da pasta.
-2. Importe o `meta` em `src/registry/index.ts` e a demo em `src/registry/demos.tsx`.
+1. Crie `src/library/<slug>/` com o componente, um `stories.tsx` e um `meta.ts` (use `src/library/aviso/` como modelo). O `slug` do meta tem que ser igual ao nome da pasta.
+2. Importe o `meta` em `src/registry/index.ts` e o `stories` em `src/registry/all-stories.tsx`.
 3. Se o componente precisar de pacotes npm, instale-os e liste em `dependencies` no meta.
 
-A página de detalhe mostra todos os arquivos da pasta (menos o `meta.ts`) e, em "Para usar em outro projeto, copie também", os outros componentes de que ele depende (diretos e indiretos) e os tokens do tema.
+### Variações (`stories.tsx`)
 
-### Temas
+```tsx
+export default defineStories({
+  args: { tipo: "info", texto: "Os dados são atualizados todo dia." }, // valores do playground
+  controls: { tipo: { type: "select", options: ["info", "erro"] }, texto: { type: "text" } },
+  render: (a) => <Aviso tipo={a.tipo as TipoDeAviso}>{a.texto}</Aviso>,
+  stories: [
+    { name: "Info" },                                    // usa os args padrão
+    { name: "Erro", args: { tipo: "erro" } },            // muda alguns args
+    { name: "Todos os tipos", render: () => <>...</> },  // composição fixa, sem playground
+  ],
+});
+```
 
-Os tokens ficam em `src/themes/<tema>.css`, escopados em `[data-theme="<tema>"]`, com as versões clara e escura em `light-dark()`. O preview aplica o tema pelo `theme` do meta e troca o modo com os botões Claro/Escuro. Um tema novo precisa ser importado em `src/app/globals.css`, e as fontes dele carregadas em `src/app/layout.tsx`.
-
-Para usar um componente em outro projeto, copie a pasta dele, as dos componentes de que depende e o CSS do tema (ou defina as mesmas variáveis com as cores do projeto).
+Controles: `text`, `number` (`min`, `max`, `step`), `boolean`, `select` (`options`) e `color`. A primeira variação aparece no card do catálogo. Não use hooks direto no `render`: crie um componente de exemplo no próprio arquivo (como em `seletor-multiplo/stories.tsx`).
 
 ### Campos do `meta.ts`
 
@@ -61,17 +91,33 @@ Para usar um componente em outro projeto, copie a pasta dele, as dos componentes
 | `tags`           | Temas livres (filtro "Tema"): `dropdown`, `kpi`, `tooltip`...        |
 | `source`         | Projeto de origem (filtro "Projeto de origem")                       |
 | `dependencies`   | Pacotes npm exibidos na página do componente                         |
-| `background`     | Fundo padrão do preview: `light`, `dark` ou `dots`                   |
-| `theme`          | Tema cujos tokens o componente usa (`src/themes/<tema>.css`)         |
 | `thumbnailWidth` | Largura (px) da miniatura no catálogo, para seções e páginas         |
 
-## Filtros pela URL
+## Temas
 
-Os filtros ficam na URL, então dá pra salvar ou compartilhar uma visão:
+Um tema é um conjunto de valores (`ThemeValues` em `src/themes/tokens.ts`): as cores de cada token nos modos claro e escuro, as fontes, o tamanho do texto, a escala dos títulos, o arredondamento, a densidade e a sombra. `themeCss()` transforma isso nas variáveis CSS que os componentes leem dentro de `[data-theme="vault"]`.
 
-- `/?tipo=forms`
-- `/?tema=dropdown,filtro` (combina temas)
-- `/?projeto=climatempo`
+- **Tema novo pronto:** acrescente em `src/themes/presets.ts`. Se usar uma fonte que não está em `src/themes/fonts.ts`, ela é carregada do Google Fonts na hora; para carregar junto com a página, adicione no `src/app/layout.tsx` e em `LOCAL_FONTS`.
+- **Tema para outro projeto:** monte no editor e use "Baixar .css". O arquivo tem a ponte com o Tailwind e os tokens em `:root`; importe depois de `@import "tailwindcss"`.
+- A escolha de tema fica no `localStorage` do navegador e é aplicada antes da página aparecer (sem piscar). Os iframes de preview recebem as mudanças na hora.
+
+### Formato do JSON
+
+```json
+{
+  "name": "Meu tema",
+  "colors": { "accent": { "light": "#1a56db", "dark": "#7aa2f7" }, "page": "#ffffff" },
+  "fontDisplay": "Archivo",
+  "fontBody": "Inter",
+  "textBase": 16,
+  "textScale": 1.25,
+  "radius": 8,
+  "density": 1,
+  "shadow": "soft"
+}
+```
+
+Uma cor só (`"page": "#ffffff"`) vale para os dois modos. Campos que faltarem continuam como no tema atual. Os tokens de cor e as faixas de cada número estão no prompt do botão "Copiar prompt para IA".
 
 ## Origem dos componentes
 

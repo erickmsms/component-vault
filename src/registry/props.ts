@@ -1,0 +1,104 @@
+import { readdirSync, statSync } from "node:fs";
+import path from "node:path";
+import ts from "typescript";
+
+// Lê as props dos componentes direto dos tipos TypeScript, no servidor (na hora
+// do build ou de cada página no dev). Os comentários /** */ viram a descrição.
+
+export type PropDoc = {
+  name: string;
+  type: string;
+  required: boolean;
+  defaultValue?: string;
+  description?: string;
+};
+
+export type ComponentDoc = { name: string; description?: string; props: PropDoc[] };
+
+const srcDir = path.join(process.cwd(), "src");
+const libraryDir = path.join(srcDir, "library");
+
+/** Arquivos dos componentes (sem exemplos e metadados). */
+function arquivosDaBiblioteca() {
+  return readdirSync(libraryDir, { recursive: true, withFileTypes: true })
+    .filter((e) => e.isFile() && e.name.endsWith(".tsx") && e.name !== "stories.tsx")
+    .map((e) => path.join(e.parentPath, e.name));
+}
+
+let cache: { assinatura: string; program: ts.Program } | null = null;
+
+/** Um Program do TypeScript para a biblioteca inteira, refeito quando algum arquivo muda. */
+function programa() {
+  const arquivos = arquivosDaBiblioteca();
+  const assinatura = arquivos.map((f) => `${f}:${statSync(f).mtimeMs}`).join("|");
+  if (cache?.assinatura === assinatura) return cache.program;
+
+  const config = ts.readConfigFile(path.join(process.cwd(), "tsconfig.json"), ts.sys.readFile);
+  const { options } = ts.parseJsonConfigFileContent(config.config, ts.sys, process.cwd());
+  const program = ts.createProgram(arquivos, { ...options, noEmit: true, incremental: false });
+  cache = { assinatura, program };
+  return program;
+}
+
+const FORMATO =
+  ts.TypeFormatFlags.NoTruncation |
+  ts.TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+  ts.TypeFormatFlags.WriteArrowStyleSignature;
+
+/** Valores padrão da desestruturação: `{ tipo = "info" }` -> tipo: "info". */
+function padroes(parametro: ts.ParameterDeclaration) {
+  const resultado = new Map<string, string>();
+  if (!ts.isObjectBindingPattern(parametro.name)) return resultado;
+  for (const elemento of parametro.name.elements) {
+    if (!elemento.initializer) continue;
+    const nome = (elemento.propertyName ?? elemento.name).getText();
+    resultado.set(nome, elemento.initializer.getText());
+  }
+  return resultado;
+}
+
+function documentar(checker: ts.TypeChecker, funcao: ts.FunctionDeclaration): ComponentDoc {
+  const simbolo = funcao.name && checker.getSymbolAtLocation(funcao.name);
+  const description = simbolo ? ts.displayPartsToString(simbolo.getDocumentationComment(checker)) : "";
+  const parametro = funcao.parameters[0];
+  if (!parametro) return { name: funcao.name!.text, description, props: [] };
+
+  const valoresPadrao = padroes(parametro);
+  const tipo = checker.getTypeAtLocation(parametro);
+  const props = tipo.getProperties().map((prop): PropDoc => {
+    const opcional = (prop.flags & ts.SymbolFlags.Optional) !== 0;
+    let tipoDaProp = checker.getTypeOfSymbolAtLocation(prop, parametro);
+    if (opcional) tipoDaProp = checker.getNonNullableType(tipoDaProp);
+    return {
+      name: prop.name,
+      type: checker.typeToString(tipoDaProp, parametro, FORMATO),
+      required: !opcional,
+      defaultValue: valoresPadrao.get(prop.name),
+      description: ts.displayPartsToString(prop.getDocumentationComment(checker)) || undefined,
+    };
+  });
+
+  return { name: funcao.name!.text, description: description || undefined, props };
+}
+
+/** Componentes exportados da pasta (funções com nome em maiúscula) e as props de cada um. */
+export function readComponentDocs(slug: string): ComponentDoc[] {
+  const program = programa();
+  const checker = program.getTypeChecker();
+  const pasta = path.join(libraryDir, slug) + path.sep;
+
+  return program
+    .getSourceFiles()
+    .filter((sf) => path.normalize(sf.fileName).startsWith(pasta) && sf.fileName.endsWith(".tsx"))
+    .filter((sf) => !sf.fileName.endsWith("stories.tsx"))
+    .flatMap((sf) =>
+      sf.statements.filter(
+        (s): s is ts.FunctionDeclaration =>
+          ts.isFunctionDeclaration(s) &&
+          !!s.name &&
+          /^[A-Z]/.test(s.name.text) &&
+          (ts.getCombinedModifierFlags(s) & ts.ModifierFlags.Export) !== 0,
+      ),
+    )
+    .map((funcao) => documentar(checker, funcao));
+}

@@ -1,23 +1,39 @@
 import type { Metadata } from "next";
-import { Archivo, Geist, Geist_Mono, Inter } from "next/font/google";
-import Link from "next/link";
-import { Cabecalho } from "@/library/cabecalho/Cabecalho";
-import { registry } from "@/registry";
+import {
+  Archivo,
+  Fraunces,
+  Geist,
+  Geist_Mono,
+  IBM_Plex_Sans,
+  Inter,
+  Nunito,
+  Space_Grotesk,
+} from "next/font/google";
+import { THEME_HEAD_SCRIPT } from "@/showcase/theme/head-script";
+import { ThemeSync } from "@/showcase/theme/theme-sync";
+import { DEFAULT_PRESET, presetValues } from "@/themes/presets";
+import { themeCss } from "@/themes/tokens";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Fontes dos temas dos componentes (src/themes/*.css)
+// Fontes dos temas (src/themes/fonts.ts). Só as do tema padrão são pré-carregadas.
 const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"] });
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const plex = IBM_Plex_Sans({
+  variable: "--font-plex",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  preload: false,
+});
+const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], preload: false });
+const nunito = Nunito({ variable: "--font-nunito", subsets: ["latin"], preload: false });
+const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"], preload: false });
+
+const fontes = [geistSans, geistMono, archivo, inter, plex, fraunces, nunito, spaceGrotesk]
+  .map((f) => f.variable)
+  .join(" ");
 
 export const metadata: Metadata = {
   title: { default: "Component Vault", template: "%s · Component Vault" },
@@ -26,19 +42,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} ${archivo.variable} ${inter.variable} h-full antialiased`}
-    >
+    // suppressHydrationWarning: o script do <head> põe data-mode no <html> antes do React
+    <html lang="pt-BR" className={`${fontes} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <style id="vault-tema" dangerouslySetInnerHTML={{ __html: themeCss(presetValues(DEFAULT_PRESET), "vault") }} />
+        <script dangerouslySetInnerHTML={{ __html: THEME_HEAD_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col">
-        {/* O próprio Cabeçalho da biblioteca (src/library/cabecalho). "contents" passa os tokens
-            do tema sem criar uma caixa, para o sticky continuar valendo na página inteira. */}
-        <div data-theme="editorial" className="contents">
-          <Cabecalho titulo={<Link href="/">Component Vault</Link>} larguraMaxima="max-w-none">
-            <span className="text-sm text-muted">{registry.length} componentes</span>
-          </Cabecalho>
-        </div>
-        <main className="w-full flex-1 px-6 py-8">{children}</main>
+        <ThemeSync />
+        {children}
       </body>
     </html>
   );

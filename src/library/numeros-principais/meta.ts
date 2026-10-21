@@ -8,6 +8,5 @@ export const meta: ComponentMeta = {
   category: "data-display",
   tags: ["kpi", "destaque", "tipografia"],
   source: "climatempo",
-  theme: "editorial",
   thumbnailWidth: 1100,
 };

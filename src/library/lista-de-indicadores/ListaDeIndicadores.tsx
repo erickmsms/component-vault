@@ -27,7 +27,7 @@ export function ListaDeIndicadores({
       <ul className="border-t-2 border-rule-strong">
         {itens.map((item) => (
           <li key={item.rotulo} className="flex flex-col gap-1 border-b border-rule py-4 last:border-b-0">
-            <span className="text-[13px] font-semibold text-ink-2">{item.rotulo}</span>
+            <span className="text-xs font-semibold text-ink-2">{item.rotulo}</span>
             <span className="font-display text-4xl leading-none font-extrabold tracking-[-0.03em] tabular-nums">
               {item.valor}
             </span>
