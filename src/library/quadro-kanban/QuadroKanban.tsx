@@ -357,7 +357,7 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
   const colunaDoMenu = menu ? colunas.find((c) => c.id === menu.colunaId) : undefined;
   const indiceNoMenu = menu && colunaDoMenu ? colunaDoMenu.cartoes.findIndex((k) => k.id === menu.cartaoId) : -1;
   const ITEM_DO_MENU =
-    "flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-md px-3 text-left text-sm text-ink outline-none hover:bg-surface focus-visible:bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:hover:bg-transparent";
+    "flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*1.5))] px-3 text-left text-sm text-ink outline-none hover:bg-surface focus-visible:bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:hover:bg-transparent";
 
   return (
     <div ref={raiz} role="region" aria-label={rotulo} className="flex h-full min-h-0 gap-4 overflow-x-auto pb-2">
@@ -391,7 +391,7 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
             </header>
 
             <ol
-              className={`flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto rounded-lg border border-dashed p-1.5 ${
+              className={`flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))] border border-dashed p-1.5 ${
                 sobre ? "border-accent bg-accent/5" : coluna.cartoes.length === 0 ? "border-rule" : "border-transparent"
               }`}
             >
@@ -413,7 +413,7 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
                     {linhaAntes && <span aria-hidden="true" className="pointer-events-none absolute inset-x-1 top-[-5px] h-0.5 rounded-full bg-accent" />}
                     <article
                       onClick={abrir}
-                      className={`group relative cursor-grab overflow-hidden rounded-lg border border-rule bg-page p-3 pt-3.5 transition-colors active:cursor-grabbing ${
+                      className={`group relative cursor-grab overflow-hidden rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4.5))] border border-rule bg-page p-3 pt-3.5 transition-colors active:cursor-grabbing ${
                         abrir ? "hover:border-accent" : ""
                       } ${arrastando === cartao.id ? "opacity-40" : ""}`}
                     >
@@ -431,7 +431,7 @@ export function QuadroKanban<C extends CartaoDoQuadro = CartaoDoQuadro>({
                           e.stopPropagation();
                           abrirMenu(e.currentTarget, cartao.id, coluna.id);
                         }}
-                        className={`absolute top-2 right-2 flex size-7 cursor-pointer items-center justify-center rounded-md outline-accent hover:bg-surface hover:text-ink focus-visible:outline-2 ${
+                        className={`absolute top-2 right-2 flex size-7 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*6.5))] outline-accent hover:bg-surface hover:text-ink focus-visible:outline-2 ${
                           // Com mouse, aparece no hover ou com foco dentro do cartão; no toque fica sempre visível.
                           menuAberto
                             ? "bg-surface text-ink"
