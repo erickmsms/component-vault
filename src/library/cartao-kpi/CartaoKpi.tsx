@@ -264,7 +264,7 @@ export function CartaoKpi({
         {icone && (
           <span
             aria-hidden="true"
-            className="-my-1 flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent [&_svg]:size-5"
+            className="-my-1 flex size-9 shrink-0 items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] bg-accent/10 text-accent [&_svg]:size-5"
           >
             {icone}
           </span>
