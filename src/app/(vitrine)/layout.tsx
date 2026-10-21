@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Cabecalho } from "@/library/cabecalho/Cabecalho";
+import { FiltrosProvider, VitrineShell } from "@/showcase/filters";
 import { ThemeControls } from "@/showcase/theme/theme-controls";
 import { THEME_ATTR } from "@/themes/tokens";
 
@@ -13,7 +14,11 @@ export default function VitrineLayout({ children }: LayoutProps<"/">) {
           <ThemeControls />
         </Cabecalho>
       </div>
-      <main className="w-full flex-1 px-6 py-8">{children}</main>
+      <main className="w-full flex-1 px-6 py-8">
+        <FiltrosProvider>
+          <VitrineShell>{children}</VitrineShell>
+        </FiltrosProvider>
+      </main>
     </>
   );
 }

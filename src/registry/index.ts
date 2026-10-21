@@ -7,22 +7,21 @@ import { meta as acordeaoComMidia } from "@/library/acordeao-com-midia/meta";
 import { meta as areaDeUpload } from "@/library/area-de-upload/meta";
 import { meta as avatar } from "@/library/avatar/meta";
 import { meta as aviso } from "@/library/aviso/meta";
+import { meta as barraDeFiltros } from "@/library/barra-de-filtros/meta";
 import { meta as barraDeProgresso } from "@/library/barra-de-progresso/meta";
 import { meta as barraLateral } from "@/library/barra-lateral/meta";
 import { meta as blocosDeTexto } from "@/library/blocos-de-texto/meta";
 import { meta as botao } from "@/library/botao/meta";
 import { meta as botaoFlutuante } from "@/library/botao-flutuante/meta";
+import { meta as botaoNeutro } from "@/library/botao-neutro/meta";
 import { meta as cabecalho } from "@/library/cabecalho/meta";
-import { meta as caixaDeSelecao } from "@/library/caixa-de-selecao/meta";
 import { meta as campoDeEtiquetas } from "@/library/campo-de-etiquetas/meta";
 import { meta as campoDeFormulario } from "@/library/campo-de-formulario/meta";
 import { meta as campoDeMoeda } from "@/library/campo-de-moeda/meta";
 import { meta as cartaoKpi } from "@/library/cartao-kpi/meta";
 import { meta as chamadaFinal } from "@/library/chamada-final/meta";
-import { meta as confirmacao } from "@/library/confirmacao/meta";
 import { meta as contador } from "@/library/contador/meta";
 import { meta as dica } from "@/library/dica/meta";
-import { meta as documentoComSumario } from "@/library/documento-com-sumario/meta";
 import { meta as esqueleto } from "@/library/esqueleto/meta";
 import { meta as estadoVazio } from "@/library/estado-vazio/meta";
 import { meta as etapasInterativas } from "@/library/etapas-interativas/meta";
@@ -32,24 +31,20 @@ import { meta as graficoComSeletor } from "@/library/grafico-com-seletor/meta";
 import { meta as graficoLinhas } from "@/library/grafico-linhas/meta";
 import { meta as heroComMidia } from "@/library/hero-com-midia/meta";
 import { meta as linhaDoTempoDeAtividades } from "@/library/linha-do-tempo-de-atividades/meta";
-import { meta as listaDeIndicadores } from "@/library/lista-de-indicadores/meta";
 import { meta as listaDeTarefas } from "@/library/lista-de-tarefas/meta";
 import { meta as listaEmFoco } from "@/library/lista-em-foco/meta";
 import { meta as mapaDeCalor } from "@/library/mapa-de-calor/meta";
 import { meta as menuDeAcoes } from "@/library/menu-de-acoes/meta";
 import { meta as menuSuspenso } from "@/library/menu-suspenso/meta";
-import { meta as modal } from "@/library/modal/meta";
 import { meta as navegacaoFlutuante } from "@/library/navegacao-flutuante/meta";
 import { meta as notificacoes } from "@/library/notificacoes/meta";
 import { meta as numerosPrincipais } from "@/library/numeros-principais/meta";
-import { meta as painel } from "@/library/painel/meta";
 import { meta as passosNumerados } from "@/library/passos-numerados/meta";
 import { meta as pilhaDeCartoes } from "@/library/pilha-de-cartoes/meta";
 import { meta as quadroKanban } from "@/library/quadro-kanban/meta";
 import { meta as quadroMetricas } from "@/library/quadro-metricas/meta";
 import { meta as ranking } from "@/library/ranking/meta";
 import { meta as revelar } from "@/library/revelar/meta";
-import { meta as rodape } from "@/library/rodape/meta";
 import { meta as rodapeEmColunas } from "@/library/rodape-em-colunas/meta";
 import { meta as secao } from "@/library/secao/meta";
 import { meta as seletorDeCor } from "@/library/seletor-de-cor/meta";
@@ -70,22 +65,21 @@ export const registry: ComponentMeta[] = [
   areaDeUpload,
   avatar,
   aviso,
+  barraDeFiltros,
   barraDeProgresso,
   barraLateral,
   blocosDeTexto,
   botao,
   botaoFlutuante,
+  botaoNeutro,
   cabecalho,
-  caixaDeSelecao,
   campoDeEtiquetas,
   campoDeFormulario,
   campoDeMoeda,
   cartaoKpi,
   chamadaFinal,
-  confirmacao,
   contador,
   dica,
-  documentoComSumario,
   esqueleto,
   estadoVazio,
   etapasInterativas,
@@ -95,24 +89,20 @@ export const registry: ComponentMeta[] = [
   graficoLinhas,
   heroComMidia,
   linhaDoTempoDeAtividades,
-  listaDeIndicadores,
   listaDeTarefas,
   listaEmFoco,
   mapaDeCalor,
   menuDeAcoes,
   menuSuspenso,
-  modal,
   navegacaoFlutuante,
   notificacoes,
   numerosPrincipais,
-  painel,
   passosNumerados,
   pilhaDeCartoes,
   quadroKanban,
   quadroMetricas,
   ranking,
   revelar,
-  rodape,
   rodapeEmColunas,
   secao,
   seletorDeCor,

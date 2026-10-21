@@ -4,7 +4,16 @@ import { MenuDeAcoes, type AcaoDoMenu, type ItemDoMenu } from "./MenuDeAcoes";
 
 function Icone({ children }: { children: ReactNode }) {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       {children}
     </svg>
   );
@@ -93,7 +102,9 @@ function ExemploDeAcoes({
 }) {
   const [ultima, setUltima] = useState<string | null>(null);
   return (
-    <div className={`flex min-h-80 w-full max-w-md flex-col gap-4 ${alinhamento === "fim" ? "items-end" : "items-start"}`}>
+    <div
+      className={`flex min-h-80 w-full max-w-md flex-col gap-4 ${alinhamento === "fim" ? "items-end" : "items-start"}`}
+    >
       <MenuDeAcoes
         gatilho={rotulo}
         alinhamento={alinhamento}
@@ -146,7 +157,11 @@ function ExemploDeGatilhos() {
     <div className="flex min-h-80 w-full max-w-md items-start justify-between gap-3">
       <MenuDeAcoes
         itens={[
-          { rotulo: "Mostrar concluídas", marcado: mostrarConcluidas, aoEscolher: () => setMostrarConcluidas((v) => !v) },
+          {
+            rotulo: "Mostrar concluídas",
+            marcado: mostrarConcluidas,
+            aoEscolher: () => setMostrarConcluidas((v) => !v),
+          },
           { rotulo: "Exportar planilha", aoEscolher: () => {} },
         ]}
         gatilho={(props) => (
@@ -180,7 +195,10 @@ function ExemploDeGatilhos() {
             className={`flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-2 text-sm font-semibold text-ink outline-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 ${aberto ? "bg-surface" : ""}`}
           >
             <span className="hidden sm:inline">Ana Souza</span>
-            <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-accent text-xs font-bold text-page">
+            <span
+              aria-hidden="true"
+              className="grid size-8 place-items-center rounded-full bg-accent text-xs font-bold text-page"
+            >
               AS
             </span>
           </button>
@@ -201,11 +219,15 @@ export default defineStories({
   },
   render: (a) => <ExemploDeAcoes {...a} alinhamento={a.alinhamento as "inicio" | "fim"} />,
   stories: [
+    { name: "Ações" },
     {
       name: "Gatilhos",
       render: () => (
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <MenuDeAcoes gatilho="Ações" itens={acoesDeTarefa({ comIcones: true, comAtalhos: true, comGrupos: false, aoEscolher: () => {} })} />
+          <MenuDeAcoes
+            gatilho="Ações"
+            itens={acoesDeTarefa({ comIcones: true, comAtalhos: true, comGrupos: false, aoEscolher: () => {} })}
+          />
           <MenuDeAcoes
             modo="escolha"
             gatilho="Agrupar: Projeto"
@@ -230,7 +252,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Ações" },
     { name: "Com grupos, alinhado à direita", args: { comGrupos: true, alinhamento: "fim" } },
     { name: "Escolha única", render: () => <ExemploDeEscolha /> },
     { name: "Gatilho próprio e cabeçalho", render: () => <ExemploDeGatilhos /> },

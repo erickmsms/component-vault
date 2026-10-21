@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { MenuSuspenso } from "@/library/menu-suspenso/MenuSuspenso";
 
-export type OpcaoDoSeletor = { valor: string; rotulo: string; cor?: string };
+export type OpcaoDoSeletor = {
+  valor: string;
+  rotulo: string;
+  cor?: string;
+  /** Texto curto à direita da opção, como uma contagem ("12"). */
+  detalhe?: string | number;
+};
 
 /** Textos do seletor; troque para concordar com o que é escolhido ("Todas", "Nenhuma"...). */
 export type TextosDoSeletor = { todos: string; nenhum: string; marcarTodos: string; limpar: string };
@@ -49,12 +55,18 @@ export function SeletorMultiplo({
   comBusca = false,
   rotuloDaBusca = "Buscar...",
   textoSemResultados = "Nenhum resultado.",
+  alinhamento,
+  bloco,
 }: {
   rotulo: string;
   opcoes: OpcaoDoSeletor[];
   selecionados: string[];
   aoMudar: (selecionados: string[]) => void;
   textos?: Partial<TextosDoSeletor>;
+  /** Lado em que o painel se alinha ao botão (veja o Menu Suspenso). */
+  alinhamento?: "inicio" | "fim";
+  /** Botão com a largura toda do contêiner. */
+  bloco?: boolean;
   /** Campo de busca no topo do painel (sem diferenciar maiúsculas e acentos). Com busca, marcar todos e limpar valem para as opções encontradas. */
   comBusca?: boolean;
   /** Texto de exemplo e nome do campo de busca. */
@@ -65,7 +77,7 @@ export function SeletorMultiplo({
   const textos = { ...TEXTOS_PADRAO, ...textosParciais };
   // O painel só existe aberto: a busca recomeça vazia a cada abertura
   return (
-    <MenuSuspenso rotulo={rotulo} resumo={resumir(opcoes, selecionados, textos)}>
+    <MenuSuspenso rotulo={rotulo} resumo={resumir(opcoes, selecionados, textos)} alinhamento={alinhamento} bloco={bloco}>
       {() => (
         <PainelDoSeletor
           opcoes={opcoes}
@@ -173,6 +185,9 @@ function PainelDoSeletor({
                 />
                 {o.cor && <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full" style={{ background: o.cor }} />}
                 <span className="min-w-0 truncate">{o.rotulo}</span>
+                {o.detalhe !== undefined && (
+                  <span className="ml-auto shrink-0 text-xs text-muted tabular-nums">{o.detalhe}</span>
+                )}
               </label>
             </li>
           ))}

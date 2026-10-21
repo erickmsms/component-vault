@@ -53,6 +53,7 @@ export default defineStories({
     </div>
   ),
   stories: [
+    { name: "Padrão" },
     {
       name: "Painel carregando",
       render: () => (
@@ -66,7 +67,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Playground" },
     {
       name: "Lista e gráfico",
       render: () => (
@@ -81,7 +81,10 @@ export default defineStories({
     {
       name: "Forma própria com Esqueleto",
       render: () => (
-        <div className="flex w-full max-w-md items-start gap-4 rounded-xl border border-rule bg-page p-5" aria-busy="true">
+        <div
+          className="flex w-full max-w-md items-start gap-4 rounded-xl border border-rule bg-page p-5"
+          aria-busy="true"
+        >
           <span className="sr-only">Carregando perfil...</span>
           <Esqueleto forma="circulo" className="size-14" />
           <div className="flex flex-1 flex-col gap-2.5 pt-1">
@@ -102,7 +105,10 @@ export default defineStories({
           </div>
           <ul>
             {TAREFAS.map((t) => (
-              <li key={t.titulo} className="flex items-center justify-between gap-3 border-t border-rule py-3 text-sm first:border-t-0">
+              <li
+                key={t.titulo}
+                className="flex items-center justify-between gap-3 border-t border-rule py-3 text-sm first:border-t-0"
+              >
                 <span>
                   {t.titulo}
                   <span className="block text-xs text-muted">{t.responsavel}</span>

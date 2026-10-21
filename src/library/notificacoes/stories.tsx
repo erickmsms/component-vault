@@ -45,7 +45,9 @@ function Exemplo({
   return (
     <div
       className={
-        contido ? "relative min-h-96 w-full max-w-3xl overflow-hidden rounded-2xl border border-dashed border-rule" : "w-full"
+        contido
+          ? "relative min-h-96 w-full max-w-3xl overflow-hidden rounded-2xl border border-dashed border-rule"
+          : "w-full"
       }
     >
       <div className="flex flex-wrap justify-center gap-2 p-5">
@@ -112,10 +114,28 @@ export default defineStories({
   render: (a) => <Exemplo {...a} posicao={a.posicao as PosicaoDasNotificacoes} />,
   stories: [
     {
+      name: "Notificação",
+      render: () => (
+        <div className="w-full max-w-sm">
+          <Notificacao
+            tipo="sucesso"
+            titulo={EXEMPLOS.sucesso.titulo}
+            descricao={EXEMPLOS.sucesso.descricao}
+            aoFechar={() => {}}
+          />
+        </div>
+      ),
+    },
+    {
       name: "Tipos",
       render: () => (
         <div className="flex w-full max-w-sm flex-col gap-2">
-          <Notificacao tipo="sucesso" titulo={EXEMPLOS.sucesso.titulo} descricao={EXEMPLOS.sucesso.descricao} aoFechar={() => {}} />
+          <Notificacao
+            tipo="sucesso"
+            titulo={EXEMPLOS.sucesso.titulo}
+            descricao={EXEMPLOS.sucesso.descricao}
+            aoFechar={() => {}}
+          />
           <Notificacao
             tipo="erro"
             titulo={EXEMPLOS.erro.titulo}

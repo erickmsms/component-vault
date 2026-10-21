@@ -59,6 +59,7 @@ export default defineStories({
   },
   render: (a) => <ExemploComRepetir {...a} />,
   stories: [
+    { name: "Padrão" },
     {
       name: "Números lado a lado",
       render: () => (
@@ -69,7 +70,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Playground" },
     {
       name: "Valor em reais",
       args: { valor: 48.5, casas: 1, prefixo: "R$ ", sufixo: " mi", rotulo: "faturados no último trimestre" },

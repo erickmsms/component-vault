@@ -14,7 +14,11 @@ function EnvioSimulado() {
   }, []);
   return (
     <div className="w-full max-w-md">
-      <BarraDeProgresso valor={valor} rotulo={valor >= 100 ? "Concluindo..." : "Enviando planilha.xlsx..."} tamanho="md" />
+      <BarraDeProgresso
+        valor={valor}
+        rotulo={valor >= 100 ? "Concluindo..." : "Enviando planilha.xlsx..."}
+        tamanho="md"
+      />
     </div>
   );
 }
@@ -54,17 +58,24 @@ export default defineStories({
     </div>
   ),
   stories: [
+    { name: "Padrão" },
     {
       name: "Determinada e indeterminada",
       render: () => (
         <div className="flex w-full max-w-md flex-col gap-6">
           <BarraDeProgresso valor={45} rotulo="Enviando contrato.pdf..." />
-          <BarraDeProgresso valor={3} maximo={5} rotulo="Checklist" formatarValor={deItens} tom="sucesso" tamanho="md" />
+          <BarraDeProgresso
+            valor={3}
+            maximo={5}
+            rotulo="Checklist"
+            formatarValor={deItens}
+            tom="sucesso"
+            tamanho="md"
+          />
           <BarraDeProgresso rotulo="Analisando o documento..." />
         </div>
       ),
     },
-    { name: "Playground" },
     { name: "Indeterminada", args: { indeterminada: true, rotulo: "Gerando relatório..." } },
     {
       name: "Tons",

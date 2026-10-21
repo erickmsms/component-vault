@@ -4,7 +4,15 @@ import { Abas, type OpcaoDeAba } from "./Abas";
 
 function Icone({ children }: { children: ReactNode }) {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       {children}
     </svg>
   );
@@ -100,6 +108,7 @@ export default defineStories({
     </div>
   ),
   stories: [
+    { name: "Padrão" },
     {
       name: "Período e situação",
       render: () => (
@@ -109,7 +118,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Playground" },
     { name: "Com ícones", render: () => <Exemplo rotulo="Visão do painel" opcoes={VISOES} /> },
     { name: "Pequena", render: () => <Exemplo rotulo="Período do relatório" opcoes={PERIODOS} tamanho="sm" /> },
     {

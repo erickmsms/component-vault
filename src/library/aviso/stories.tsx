@@ -16,6 +16,7 @@ export default defineStories({
     </div>
   ),
   stories: [
+    { name: "Info" },
     {
       name: "Todos os tipos",
       render: () => (
@@ -27,7 +28,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Info" },
     { name: "Sucesso", args: { tipo: "sucesso", texto: "Alterações salvas." } },
     { name: "Alerta", args: { tipo: "alerta", texto: "Selecione ao menos um filtro para ver o relatório." } },
     {

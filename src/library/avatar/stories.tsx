@@ -20,32 +20,48 @@ const EQUIPE = [
 const TAMANHOS: TamanhoDeAvatar[] = ["xs", "sm", "md", "lg", "xl"];
 
 export default defineStories({
-  args: { nome: "Mariana Albuquerque", comFoto: false, tamanho: "lg", status: "online", quantidade: 7, maximo: 4 },
-  controls: {
-    nome: { type: "text" },
-    comFoto: { type: "boolean", label: "imagem" },
-    tamanho: { type: "select", options: TAMANHOS },
-    status: { type: "select", options: ["nenhum", "online", "ausente", "ocupado", "offline"] },
-    quantidade: { type: "number", label: "GrupoDeAvatares: pessoas", min: 1, max: 7 },
-    maximo: { type: "number", label: "GrupoDeAvatares: maximo", min: 1, max: 7 },
+  args: {
+    mostrar: "avatar",
+    nome: "Mariana Albuquerque",
+    comFoto: false,
+    tamanho: "lg",
+    status: "online",
+    quantidade: 7,
+    maximo: 4,
   },
-  render: (a) => (
-    <div className="flex flex-wrap items-center gap-8">
-      <Avatar
-        nome={a.nome}
-        imagem={a.comFoto ? FOTO : undefined}
-        tamanho={a.tamanho as TamanhoDeAvatar}
-        status={a.status === "nenhum" ? undefined : (a.status as StatusDoAvatar)}
-      />
+  controls: {
+    mostrar: { type: "select", label: "componente", options: ["avatar", "grupo"] },
+    nome: { type: "text", label: "nome (Avatar)" },
+    comFoto: { type: "boolean", label: "imagem (Avatar)" },
+    tamanho: { type: "select", options: TAMANHOS },
+    status: {
+      type: "select",
+      label: "status (Avatar)",
+      options: ["nenhum", "online", "ausente", "ocupado", "offline"],
+    },
+    quantidade: { type: "number", label: "pessoas (GrupoDeAvatares)", min: 1, max: 7 },
+    maximo: { type: "number", label: "maximo (GrupoDeAvatares)", min: 1, max: 7 },
+  },
+  // Um componente por vez: o Avatar sozinho ou o GrupoDeAvatares
+  render: (a) =>
+    a.mostrar === "grupo" ? (
       <GrupoDeAvatares
         rotulo="Responsáveis"
         pessoas={EQUIPE.slice(0, a.quantidade)}
         maximo={a.maximo}
         tamanho={a.tamanho as TamanhoDeAvatar}
       />
-    </div>
-  ),
+    ) : (
+      <Avatar
+        nome={a.nome}
+        imagem={a.comFoto ? FOTO : undefined}
+        tamanho={a.tamanho as TamanhoDeAvatar}
+        status={a.status === "nenhum" ? undefined : (a.status as StatusDoAvatar)}
+      />
+    ),
   stories: [
+    { name: "Avatar" },
+    { name: "Grupo", args: { mostrar: "grupo" } },
     {
       name: "Avatares e grupo",
       render: () => (
@@ -61,7 +77,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Playground" },
     {
       name: "Tamanhos",
       render: () => (

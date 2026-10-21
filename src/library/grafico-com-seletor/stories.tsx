@@ -1,5 +1,4 @@
 import type { Serie } from "@/library/grafico-linhas/GraficoLinhas";
-import { ListaDeIndicadores } from "@/library/lista-de-indicadores/ListaDeIndicadores";
 import { defineStories } from "@/registry/stories";
 import { GraficoComSeletor, type OpcaoDoGrafico } from "./GraficoComSeletor";
 
@@ -42,13 +41,37 @@ const OPCOES: OpcaoDoGrafico[] = [
   },
 ];
 
+const RESUMO = [
+  { rotulo: "Pedidos", valor: "5.912", descricao: "8% acima de agosto" },
+  { rotulo: "Ticket médio", valor: "R$ 182", descricao: "estável" },
+  { rotulo: "Dias acima da meta", valor: "19 de 30", descricao: "melhor mês do ano" },
+];
+
+/** Coluna de números ao lado do gráfico, só para o exemplo. */
+function Resumo() {
+  return (
+    <div className="space-y-4">
+      <h3 className="font-display text-base font-semibold">Resumo do mês</h3>
+      <ul className="divide-y divide-rule">
+        {RESUMO.map((item) => (
+          <li key={item.rotulo} className="py-3 first:pt-0">
+            <p className="text-xs font-medium text-muted">{item.rotulo}</p>
+            <p className="font-display text-3xl font-semibold tabular-nums">{item.valor}</p>
+            <p className="text-sm text-ink-2">{item.descricao}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default defineStories({
   args: { titulo: "Desempenho diário", rotuloDoSeletor: "Mostrar", altura: 360, lateral: true, opcoes: 3 },
   controls: {
     titulo: { type: "text" },
     rotuloDoSeletor: { type: "text" },
     altura: { type: "number", min: 200, max: 480, step: 20 },
-    lateral: { type: "boolean", label: "lateral (Lista de Indicadores)" },
+    lateral: { type: "boolean", label: "lateral (resumo ao lado)" },
     opcoes: { type: "number", label: "opções no seletor", min: 1, max: 3 },
   },
   render: (a) => (
@@ -61,14 +84,7 @@ export default defineStories({
         opcoes={OPCOES.slice(0, a.opcoes)}
         lateral={
           a.lateral ? (
-            <ListaDeIndicadores
-              titulo="Resumo do mês"
-              itens={[
-                { rotulo: "Pedidos", valor: "5.912", descricao: "8% acima de agosto" },
-                { rotulo: "Ticket médio", valor: "R$ 182", descricao: "estável" },
-                { rotulo: "Dias acima da meta", valor: "19 de 30", descricao: "melhor mês do ano" },
-              ]}
-            />
+            <Resumo />
           ) : undefined
         }
       />

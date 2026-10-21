@@ -4,8 +4,8 @@ export const meta: ComponentMeta = {
   slug: "botao",
   name: "Botão",
   description:
-    "Botão com cinco variantes (primária, secundária, perigo, fantasma e contorno), tamanhos para texto e só ícone, ícone antes do texto e estado de carregamento com spinner que evita clique duplo. classesDeBotao() aplica o mesmo visual a links.",
+    "Botão com sete variantes (primário, secundário, terciário, contorno, fantasma, perigo e perigo suave), três tamanhos, ícones, versão só com ícone, largura total e estado de carregamento. Com href vira link. Exporta classesDoBotao para dar o visual a outros elementos.",
   category: "buttons",
-  tags: ["botão", "ação", "carregando", "link", "acessibilidade"],
-  source: "acktalabs",
+  tags: ["botão", "ação", "variantes", "carregando", "ícone", "link", "acessibilidade"],
+  source: "heroui",
 };

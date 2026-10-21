@@ -1,5 +1,5 @@
+import type { ReactNode } from "react";
 import { defineStories } from "@/registry/stories";
-import { Botao } from "@/library/botao/Botao";
 import { EstadoVazio, type VarianteDeEstadoVazio } from "./EstadoVazio";
 
 function Mais() {
@@ -12,7 +12,15 @@ function Mais() {
 
 function Recarregar() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
       <path d="M3 3v5h5" />
     </svg>
@@ -21,7 +29,15 @@ function Recarregar() {
 
 function Bussola() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="m15.5 8.5-2 5-5 2 2-5 5-2z" />
     </svg>
@@ -45,6 +61,28 @@ const TEXTOS: Record<VarianteDeEstadoVazio, { titulo: string; descricao: string;
     acao: "Tentar novamente",
   },
 };
+
+/** Botão simples só para estes exemplos (a biblioteca não depende de outro componente). */
+function Botao({
+  variante = "secundaria",
+  tamanho = "md",
+  icone,
+  children,
+}: {
+  variante?: "primaria" | "secundaria";
+  tamanho?: "sm" | "md";
+  icone?: ReactNode;
+  children: ReactNode;
+}) {
+  const cores = variante === "primaria" ? "bg-ink text-page" : "border border-rule text-ink hover:bg-surface";
+  const medidas = tamanho === "sm" ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm";
+  return (
+    <button type="button" className={`inline-flex items-center gap-2 rounded-lg font-medium transition-colors ${cores} ${medidas}`}>
+      {icone}
+      {children}
+    </button>
+  );
+}
 
 export default defineStories({
   args: {
@@ -89,6 +127,7 @@ export default defineStories({
     );
   },
   stories: [
+    { name: "Padrão" },
     {
       name: "Vazio, busca e erro",
       render: () => (
@@ -121,7 +160,6 @@ export default defineStories({
         </div>
       ),
     },
-    { name: "Playground" },
     {
       name: "Tela de erro (lg)",
       render: () => (

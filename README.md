@@ -13,13 +13,14 @@ Abre em http://localhost:3000.
 
 ## O que a vitrine faz
 
-- **Catálogo** com busca e filtros por tipo, tema e projeto de origem (os filtros ficam na URL).
+- **Catálogo** com busca e filtros na lateral, que fica parada ao rolar a página (é o componente **Barra de Filtros** da própria biblioteca, com **Filtros Ativos** acima dos resultados): tema e projeto de origem no próprio Seletor Múltiplo da biblioteca (com busca e contagem; vários marcados combinam por "qualquer um") e tipo numa lista com contagem. Os filtros ativos aparecem em pílulas removíveis acima dos resultados, com "Limpar tudo", e ficam na URL para compartilhar: `/?tipo=forms&tema=dropdown,kpi&projeto=nexco,acktalabs`.
 - **Tema global no cabeçalho:** cinco temas prontos (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), modo Claro / Escuro / Sistema e troca das fontes de títulos e texto (qualquer família do Google Fonts). Vale para o catálogo, os previews e o próprio cabeçalho.
 - **Editor de tema** (botão "Editar tema"): cores de cada token nos dois modos, cor da marca que gera o destaque e tinge os neutros, contraste WCAG dos pares de texto e fundo, fontes, tamanho do texto, escala dos títulos, arredondamento, densidade e sombra.
   - **JSON do tema:** "Copiar JSON" copia o tema inteiro; "Colar JSON" aplica um tema colado (aceita parcial e o bloco ```` ```json ```` das IAs, e avisa o que foi ignorado); "Copiar prompt para IA" copia um pedido que explica o formato, para gerar temas no ChatGPT e colar de volta.
   - **Exportar:** um `.css` único para outro projeto com Tailwind 4.
 - **Fundamentos** (`/fundamentos`): todos os tokens do tema atual em amostras.
 - **Página de cada componente:**
+  - a barra de filtros continua à esquerda (só nos Fundamentos ela some): mexer num filtro ou buscar leva para o catálogo já filtrado. No topo, o caminho clicável (`Botões → Botão Flutuante`) leva ao catálogo do tipo;
   - preview num iframe, com as variações em abas, tamanhos de tela (celular, tablet, notebook, desktop: os breakpoints respondem de verdade) e fundo pontilhado;
   - playground para mexer nas props ao vivo;
   - tabela de props gerada dos tipos TypeScript;
@@ -85,7 +86,9 @@ export default defineStories({
 });
 ```
 
-Controles: `text`, `number` (`min`, `max`, `step`), `boolean`, `select` (`options`) e `color`. A primeira variação aparece no card do catálogo. Não use hooks direto no `render`: crie um componente de exemplo no próprio arquivo (como em `seletor-multiplo/stories.tsx`).
+Controles: `text`, `number` (`min`, `max`, `step`), `boolean`, `select` (`options`) e `color`. Não use hooks direto no `render`: crie um componente de exemplo no próprio arquivo (como em `seletor-multiplo/stories.tsx`).
+
+**A primeira variação é a miniatura do catálogo e o que abre na página do componente:** ela mostra **uma instância só**, no estado padrão, de preferência usando os `args` (assim o playground já aparece). Composições como "todos os tipos", "tamanhos" ou "vários lado a lado" vêm depois, como variações próprias. Quando a pasta exporta mais de um componente (Etiqueta, Chip e Contador, por exemplo), o `render` mostra um por vez, escolhido por um controle `mostrar`.
 
 ### Campos do `meta.ts`
 
@@ -129,8 +132,11 @@ Uma cor só (`"page": "#ffffff"`) vale para os dois modos. Campos que faltarem c
 
 | Projeto      | Origem                                      | Componentes |
 | ------------ | ------------------------------------------- | ----------- |
-| `acktalabs`  | `AcktaLabs1/acktalabstask/frontend` (app)    | 24          |
-| `nexco`      | `SiteNexcoBioform/site_nexcobioformula` (site) | 18        |
-| `climatempo` | `webscreaping-climatempo/dashboard`         | 17          |
+| `acktalabs`  | `AcktaLabs1/acktalabstask/frontend` (app)    | 20          |
+| `nexco`      | `SiteNexcoBioform/site_nexcobioformula` (site) | 16        |
+| `climatempo` | `webscreaping-climatempo/dashboard`         | 15          |
+| `component-vault` | criado aqui (a barra de filtros do catálogo) | 1      |
+| `heroui`     | documentação do Button do HeroUI v3 (recriado, sem a dependência) | 1 |
+| `shadcn`     | documentação do Button do shadcn/ui (recriado, sem a dependência) | 1 |
 
-Os componentes vieram genéricos: o que era do domínio (textos, rotas, APIs, stores) virou props, as cores viraram tokens do tema, e as dependências dos projetos (GSAP, lucide-react, recharts, sonner, dnd-kit, react-hook-form, react-imask) foram trocadas por código próprio. O Campo de Formulário e o Modal juntam o melhor dos dois projetos.
+Os componentes vieram genéricos: o que era do domínio (textos, rotas, APIs, stores) virou props, as cores viraram tokens do tema, e as dependências dos projetos (GSAP, lucide-react, recharts, sonner, dnd-kit, react-hook-form, react-imask) foram trocadas por código próprio. O Campo de Formulário junta o melhor dos dois projetos.

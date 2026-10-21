@@ -95,21 +95,34 @@ async function ComponentDetails({ params }: { params: Params }) {
   return (
     <article className="space-y-10">
       <div className="space-y-6">
-        <Link
-          href="/"
-          className="inline-block text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
-        >
-          ← Voltar ao catálogo
-        </Link>
+        {/* Caminho até aqui; cada parte leva para onde diz (o tipo abre o catálogo filtrado) */}
+        <nav aria-label="Caminho">
+          <ol className="flex flex-wrap items-center gap-2 text-sm">
+            <li>
+              <Link
+                href={`/?tipo=${component.category}`}
+                className="text-zinc-500 underline-offset-4 hover:text-zinc-900 hover:underline dark:hover:text-zinc-100"
+              >
+                {categories[component.category]}
+              </Link>
+            </li>
+            <li aria-hidden="true" className="text-zinc-400">
+              →
+            </li>
+            <li>
+              <Link
+                href={`/components/${component.slug}`}
+                aria-current="page"
+                className="font-medium text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
+              >
+                {component.name}
+              </Link>
+            </li>
+          </ol>
+        </nav>
 
         <header className="space-y-3">
           <div className="flex flex-wrap items-center gap-2 text-sm">
-            <Link
-              href={`/?tipo=${component.category}`}
-              className="rounded-full bg-zinc-100 px-2.5 py-0.5 font-medium text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
-            >
-              {categories[component.category]}
-            </Link>
             {component.source && (
               <span className="text-zinc-500">
                 extraído de{" "}

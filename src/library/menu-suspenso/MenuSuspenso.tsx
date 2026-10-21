@@ -10,12 +10,18 @@ export function MenuSuspenso({
   rotulo,
   resumo,
   larguraDoPainel = "w-72",
+  alinhamento = "fim",
+  bloco = false,
   children,
 }: {
   rotulo: string;
   resumo: string;
   /** Classe de largura do painel. */
   larguraDoPainel?: string;
+  /** Lado do botão em que o painel se alinha: "fim" (direita) ou "inicio" (esquerda, bom em barras laterais). */
+  alinhamento?: "inicio" | "fim";
+  /** Botão com a largura toda do contêiner, em qualquer tela. */
+  bloco?: boolean;
   children: (fechar: () => void) => ReactNode;
 }) {
   const [aberto, setAberto] = useState(false);
@@ -60,9 +66,9 @@ export function MenuSuspenso({
         aria-expanded={aberto}
         aria-controls={idDoPainel}
         onClick={() => setAberto((a) => !a)}
-        className={`flex min-h-11 w-full max-w-full cursor-pointer items-center gap-2 rounded-full border bg-page px-4 text-sm text-ink outline-accent focus-visible:outline-2 focus-visible:outline-offset-2 md:w-auto ${
-          aberto ? "border-ink" : "border-axis/50 hover:border-ink"
-        }`}
+        className={`flex min-h-11 w-full max-w-full cursor-pointer items-center gap-2 rounded-full border bg-page px-4 text-sm text-ink outline-accent focus-visible:outline-2 focus-visible:outline-offset-2 ${
+          bloco ? "" : "md:w-auto"
+        } ${aberto ? "border-ink" : "border-axis/50 hover:border-ink"}`}
       >
         <span className="text-muted">{rotulo}</span>
         <span className="min-w-0 truncate font-semibold">{resumo}</span>
@@ -80,7 +86,9 @@ export function MenuSuspenso({
           id={idDoPainel}
           role="group"
           aria-label={rotulo}
-          className={`absolute top-full right-0 z-50 mt-2 max-w-[calc(100vw-3rem)] rounded-xl border border-rule bg-page shadow-flutuante ${larguraDoPainel}`}
+          className={`absolute top-full z-50 mt-2 max-w-[calc(100vw-3rem)] rounded-xl border border-rule bg-page shadow-flutuante ${
+            alinhamento === "inicio" ? "left-0" : "right-0"
+          } ${larguraDoPainel}`}
         >
           {children(() => setAberto(false))}
         </div>

@@ -1,19 +1,19 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Aviso } from "@/library/aviso/Aviso";
 import { defineStories } from "@/registry/stories";
-import {
-  AreaDeTexto,
-  Campo,
-  Entrada,
-  EntradaDeBusca,
-  EntradaDeSenha,
-  Selecao,
-  type TamanhoDoCampo,
-} from "./Campo";
+import { AreaDeTexto, Campo, Entrada, EntradaDeBusca, EntradaDeSenha, Selecao, type TamanhoDoCampo } from "./Campo";
 
 function Traco({ children }: { children: ReactNode }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
       {children}
     </svg>
   );
@@ -280,7 +280,9 @@ function ExemploSenhaEBusca() {
           placeholder="Buscar produtos..."
         />
         <p role="status" className="mt-3 text-xs text-muted">
-          {achados.length === PRODUTOS.length ? `${PRODUTOS.length} produtos` : `${achados.length} de ${PRODUTOS.length} produtos`}
+          {achados.length === PRODUTOS.length
+            ? `${PRODUTOS.length} produtos`
+            : `${achados.length} de ${PRODUTOS.length} produtos`}
         </p>
         <ul id="produtos-encontrados" className="mt-2 divide-y divide-rule text-sm">
           {achados.map((p) => (
@@ -348,8 +350,8 @@ export default defineStories({
   },
   render: (a) => <ExemploCampo key={a.controle} {...a} />,
   stories: [
+    { name: "Campo" },
     { name: "Formulário de contato", render: () => <FormularioDeContato /> },
-    { name: "Campo (playground)" },
     { name: "Com erro", args: { erro: "Informe um e-mail válido, como voce@empresa.com." } },
     { name: "Máscaras", render: () => <ExemploMascaras /> },
     { name: "Senha e busca", render: () => <ExemploSenhaEBusca /> },
