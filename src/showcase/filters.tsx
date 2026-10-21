@@ -173,7 +173,8 @@ function BarraDoCatalogo({ topo }: { topo: number }) {
  */
 export function VitrineShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const comBarra = !pathname.startsWith("/fundamentos");
+  // Fundamentos e Comparar usam a largura toda
+  const comBarra = !pathname.startsWith("/fundamentos") && !pathname.startsWith("/comparar");
   const { linhaRef, topo } = useTopoDaLinha(comBarra);
 
   if (!comBarra) return <>{children}</>;

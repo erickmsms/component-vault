@@ -13,7 +13,6 @@ import barraLateral from "@/library/barra-lateral/stories";
 import blocosDeTexto from "@/library/blocos-de-texto/stories";
 import botao from "@/library/botao/stories";
 import botaoFlutuante from "@/library/botao-flutuante/stories";
-import botaoNeutro from "@/library/botao-neutro/stories";
 import cabecalho from "@/library/cabecalho/stories";
 import campoDeEtiquetas from "@/library/campo-de-etiquetas/stories";
 import campoDeFormulario from "@/library/campo-de-formulario/stories";
@@ -53,6 +52,7 @@ import seletorMultiplo from "@/library/seletor-multiplo/stories";
 import seletorUnico from "@/library/seletor-unico/stories";
 import tabelaDados from "@/library/tabela-dados/stories";
 import textoAceso from "@/library/texto-aceso/stories";
+import trilhaDeNavegacao from "@/library/trilha-de-navegacao/stories";
 import type { StoriesModule } from "./stories";
 
 // Exemplos de cada componente (src/library/<slug>/stories.tsx). Ficam separados dos
@@ -72,7 +72,6 @@ export const allStories: Record<string, StoriesModule> = {
   "blocos-de-texto": blocosDeTexto,
   botao,
   "botao-flutuante": botaoFlutuante,
-  "botao-neutro": botaoNeutro,
   cabecalho,
   "campo-de-etiquetas": campoDeEtiquetas,
   "campo-de-formulario": campoDeFormulario,
@@ -112,4 +111,5 @@ export const allStories: Record<string, StoriesModule> = {
   "seletor-unico": seletorUnico,
   "tabela-dados": tabelaDados,
   "texto-aceso": textoAceso,
+  "trilha-de-navegacao": trilhaDeNavegacao,
 };

@@ -18,6 +18,7 @@ Abre em http://localhost:3000.
 - **Editor de tema** (botão "Editar tema"): cores de cada token nos dois modos, cor da marca que gera o destaque e tinge os neutros, contraste WCAG dos pares de texto e fundo, fontes, tamanho do texto, escala dos títulos, arredondamento, densidade e sombra.
   - **JSON do tema:** "Copiar JSON" copia o tema inteiro; "Colar JSON" aplica um tema colado (aceita parcial e o bloco ```` ```json ```` das IAs, e avisa o que foi ignorado); "Copiar prompt para IA" copia um pedido que explica o formato, para gerar temas no ChatGPT e colar de volta.
   - **Exportar:** um `.css` único para outro projeto com Tailwind 4.
+- **Comparar** (`/comparar?a=botao&b=botao-flutuante`): no catálogo, **Ctrl (ou Cmd) + clique** em dois cards (ou o botão `+` no canto de cada um) abre uma barra no pé da tela com o botão "Comparar". A página mostra os dois lado a lado, cada um com suas variações, tamanhos de tela e playground. Marcar um terceiro tira o mais antigo.
 - **Fundamentos** (`/fundamentos`): todos os tokens do tema atual em amostras.
 - **Página de cada componente:**
   - a barra de filtros continua à esquerda (só nos Fundamentos ela some): mexer num filtro ou buscar leva para o catálogo já filtrado. No topo, o caminho clicável (`Botões → Botão Flutuante`) leva ao catálogo do tipo;
@@ -136,7 +137,6 @@ Uma cor só (`"page": "#ffffff"`) vale para os dois modos. Campos que faltarem c
 | `nexco`      | `SiteNexcoBioform/site_nexcobioformula` (site) | 16        |
 | `climatempo` | `webscreaping-climatempo/dashboard`         | 15          |
 | `component-vault` | criado aqui (a barra de filtros do catálogo) | 1      |
-| `heroui`     | documentação do Button do HeroUI v3 (recriado, sem a dependência) | 1 |
-| `shadcn`     | documentação do Button do shadcn/ui (recriado, sem a dependência) | 1 |
+| `heroui`     | documentação do Button do HeroUI v3 e do shadcn/ui (recriado, sem dependências) | 1 |
 
 Os componentes vieram genéricos: o que era do domínio (textos, rotas, APIs, stores) virou props, as cores viraram tokens do tema, e as dependências dos projetos (GSAP, lucide-react, recharts, sonner, dnd-kit, react-hook-form, react-imask) foram trocadas por código próprio. O Campo de Formulário junta o melhor dos dois projetos.

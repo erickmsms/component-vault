@@ -5,6 +5,7 @@ import { StoryView } from "@/registry/stories";
 import type { ComponentMeta } from "@/registry/types";
 import { THEME_ATTR } from "@/themes/tokens";
 import { ScaledThumbnail } from "./scaled-thumbnail";
+import { CartaoSelecionavel } from "./selecao";
 
 export function ComponentCard({ component }: { component: ComponentMeta }) {
   const exemplos = allStories[component.slug];
@@ -18,7 +19,8 @@ export function ComponentCard({ component }: { component: ComponentMeta }) {
   );
 
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 transition-colors hover:border-zinc-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-zinc-900 dark:border-zinc-800 dark:hover:border-zinc-600 dark:has-[:focus-visible]:ring-zinc-100">
+    <CartaoSelecionavel slug={component.slug} nome={component.name}>
+    <div className="relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 transition-colors hover:border-zinc-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-zinc-900 dark:border-zinc-800 dark:hover:border-zinc-600 dark:has-[:focus-visible]:ring-zinc-100">
       {/* Miniatura da primeira variação, com o tema escolhido: inerte para o card inteiro funcionar como link */}
       {component.thumbnailWidth ? (
         <div inert data-theme={THEME_ATTR} className="h-44 overflow-hidden bg-page">
@@ -62,5 +64,6 @@ export function ComponentCard({ component }: { component: ComponentMeta }) {
         </ul>
       </div>
     </div>
+    </CartaoSelecionavel>
   );
 }

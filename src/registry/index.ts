@@ -13,7 +13,6 @@ import { meta as barraLateral } from "@/library/barra-lateral/meta";
 import { meta as blocosDeTexto } from "@/library/blocos-de-texto/meta";
 import { meta as botao } from "@/library/botao/meta";
 import { meta as botaoFlutuante } from "@/library/botao-flutuante/meta";
-import { meta as botaoNeutro } from "@/library/botao-neutro/meta";
 import { meta as cabecalho } from "@/library/cabecalho/meta";
 import { meta as campoDeEtiquetas } from "@/library/campo-de-etiquetas/meta";
 import { meta as campoDeFormulario } from "@/library/campo-de-formulario/meta";
@@ -53,6 +52,7 @@ import { meta as seletorMultiplo } from "@/library/seletor-multiplo/meta";
 import { meta as seletorUnico } from "@/library/seletor-unico/meta";
 import { meta as tabelaDados } from "@/library/tabela-dados/meta";
 import { meta as textoAceso } from "@/library/texto-aceso/meta";
+import { meta as trilhaDeNavegacao } from "@/library/trilha-de-navegacao/meta";
 import type { ComponentMeta } from "./types";
 
 // Metadados de todos os componentes, em ordem alfabética de nome.
@@ -71,7 +71,6 @@ export const registry: ComponentMeta[] = [
   blocosDeTexto,
   botao,
   botaoFlutuante,
-  botaoNeutro,
   cabecalho,
   campoDeEtiquetas,
   campoDeFormulario,
@@ -111,6 +110,7 @@ export const registry: ComponentMeta[] = [
   seletorUnico,
   tabelaDados,
   textoAceso,
+  trilhaDeNavegacao,
 ].sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
 
 export function getComponent(slug: string) {
