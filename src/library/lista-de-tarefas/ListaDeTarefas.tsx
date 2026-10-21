@@ -44,7 +44,7 @@ const svg = (children: ReactNode) => (
 );
 
 const BOTAO_BASE =
-  "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted outline-accent focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent";
+  "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*6))] text-muted outline-accent focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent";
 const BOTAO_ICONE = `${BOTAO_BASE} hover:bg-surface hover:text-ink`;
 
 /** Foco a restaurar depois que a lista renderiza de novo (o item mudou de lugar ou saiu). */
@@ -193,7 +193,7 @@ export function ListaDeTarefas({
             }}
             placeholder={textos.novoItem}
             aria-label={textos.novoItem}
-            className="h-11 min-w-0 flex-1 rounded-lg border border-rule bg-page px-3 text-sm text-ink outline-accent placeholder:text-muted focus-visible:outline-2 focus-visible:-outline-offset-1"
+            className="h-11 min-w-0 flex-1 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] border border-rule bg-page px-3 text-sm text-ink outline-accent placeholder:text-muted focus-visible:outline-2 focus-visible:-outline-offset-1"
           />
           <button
             type="button"
@@ -201,7 +201,7 @@ export function ListaDeTarefas({
             disabled={!novo.trim()}
             aria-label={textos.adicionar}
             title={textos.adicionar}
-            className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-accent text-page outline-accent hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] bg-accent text-page outline-accent hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {svg(<path d="M12 5v14M5 12h14" />)}
           </button>
@@ -219,7 +219,7 @@ export function ListaDeTarefas({
               <li
                 key={item.id}
                 data-item={item.id}
-                className={`group flex min-h-12 items-center gap-3 rounded-lg border px-3 py-1.5 ${
+                className={`group flex min-h-12 items-center gap-3 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] border px-3 py-1.5 ${
                   item.feito ? "border-success/30 bg-success/5" : "border-rule bg-page hover:bg-surface"
                 }`}
               >
@@ -230,7 +230,7 @@ export function ListaDeTarefas({
                     checked={item.feito}
                     onChange={() => alternar(item.id)}
                     aria-labelledby={idTexto}
-                    className="peer size-5 cursor-pointer appearance-none rounded-md border border-rule-strong bg-page outline-accent checked:border-success checked:bg-success focus-visible:outline-2 focus-visible:outline-offset-2"
+                    className="peer size-5 cursor-pointer appearance-none rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*7))] border border-rule-strong bg-page outline-accent checked:border-success checked:bg-success focus-visible:outline-2 focus-visible:outline-offset-2"
                   />
                   <svg
                     aria-hidden="true"
@@ -263,7 +263,7 @@ export function ListaDeTarefas({
                         terminarEdicao(item, false, true);
                       }
                     }}
-                    className="h-9 min-w-0 flex-1 rounded-md border border-accent bg-page px-2 text-sm text-ink outline-none"
+                    className="h-9 min-w-0 flex-1 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*6))] border border-accent bg-page px-2 text-sm text-ink outline-none"
                   />
                 ) : (
                   <span
