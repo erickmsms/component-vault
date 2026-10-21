@@ -210,7 +210,7 @@ export function Notificacao({
           <button
             type="button"
             onClick={acao.aoClicar}
-            className="mt-2.5 inline-flex min-h-8 cursor-pointer items-center rounded-md bg-accent px-3 text-xs font-semibold text-page outline-accent hover:bg-accent/85 focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="mt-2.5 inline-flex min-h-8 cursor-pointer items-center rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3.5))] bg-accent px-3 text-xs font-semibold text-page outline-accent hover:bg-accent/85 focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             {acao.rotulo}
           </button>
@@ -221,7 +221,7 @@ export function Notificacao({
           type="button"
           onClick={aoFechar}
           aria-label={rotuloFechar}
-          className="-mt-0.5 -mr-0.5 grid size-7 shrink-0 cursor-pointer place-items-center rounded-md border border-rule text-ink-2 outline-accent transition-colors hover:bg-surface hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1"
+          className="-mt-0.5 -mr-0.5 grid size-7 shrink-0 cursor-pointer place-items-center rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3))] border border-rule text-ink-2 outline-accent transition-colors hover:bg-surface hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1"
         >
           <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
             <path d="M6 6l12 12M18 6 6 18" />
