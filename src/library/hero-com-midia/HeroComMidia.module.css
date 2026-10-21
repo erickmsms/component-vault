@@ -1,0 +1,87 @@
+/*
+ * Entrada do HeroComMidia, toda em CSS: acima da dobra o HTML pinta antes da
+ * hidratação, então uma animação em JS mostraria o estado final por um instante
+ * antes de saltar para o inicial. Aqui o primeiro quadro já sai certo.
+ *
+ * - A mídia se revela do centro para fora: quatro faixas da cor da página
+ *   recuam cada uma para a sua borda. É `transform` (o compositor anima
+ *   sozinho) e não `clip-path` animado, que roda na thread principal e engasga
+ *   enquanto o vídeo decodifica.
+ * - A mídia assenta com um leve zoom de afastamento enquanto a janela abre.
+ * - O texto sobe com deriva diagonal: sobe `--sobe` e deriva `--sobe / -3`
+ *   na horizontal. O título entra palavra por palavra (atraso em cada palavra).
+ *
+ * As durações chegam por variáveis no <section>: --hero-abertura (faixas) e
+ * --hero-texto (cada peça de texto).
+ */
+
+/* Repouso das faixas: recolhidas. Fica fora da media query porque quem pede
+   menos movimento não recebe animação nenhuma e, sem isso, as faixas ficariam
+   cobrindo a mídia para sempre. */
+.faixa {
+  transform: scale(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .faixaVertical {
+    animation: recolheVertical var(--hero-abertura, 1000ms) cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  .faixaHorizontal {
+    animation: recolheHorizontal var(--hero-abertura, 1000ms) cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  .midia {
+    animation: assenta calc(var(--hero-abertura, 1000ms) * 1.8) cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .sobe {
+    animation: sobe var(--hero-texto, 850ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* useSemMovimento() (ProvedorDeMovimento, miniaturas do catálogo): estado final direto. */
+.parado .faixaVertical,
+.parado .faixaHorizontal,
+.parado .midia,
+.parado .sobe {
+  animation: none;
+}
+
+@keyframes recolheVertical {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes recolheHorizontal {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes assenta {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes sobe {
+  from {
+    opacity: 0;
+    transform: translate(calc(var(--sobe, 20px) / -3), var(--sobe, 20px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}

@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { contrastRatio, isHex, paletteFromBrand } from "@/themes/color";
 import { parseThemeJson, themePromptForAi, themeToJson, type ImportResult } from "@/themes/json";
-import { PRESETS, presetValues } from "@/themes/presets";
+import { PRESETS } from "@/themes/presets";
 import {
   COLOR_GROUPS,
   exportThemeCss,
@@ -16,7 +16,7 @@ import {
   type ThemeValues,
 } from "@/themes/tokens";
 import { FontField } from "./font-field";
-import { isEdited, updateSettings, useThemeSettings } from "./store";
+import { baseValues, isEdited, themeName, updateSettings, useThemeSettings } from "./store";
 
 const ESCALAS = [
   { valor: 1.125, rotulo: "1,125 · Segunda maior (contida)" },
@@ -168,10 +168,10 @@ export function ThemeEditor({ aoFechar }: { aoFechar: () => void }) {
   function aplicarJson() {
     const resultado = parseThemeJson(jsonColado, values);
     setImportacao(resultado);
-    if (resultado.ok) updateSettings((s) => ({ ...s, values: resultado.values }));
+    if (resultado.ok) updateSettings((s) => ({ ...s, values: resultado.values, importado: resultado.values }));
   }
 
-  const nome = `${PRESETS[settings.preset].label}${isEdited(settings) ? " (editado)" : ""}`;
+  const nome = themeName(settings);
   const css = exportThemeCss(values, nome);
 
   async function copiar(rotulo: string, texto: string) {
@@ -190,7 +190,7 @@ export function ThemeEditor({ aoFechar }: { aoFechar: () => void }) {
         <div>
           <h2 className="font-semibold">Editar tema</h2>
           <p className="text-sm text-zinc-500">
-            Base: {PRESETS[settings.preset].label}
+            {settings.importado ? "Base: JSON colado" : `Base: ${PRESETS[settings.preset].label}`}
             {isEdited(settings) && " · editado"}
           </p>
         </div>
@@ -198,7 +198,7 @@ export function ThemeEditor({ aoFechar }: { aoFechar: () => void }) {
           <button
             type="button"
             disabled={!isEdited(settings)}
-            onClick={() => updateSettings((s) => ({ ...s, values: presetValues(s.preset) }))}
+            onClick={() => updateSettings((s) => ({ ...s, values: baseValues(s) }))}
             className="rounded-md px-2 py-1 text-sm text-zinc-600 hover:bg-zinc-100 disabled:opacity-40 dark:text-zinc-400 dark:hover:bg-zinc-900"
           >
             Restaurar
@@ -464,7 +464,7 @@ export function ThemeEditor({ aoFechar }: { aoFechar: () => void }) {
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => baixar(`tema-${settings.preset}.css`, css)}
+              onClick={() => baixar(`tema-${settings.importado ? "personalizado" : settings.preset}.css`, css)}
               className="rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900"
             >
               Baixar .css

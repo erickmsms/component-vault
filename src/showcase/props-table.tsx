@@ -9,8 +9,14 @@ export function PropsTable({ docs }: { docs: ComponentDoc[] }) {
         <div key={doc.name} className="space-y-2">
           <h3 className="font-mono text-base font-semibold">{`<${doc.name}>`}</h3>
           {doc.description && <p className="max-w-3xl text-sm text-zinc-600 dark:text-zinc-400">{doc.description}</p>}
+          {doc.nativas > 0 && (
+            <p className="text-sm text-zinc-500">
+              Também aceita os {doc.nativas} atributos nativos do elemento HTML (onClick, aria-*, disabled...), repassados
+              ao elemento.
+            </p>
+          )}
           {doc.props.length === 0 ? (
-            <p className="text-sm text-zinc-500">Sem props.</p>
+            <p className="text-sm text-zinc-500">{doc.nativas > 0 ? "Sem props próprias." : "Sem props."}</p>
           ) : (
             <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800">
               <table className="w-full min-w-[42rem] border-collapse text-sm">

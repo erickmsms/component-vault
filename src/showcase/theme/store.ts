@@ -11,6 +11,8 @@ export type ThemeSettings = {
   preset: PresetId;
   mode: ModePreference;
   values: ThemeValues;
+  /** Tema colado como JSON: quando existe, ele é a base no lugar do preset. */
+  importado?: ThemeValues;
 };
 
 /** O que fica salvo: as escolhas e o CSS já gerado, que o script do <head> aplica antes da pintura. */
@@ -43,6 +45,7 @@ function normalizar(dado: unknown): ThemeSettings {
     preset: s.preset,
     mode: s.mode === "light" || s.mode === "dark" ? s.mode : "system",
     values: { ...base, ...s.values, colors: { ...base.colors, ...s.values?.colors } },
+    ...(s.importado ? { importado: { ...base, ...s.importado, colors: { ...base.colors, ...s.importado.colors } } } : {}),
   };
 }
 
@@ -93,7 +96,18 @@ export function useThemeSettings() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
+/** Valores de partida: o JSON colado, se houver, senão o preset. */
+export function baseValues(settings: ThemeSettings) {
+  return settings.importado ?? presetValues(settings.preset);
+}
+
 /** O tema mudou em relação ao de partida (por edição ou troca de fonte)? */
 export function isEdited(settings: ThemeSettings) {
-  return JSON.stringify(settings.values) !== JSON.stringify(presetValues(settings.preset));
+  return JSON.stringify(settings.values) !== JSON.stringify(baseValues(settings));
+}
+
+/** Nome para exibir: "Personalizado" para JSON colado, senão o do preset. */
+export function themeName(settings: ThemeSettings) {
+  const base = settings.importado ? "Personalizado" : PRESETS[settings.preset].label;
+  return isEdited(settings) ? `${base} (editado)` : base;
 }

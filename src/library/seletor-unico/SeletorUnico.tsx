@@ -13,7 +13,7 @@ export function SeletorUnico<T extends string>({
 }: {
   rotulo: string;
   opcoes: ReadonlyArray<OpcaoDoSeletorUnico<T>>;
-  valor: T;
+  valor: T | null;
   aoEscolher: (valor: T) => void;
 }) {
   const nome = `seletor-${rotulo}`;

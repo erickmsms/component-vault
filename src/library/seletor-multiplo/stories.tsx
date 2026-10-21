@@ -17,7 +17,19 @@ const ESTADOS = [
 
 const NO_FEMININO = { todos: "Todas", nenhum: "Nenhuma", marcarTodos: "Marcar todas" };
 
-function Exemplo({ rotulo, quantidade, comCores, feminino }: { rotulo: string; quantidade: number; comCores: boolean; feminino: boolean }) {
+function Exemplo({
+  rotulo,
+  quantidade,
+  comCores,
+  feminino,
+  comBusca,
+}: {
+  rotulo: string;
+  quantidade: number;
+  comCores: boolean;
+  feminino: boolean;
+  comBusca: boolean;
+}) {
   const opcoes = ESTADOS.slice(0, quantidade).map((nome, i) => ({
     valor: nome,
     rotulo: nome,
@@ -32,23 +44,27 @@ function Exemplo({ rotulo, quantidade, comCores, feminino }: { rotulo: string; q
         selecionados={selecionados.filter((s) => opcoes.some((o) => o.valor === s))}
         aoMudar={setSelecionados}
         textos={feminino ? NO_FEMININO : undefined}
+        comBusca={comBusca}
+        rotuloDaBusca={feminino ? "Buscar região..." : "Buscar estado..."}
       />
     </div>
   );
 }
 
 export default defineStories({
-  args: { rotulo: "Regiões", quantidade: 5, comCores: true, feminino: true },
+  args: { rotulo: "Regiões", quantidade: 5, comCores: true, feminino: true, comBusca: false },
   controls: {
     rotulo: { type: "text" },
     quantidade: { type: "number", label: "opções (quantidade)", min: 2, max: 10 },
     comCores: { type: "boolean", label: "cor em cada opção" },
     feminino: { type: "boolean", label: "textos no feminino (Todas/Nenhuma)" },
+    comBusca: { type: "boolean", label: "busca no painel" },
   },
   render: (a) => <Exemplo key={a.quantidade} {...a} />,
   stories: [
     { name: "Com cores" },
     { name: "Sem cores", args: { rotulo: "Lojas", comCores: false, feminino: true } },
     { name: "Muitas opções", args: { rotulo: "Estados", quantidade: 10, feminino: false } },
+    { name: "Com busca", args: { rotulo: "Estados", quantidade: 10, feminino: false, comBusca: true } },
   ],
 });

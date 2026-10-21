@@ -1,0 +1,11 @@
+import type { ComponentMeta } from "@/registry/types";
+
+export const meta: ComponentMeta = {
+  slug: "acordeao",
+  name: "Acordeão",
+  description:
+    "Lista de itens que abrem e fecham (um por vez ou vários), com título, subtítulo e um lado direito livre para valores, selos ou botões. Altura animada sem medir e padrão de acessibilidade de acordeão.",
+  category: "layout",
+  tags: ["acordeão", "disclosure", "expandir", "acessibilidade"],
+  source: "acktalabs",
+};

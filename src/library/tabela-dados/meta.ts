@@ -6,7 +6,7 @@ export const meta: ComponentMeta = {
   description:
     "Tabela tipada por colunas (texto, número, decimal, percentual ou formatação própria), com números no formato brasileiro, tooltip nos títulos e rolagem horizontal em telas estreitas.",
   category: "data-display",
-  tags: ["tabela", "responsivo", "tooltip"],
+  tags: ["tabela", "responsivo", "tooltip", "ordenação"],
   source: "climatempo",
   thumbnailWidth: 900,
 };

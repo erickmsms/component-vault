@@ -39,8 +39,8 @@ src/
     tokens.css           ponte entre os tokens e as classes do Tailwind
     fonts.ts, color.ts, json.ts   fontes, cores/contraste e o JSON do tema
   registry/
-    index.ts             lista de metadados (registre o meta.ts aqui)
-    all-stories.tsx      mapa slug -> stories (registre o stories.tsx aqui)
+    index.ts             lista de metadados (gerado: npm run registro)
+    all-stories.tsx      mapa slug -> stories (gerado: npm run registro)
     stories.tsx          formato das variações (defineStories)
     props.ts             leitura das props pelos tipos TypeScript
     categories.ts        tipos disponíveis e a ordem das seções
@@ -48,6 +48,8 @@ src/
   app/
     (vitrine)/           catálogo, /components/[slug] e /fundamentos
     preview/[slug]/      a página que vai dentro do iframe de preview
+scripts/
+  gerar-registro.mjs     monta o registro a partir das pastas de src/library
 ```
 
 ## O que entra na biblioteca
@@ -59,11 +61,13 @@ Só componentes **genéricos**, que servem em qualquer projeto:
 - Nenhum import de fora da biblioteca, além de React. Um componente pode usar outros da biblioteca (`@/library/<slug>/<Arquivo>`).
 - Estilo só por classes comuns do Tailwind e pelos tokens de cor do tema (`bg-page`, `text-ink`, `border-rule`, `var(--series-1)`...). Nada de valores fixos como `text-[13px]` ou `#hex`: o tema controla tamanhos de texto, espaçamento e raios redefinindo as variáveis que o Tailwind usa (`--text-*`, `--spacing`, `--radius-*`). Para sombras flutuantes, use `shadow-flutuante`.
 - Comente as props com `/** */`: o comentário vira a descrição na tabela de props.
+- Sem dependências de animação: CSS, IntersectionObserver e rolagem nativa. Use `src/library/revelar/Movimento.tsx`: `useSemMovimento()` (respeita "reduzir movimento" do sistema e o `ProvedorDeMovimento`), `useEmTela()` e `CURVA_SUAVE`. Com movimento desligado, o componente aparece direto no estado final (as miniaturas do catálogo usam isso).
+- Ícones em SVG inline; quando o ícone é escolha de quem usa, vira prop `ReactNode`.
 
 ## Adicionando um componente
 
 1. Crie `src/library/<slug>/` com o componente, um `stories.tsx` e um `meta.ts` (use `src/library/aviso/` como modelo). O `slug` do meta tem que ser igual ao nome da pasta.
-2. Importe o `meta` em `src/registry/index.ts` e o `stories` em `src/registry/all-stories.tsx`.
+2. O registro é automático: `npm run dev` e `npm run build` rodam `npm run registro` antes, que regenera `src/registry/index.ts` e `all-stories.tsx` a partir das pastas. Com o servidor já rodando, rode `npm run registro` à mão.
 3. Se o componente precisar de pacotes npm, instale-os e liste em `dependencies` no meta.
 
 ### Variações (`stories.tsx`)
@@ -92,6 +96,8 @@ Controles: `text`, `number` (`min`, `max`, `step`), `boolean`, `select` (`option
 | `source`         | Projeto de origem (filtro "Projeto de origem")                       |
 | `dependencies`   | Pacotes npm exibidos na página do componente                         |
 | `thumbnailWidth` | Largura (px) da miniatura no catálogo, para seções e páginas         |
+| `thumbnailZoom`  | Zoom da miniatura de componentes pequenos (padrão 0.75)              |
+| `previewHeight`  | Altura fixa (px) do iframe de preview, que rola por dentro: para componentes que reagem à rolagem |
 
 ## Temas
 
@@ -121,6 +127,10 @@ Uma cor só (`"page": "#ffffff"`) vale para os dois modos. Campos que faltarem c
 
 ## Origem dos componentes
 
-| Projeto      | Origem                              | Componentes |
-| ------------ | ----------------------------------- | ----------- |
-| `climatempo` | `webscreaping-climatempo/dashboard` | 17          |
+| Projeto      | Origem                                      | Componentes |
+| ------------ | ------------------------------------------- | ----------- |
+| `acktalabs`  | `AcktaLabs1/acktalabstask/frontend` (app)    | 24          |
+| `nexco`      | `SiteNexcoBioform/site_nexcobioformula` (site) | 18        |
+| `climatempo` | `webscreaping-climatempo/dashboard`         | 17          |
+
+Os componentes vieram genéricos: o que era do domínio (textos, rotas, APIs, stores) virou props, as cores viraram tokens do tema, e as dependências dos projetos (GSAP, lucide-react, recharts, sonner, dnd-kit, react-hook-form, react-imask) foram trocadas por código próprio. O Campo de Formulário e o Modal juntam o melhor dos dois projetos.

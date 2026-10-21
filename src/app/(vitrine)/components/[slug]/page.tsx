@@ -138,7 +138,7 @@ async function ComponentDetails({ params }: { params: Params }) {
           </ul>
         </header>
 
-        <ComponentPreview slug={component.slug} nome={component.name} />
+        <ComponentPreview slug={component.slug} nome={component.name} alturaFixa={component.previewHeight} />
       </div>
 
       <Secao titulo="Props" descricao="Geradas dos tipos TypeScript do componente; a descrição vem dos comentários /** */.">

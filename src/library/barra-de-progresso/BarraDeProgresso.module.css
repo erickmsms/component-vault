@@ -1,0 +1,43 @@
+/* Barra indeterminada: para trabalho cuja duração não dá para medir. Uma barra de
+   0 a 100% ali seria mentira; esta faixa só diz "ainda estou trabalhando".
+   A cor vem de `currentColor` (a classe de texto do tom no trilho). */
+.indeterminada {
+  position: relative;
+  overflow: hidden;
+}
+
+.indeterminada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(to right, transparent, currentColor, transparent);
+  animation: indeterminado 1.4s ease-in-out infinite;
+}
+
+@keyframes indeterminado {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(350%);
+  }
+}
+
+/* Sem movimento a faixa para, mas continua visível: quem pediu menos movimento
+   não pediu para perder o aviso de que algo está em andamento. A classe vem de
+   useSemMovimento(); a media query cobre o primeiro quadro, antes da hidratação. */
+.parada::after {
+  animation: none;
+  width: 100%;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indeterminada::after {
+    animation: none;
+    width: 100%;
+    opacity: 0.5;
+  }
+}

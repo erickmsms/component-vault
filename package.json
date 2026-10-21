@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "registro": "node scripts/gerar-registro.mjs",
+    "predev": "node scripts/gerar-registro.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/gerar-registro.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

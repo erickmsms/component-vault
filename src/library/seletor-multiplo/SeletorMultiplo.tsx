@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { MenuSuspenso } from "@/library/menu-suspenso/MenuSuspenso";
 
 export type OpcaoDoSeletor = { valor: string; rotulo: string; cor?: string };
@@ -30,9 +31,14 @@ function resumir(opcoes: OpcaoDoSeletor[], selecionados: string[], textos: Texto
 const BOTAO_DE_ACAO =
   "cursor-pointer rounded-sm px-1 text-sm font-medium text-accent underline-offset-2 outline-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-default disabled:text-muted disabled:no-underline";
 
+/** Para buscar sem diferenciar maiúsculas nem acentos ("ceara" acha "Ceará"). */
+const normalizar = (texto: string) =>
+  texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR").trim();
+
 /**
  * Caixa de seleção múltipla: um botão com o resumo da escolha que abre uma lista
- * de caixas de marcar, com atalhos para marcar tudo e limpar.
+ * de caixas de marcar, com atalhos para marcar tudo e limpar e, opcionalmente, uma
+ * busca no topo do painel.
  */
 export function SeletorMultiplo({
   rotulo,
@@ -40,53 +46,138 @@ export function SeletorMultiplo({
   selecionados,
   aoMudar,
   textos: textosParciais,
+  comBusca = false,
+  rotuloDaBusca = "Buscar...",
+  textoSemResultados = "Nenhum resultado.",
 }: {
   rotulo: string;
   opcoes: OpcaoDoSeletor[];
   selecionados: string[];
   aoMudar: (selecionados: string[]) => void;
   textos?: Partial<TextosDoSeletor>;
+  /** Campo de busca no topo do painel (sem diferenciar maiúsculas e acentos). Com busca, marcar todos e limpar valem para as opções encontradas. */
+  comBusca?: boolean;
+  /** Texto de exemplo e nome do campo de busca. */
+  rotuloDaBusca?: string;
+  /** Mensagem quando a busca não encontra nenhuma opção. */
+  textoSemResultados?: string;
 }) {
   const textos = { ...TEXTOS_PADRAO, ...textosParciais };
+  // O painel só existe aberto: a busca recomeça vazia a cada abertura
+  return (
+    <MenuSuspenso rotulo={rotulo} resumo={resumir(opcoes, selecionados, textos)}>
+      {() => (
+        <PainelDoSeletor
+          opcoes={opcoes}
+          selecionados={selecionados}
+          aoMudar={aoMudar}
+          textos={textos}
+          comBusca={comBusca}
+          rotuloDaBusca={rotuloDaBusca}
+          textoSemResultados={textoSemResultados}
+        />
+      )}
+    </MenuSuspenso>
+  );
+}
+
+function PainelDoSeletor({
+  opcoes,
+  selecionados,
+  aoMudar,
+  textos,
+  comBusca,
+  rotuloDaBusca,
+  textoSemResultados,
+}: {
+  opcoes: OpcaoDoSeletor[];
+  selecionados: string[];
+  aoMudar: (selecionados: string[]) => void;
+  textos: TextosDoSeletor;
+  comBusca: boolean;
+  rotuloDaBusca: string;
+  textoSemResultados: string;
+}) {
+  const [busca, setBusca] = useState("");
+  const termo = comBusca ? normalizar(busca) : "";
+  const visiveis = termo ? opcoes.filter((o) => normalizar(o.rotulo).includes(termo)) : opcoes;
+
+  // Mantém a ordem das opções no resultado
+  const emOrdem = (valores: Set<string>) => opcoes.map((o) => o.valor).filter((v) => valores.has(v));
   const alternar = (valor: string) =>
     aoMudar(
       selecionados.includes(valor)
         ? selecionados.filter((v) => v !== valor)
-        : opcoes.map((o) => o.valor).filter((v) => v === valor || selecionados.includes(v)),
+        : emOrdem(new Set([...selecionados, valor])),
     );
-
-  const todasMarcadas = selecionados.length === opcoes.length;
+  // Sem busca, valem para todas as opções; com busca, só para as encontradas
+  const marcarTodos = () =>
+    aoMudar(termo ? emOrdem(new Set([...selecionados, ...visiveis.map((o) => o.valor)])) : opcoes.map((o) => o.valor));
+  const limpar = () => {
+    const encontradas = new Set(visiveis.map((o) => o.valor));
+    aoMudar(termo ? selecionados.filter((v) => !encontradas.has(v)) : []);
+  };
+  const todasMarcadas = termo
+    ? visiveis.every((o) => selecionados.includes(o.valor))
+    : selecionados.length === opcoes.length;
+  const nenhumaMarcada = termo ? !visiveis.some((o) => selecionados.includes(o.valor)) : selecionados.length === 0;
 
   return (
-    <MenuSuspenso rotulo={rotulo} resumo={resumir(opcoes, selecionados, textos)}>
-      {() => (
-        <>
-          <div className="flex items-center justify-between border-b border-rule px-3 py-2">
-            <button type="button" className={BOTAO_DE_ACAO} disabled={todasMarcadas} onClick={() => aoMudar(opcoes.map((o) => o.valor))}>
-              {textos.marcarTodos}
-            </button>
-            <button type="button" className={BOTAO_DE_ACAO} disabled={selecionados.length === 0} onClick={() => aoMudar([])}>
-              {textos.limpar}
-            </button>
-          </div>
-          <ul className="max-h-72 overflow-y-auto py-1">
-            {opcoes.map((o) => (
-              <li key={o.valor}>
-                <label className="flex min-h-11 cursor-pointer items-center gap-3 px-3 text-sm hover:bg-surface">
-                  <input
-                    type="checkbox"
-                    checked={selecionados.includes(o.valor)}
-                    onChange={() => alternar(o.valor)}
-                    className="size-4 shrink-0 cursor-pointer accent-accent"
-                  />
-                  {o.cor && <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full" style={{ background: o.cor }} />}
-                  <span className="min-w-0 truncate">{o.rotulo}</span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </>
+    <>
+      {comBusca && (
+        <div className="border-b border-rule p-2">
+          <label className="flex min-h-10 items-center gap-2 rounded-lg border border-rule bg-surface px-3 text-sm outline-accent focus-within:border-accent focus-within:outline-2 focus-within:outline-offset-1">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 shrink-0 text-muted" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="m16 16 4 4" />
+            </svg>
+            <input
+              // Abre já pronto para digitar
+              autoFocus
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              onKeyDown={(e) => {
+                // Não envia o formulário em volta
+                if (e.key === "Enter") e.preventDefault();
+              }}
+              placeholder={rotuloDaBusca}
+              aria-label={rotuloDaBusca}
+              autoComplete="off"
+              className="min-w-0 flex-1 bg-transparent py-2 text-ink outline-none placeholder:text-muted"
+            />
+          </label>
+        </div>
       )}
-    </MenuSuspenso>
+      <div className="flex items-center justify-between border-b border-rule px-3 py-2">
+        <button type="button" className={BOTAO_DE_ACAO} disabled={visiveis.length === 0 || todasMarcadas} onClick={marcarTodos}>
+          {textos.marcarTodos}
+        </button>
+        <button type="button" className={BOTAO_DE_ACAO} disabled={visiveis.length === 0 || nenhumaMarcada} onClick={limpar}>
+          {textos.limpar}
+        </button>
+      </div>
+      {visiveis.length === 0 ? (
+        <p role="status" className="px-3 py-4 text-sm text-muted">
+          {textoSemResultados}
+        </p>
+      ) : (
+        <ul className="max-h-72 overflow-y-auto py-1">
+          {visiveis.map((o) => (
+            <li key={o.valor}>
+              <label className="flex min-h-11 cursor-pointer items-center gap-3 px-3 text-sm hover:bg-surface">
+                <input
+                  type="checkbox"
+                  checked={selecionados.includes(o.valor)}
+                  onChange={() => alternar(o.valor)}
+                  className="size-4 shrink-0 cursor-pointer accent-accent"
+                />
+                {o.cor && <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full" style={{ background: o.cor }} />}
+                <span className="min-w-0 truncate">{o.rotulo}</span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 }

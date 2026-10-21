@@ -40,7 +40,7 @@ function useLargura() {
  * Preview do componente num iframe: variações em abas, tamanhos de tela,
  * fundo e playground. Telas mais largas que o espaço disponível aparecem reduzidas.
  */
-export function ComponentPreview({ slug, nome }: { slug: string; nome: string }) {
+export function ComponentPreview({ slug, nome, alturaFixa }: { slug: string; nome: string; alturaFixa?: number }) {
   const exemplos = allStories[slug];
   const [story, setStory] = useState(0);
   const [args, setArgs] = useState<Args>(() => storyArgs(exemplos, 0));
@@ -51,6 +51,8 @@ export function ComponentPreview({ slug, nome }: { slug: string; nome: string })
   const ultimoEstado = useRef<EstadoDoPreview | null>(null);
   const [area, larguraDaArea] = useLargura();
 
+  // Componentes que reagem à rolagem ganham altura fixa: o conteúdo rola dentro do iframe
+  const alturaDoIframe = alturaFixa ?? altura;
   const usaPlayground = !exemplos.stories[story]?.render;
   const estado = useMemo<EstadoDoPreview>(
     () => ({ story, args: usaPlayground ? args : undefined, fundo }),
@@ -104,6 +106,7 @@ export function ComponentPreview({ slug, nome }: { slug: string; nome: string })
             {escala < 1 && (
               <span className="ml-2 text-xs text-zinc-500">reduzido a {Math.round(escala * 100)}%</span>
             )}
+            {alturaFixa && <span className="ml-2 text-xs text-zinc-500">role dentro do preview ↕</span>}
           </div>
           <div className="flex items-center gap-1">
             <button
@@ -126,7 +129,7 @@ export function ComponentPreview({ slug, nome }: { slug: string; nome: string })
         </div>
       </div>
 
-      <div ref={area} className="relative overflow-hidden" style={{ height: altura * escala }}>
+      <div ref={area} className="relative overflow-hidden" style={{ height: alturaDoIframe * escala }}>
         <iframe
           ref={iframe}
           src={`/preview/${slug}`}
@@ -136,7 +139,7 @@ export function ComponentPreview({ slug, nome }: { slug: string; nome: string })
           style={{
             left: esquerda,
             width: largura ?? "100%",
-            height: altura,
+            height: alturaDoIframe,
             transform: escala < 1 ? `scale(${escala})` : undefined,
             transformOrigin: "top left",
           }}

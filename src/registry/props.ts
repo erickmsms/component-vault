@@ -13,7 +13,13 @@ export type PropDoc = {
   description?: string;
 };
 
-export type ComponentDoc = { name: string; description?: string; props: PropDoc[] };
+export type ComponentDoc = {
+  name: string;
+  description?: string;
+  props: PropDoc[];
+  /** Quantas props vêm de tipos do React/HTML (onClick, aria-*...): resumidas numa linha, não listadas. */
+  nativas: number;
+};
 
 const srcDir = path.join(process.cwd(), "src");
 const libraryDir = path.join(srcDir, "library");
@@ -61,11 +67,16 @@ function documentar(checker: ts.TypeChecker, funcao: ts.FunctionDeclaration): Co
   const simbolo = funcao.name && checker.getSymbolAtLocation(funcao.name);
   const description = simbolo ? ts.displayPartsToString(simbolo.getDocumentationComment(checker)) : "";
   const parametro = funcao.parameters[0];
-  if (!parametro) return { name: funcao.name!.text, description, props: [] };
+  if (!parametro) return { name: funcao.name!.text, description, props: [], nativas: 0 };
 
   const valoresPadrao = padroes(parametro);
   const tipo = checker.getTypeAtLocation(parametro);
-  const props = tipo.getProperties().map((prop): PropDoc => {
+  // Props declaradas só nos tipos do React/DOM (node_modules) são os atributos nativos repassados
+  const nativa = (prop: ts.Symbol) =>
+    (prop.declarations?.length ?? 0) > 0 &&
+    prop.declarations!.every((d) => /[\\/]node_modules[\\/]/.test(d.getSourceFile().fileName));
+  const todas = tipo.getProperties();
+  const props = todas.filter((p) => !nativa(p)).map((prop): PropDoc => {
     const opcional = (prop.flags & ts.SymbolFlags.Optional) !== 0;
     let tipoDaProp = checker.getTypeOfSymbolAtLocation(prop, parametro);
     if (opcional) tipoDaProp = checker.getNonNullableType(tipoDaProp);
@@ -78,7 +89,12 @@ function documentar(checker: ts.TypeChecker, funcao: ts.FunctionDeclaration): Co
     };
   });
 
-  return { name: funcao.name!.text, description: description || undefined, props };
+  return {
+    name: funcao.name!.text,
+    description: description || undefined,
+    props,
+    nativas: todas.length - props.length,
+  };
 }
 
 /** Componentes exportados da pasta (funções com nome em maiúscula) e as props de cada um. */

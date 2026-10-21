@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProvedorDeMovimento } from "@/library/revelar/Movimento";
 import { allStories } from "@/registry/all-stories";
 import { StoryView } from "@/registry/stories";
 import type { ComponentMeta } from "@/registry/types";
@@ -7,8 +8,11 @@ import { ScaledThumbnail } from "./scaled-thumbnail";
 
 export function ComponentCard({ component }: { component: ComponentMeta }) {
   const exemplos = allStories[component.slug];
+  // Miniaturas paradas: animações de entrada e de rolagem aparecem no estado final
   const exemplo = exemplos ? (
-    <StoryView exemplos={exemplos} />
+    <ProvedorDeMovimento>
+      <StoryView exemplos={exemplos} />
+    </ProvedorDeMovimento>
   ) : (
     <p className="text-sm opacity-60">Sem exemplos para “{component.slug}”.</p>
   );
@@ -26,7 +30,7 @@ export function ComponentCard({ component }: { component: ComponentMeta }) {
           data-theme={THEME_ATTR}
           className="flex h-44 items-center-safe justify-center-safe overflow-hidden bg-page p-4"
         >
-          <div className="flex w-full justify-center [zoom:0.75]">{exemplo}</div>
+          <div className="flex w-full justify-center" style={{ zoom: component.thumbnailZoom ?? 0.75 }}>{exemplo}</div>
         </div>
       )}
       <div className="flex flex-1 flex-col gap-2 border-t border-zinc-200 p-4 dark:border-zinc-800">

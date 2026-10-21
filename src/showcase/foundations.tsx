@@ -1,9 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { PRESETS } from "@/themes/presets";
 import { COLOR_GROUPS, SHADOWS, TEXT_STEP_NAMES, textSize, THEME_ATTR } from "@/themes/tokens";
-import { isEdited, useThemeSettings } from "./theme/store";
+import { themeName, useThemeSettings } from "./theme/store";
 
 // Classes escritas por extenso para o Tailwind gerá-las
 const TAMANHOS: Record<string, string> = {
@@ -54,8 +53,7 @@ export function Foundations() {
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight">Fundamentos do tema</h1>
         <p className="max-w-2xl text-zinc-600 dark:text-zinc-400">
-          Tema <strong>{PRESETS[settings.preset].label}</strong>
-          {isEdited(settings) && " (editado)"}. Os componentes da biblioteca usam só estes tokens: troque o tema
+          Tema <strong>{themeName(settings)}</strong>. Os componentes da biblioteca usam só estes tokens: troque o tema
           ou use “Editar tema” no cabeçalho para ver tudo mudar.
         </p>
       </header>

@@ -1,5 +1,6 @@
-import type { CSSProperties, ReactNode } from "react";
-import { Termo } from "@/library/dica/Dica";
+import type { ReactNode } from "react";
+import { desenharTabela } from "./desenho";
+import { TabelaOrdenavel } from "./TabelaOrdenavel";
 
 export type Coluna<T> = {
   chave: keyof T & string;
@@ -12,34 +13,32 @@ export type Coluna<T> = {
   dica?: string;
   /** Formatação própria da célula, no lugar da padrão do tipo. */
   formatar?: (linha: T) => ReactNode;
+  /**
+   * O título vira um botão que ordena pela coluna: crescente, decrescente e de
+   * volta à ordem original. Números, datas e textos (em português) já se comparam;
+   * valores vazios ficam no fim.
+   */
+  ordenavel?: boolean;
+  /** Comparação própria para a ordem crescente (negativo: `a` vem antes). */
+  ordenarPor?: (a: T, b: T) => number;
 };
 
-const NUMERICO = new Set(["numero", "decimal", "percentual"]);
+/** Coluna e direção da ordenação. */
+export type Ordenacao<T> = { chave: keyof T & string; direcao: "asc" | "desc" };
 
-const numero = (v: number, casas: number) =>
-  v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
-
-function formatarCelula<T>(linha: T, coluna: Coluna<T>): ReactNode {
-  if (coluna.formatar) return coluna.formatar(linha);
-  const valor: unknown = linha[coluna.chave];
-  if (valor === null || valor === undefined) return "—";
-
-  const tipo = coluna.tipo ?? "texto";
-  if (tipo === "texto") return String(valor);
-  if (typeof valor !== "number" || Number.isNaN(valor)) return "—";
-  if (tipo === "percentual") return `${numero(valor, 1)}%`;
-
-  // "numero": inteiros como estão; "decimal": 2 casas.
-  const casas = tipo === "decimal" ? 2 : Number.isInteger(valor) ? 0 : 1;
-  return coluna.sufixo ? `${numero(valor, casas)} ${coluna.sufixo}` : numero(valor, casas);
-}
-
-/** Tabela de dados tipada por colunas, com formatação brasileira e rolagem horizontal em telas estreitas. */
+/**
+ * Tabela de dados tipada por colunas, com formatação brasileira e rolagem horizontal em telas estreitas.
+ * Colunas podem ser ordenáveis e o cabeçalho pode ficar fixo enquanto o corpo rola.
+ */
 export function TabelaDados<T extends object>({
   colunas,
   linhas,
   legenda,
   larguraMinima = "40rem",
+  cabecalhoFixo = false,
+  alturaMaxima,
+  fundoDoCabecalho = "page",
+  ordenacaoInicial,
 }: {
   colunas: Coluna<T>[];
   linhas: T[];
@@ -47,52 +46,20 @@ export function TabelaDados<T extends object>({
   legenda: string;
   /** Abaixo desta largura a tabela rola na horizontal em vez de espremer as colunas. */
   larguraMinima?: string;
+  /**
+   * Mantém o cabeçalho no topo enquanto as linhas rolam. A tabela passa a rolar
+   * dentro da própria caixa, com a altura de `alturaMaxima` (padrão: 70vh).
+   */
+  cabecalhoFixo?: boolean;
+  /** Altura máxima da caixa ("24rem", "60vh"); acima dela, as linhas rolam dentro da tabela. */
+  alturaMaxima?: string;
+  /** Fundo do cabeçalho fixo: o mesmo do que está atrás da tabela, para as linhas não aparecerem por baixo. */
+  fundoDoCabecalho?: "page" | "surface";
+  /** Ordenação ao abrir (só vale com colunas ordenáveis). */
+  ordenacaoInicial?: Ordenacao<T>;
 }) {
-  return (
-    // -mr-3/pr-3: o ícone de explicação da última coluna tem uma área de toque que passa 12 px da borda
-    // direita; sem essa folga ela contaria como conteúdo e apareceria uma rolagem horizontal à toa.
-    <div className="-mr-3 overflow-x-auto pr-3">
-      <table
-        style={{ minWidth: larguraMinima } as CSSProperties}
-        className="w-full border-collapse text-base tabular-nums"
-      >
-        <caption className="sr-only">{legenda}</caption>
-        <thead>
-          <tr>
-            {colunas.map((c) => (
-              <th
-                key={c.chave}
-                scope="col"
-                className={`border-b-2 border-rule-strong px-3 py-2.5 text-xs font-semibold whitespace-nowrap text-ink-2 first:pl-0 last:pr-0 ${
-                  NUMERICO.has(c.tipo ?? "texto") ? "text-right" : "text-left"
-                }`}
-              >
-                {c.dica ? <Termo dica={c.dica}>{c.titulo}</Termo> : c.titulo}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {linhas.map((linha, i) => (
-            <tr key={i} className="border-b border-rule">
-              {colunas.map((c, j) => {
-                const Celula = j === 0 ? "th" : "td";
-                return (
-                  <Celula
-                    key={c.chave}
-                    scope={j === 0 ? "row" : undefined}
-                    className={`px-3 py-3 align-top whitespace-nowrap first:pl-0 last:pr-0 ${
-                      NUMERICO.has(c.tipo ?? "texto") ? "text-right" : "text-left"
-                    } ${j === 0 ? "font-semibold" : "font-normal"}`}
-                  >
-                    {formatarCelula(linha, c)}
-                  </Celula>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  const desenho = { colunas, linhas, legenda, larguraMinima, cabecalhoFixo, alturaMaxima, fundoDoCabecalho };
+  // Só a versão ordenável usa estado (e é client component); sem ordenação, a tabela continua sem hooks
+  if (colunas.some((c) => c.ordenavel)) return <TabelaOrdenavel {...desenho} ordenacaoInicial={ordenacaoInicial} />;
+  return desenharTabela(desenho);
 }

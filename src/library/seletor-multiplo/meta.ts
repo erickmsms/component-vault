@@ -6,6 +6,7 @@ export const meta: ComponentMeta = {
   description:
     "Seleção múltipla num menu suspenso, com atalhos para marcar todos e limpar. O botão resume a escolha (“Todos”, “Recife, Olinda”, “3 de 8”) e os textos são configuráveis.",
   category: "forms",
-  tags: ["dropdown", "checkbox", "filtro"],
+  tags: ["dropdown", "checkbox", "filtro", "busca"],
   source: "climatempo",
+  thumbnailZoom: 1.6,
 };

@@ -25,9 +25,9 @@ export function ThemeControls() {
   const editado = isEdited(settings);
 
   function escolherTema(preset: PresetId) {
-    if (preset === settings.preset && !editado) return;
+    if (preset === settings.preset && !editado && !settings.importado) return;
     if (editado && !window.confirm("Trocar de tema descarta as edições feitas neste. Continuar?")) return;
-    updateSettings((s) => ({ ...s, preset, values: presetValues(preset) }));
+    updateSettings((s) => ({ ...s, importado: undefined, preset, values: presetValues(preset) }));
   }
 
   const mudarFonte = (campo: "fontDisplay" | "fontBody") => (familia: string) =>
@@ -39,9 +39,9 @@ export function ThemeControls() {
         Fundamentos
       </Link>
       <SeletorUnico
-        rotulo={editado ? "Tema (editado)" : "Tema"}
+        rotulo={`Tema${settings.importado ? " (personalizado)" : editado ? " (editado)" : ""}`}
         opcoes={PRESET_IDS.map((id) => ({ valor: id, rotulo: PRESETS[id].label }))}
-        valor={settings.preset}
+        valor={settings.importado ? null : settings.preset}
         aoEscolher={escolherTema}
       />
       <SeletorUnico<ModePreference>

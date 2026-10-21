@@ -69,9 +69,11 @@ export function PreviewFrame({ slug }: { slug: string }) {
     <div
       ref={moldura}
       data-theme={THEME_ATTR}
+      data-variacoes={exemplos.stories.length}
       className={`flex min-h-dvh items-center bg-page p-6 sm:p-10 ${estado.fundo === "pontilhado" ? "preview-dots" : ""}`}
     >
-      <div ref={conteudo} className="flex w-full justify-center-safe">
+      {/* A raiz do exemplo não passa da largura disponível (flex não deixa encolher abaixo do conteúdo) */}
+      <div ref={conteudo} className="flex w-full justify-center-safe [&>*]:max-w-full [&>*]:min-w-0">
         <StoryView exemplos={exemplos} index={estado.story} args={estado.args} />
       </div>
     </div>

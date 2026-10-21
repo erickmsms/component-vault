@@ -9,6 +9,7 @@ export const categories = {
   layout: "Layout",
   sections: "Seções",
   overlay: "Overlays",
+  animation: "Animações",
   media: "Mídia",
   pages: "Páginas",
   other: "Outros",
