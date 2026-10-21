@@ -138,7 +138,7 @@ function PainelDoSeletor({
     <>
       {comBusca && (
         <div className="border-b border-rule p-2">
-          <label className="flex min-h-10 items-center gap-2 rounded-lg border border-rule bg-surface px-3 text-sm outline-accent focus-within:border-accent focus-within:outline-2 focus-within:outline-offset-1">
+          <label className="flex min-h-10 items-center gap-2 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*2))] border border-rule bg-surface px-3 text-sm outline-accent focus-within:border-accent focus-within:outline-2 focus-within:outline-offset-1">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 shrink-0 text-muted" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
               <circle cx="11" cy="11" r="6.5" />
               <path d="m16 16 4 4" />
