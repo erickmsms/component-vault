@@ -19,11 +19,29 @@ function Campo({
   const rotulo = controle.label ?? nome;
 
   if (controle.type === "boolean") {
+    const ligado = Boolean(valor);
+    const segmento = (ativo: boolean) =>
+      `rounded text-sm outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 ${
+        ativo
+          ? "bg-zinc-900 font-medium text-white dark:bg-zinc-100 dark:text-zinc-900"
+          : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+      }`;
     return (
-      <label className="flex min-h-9 items-center gap-2 text-sm">
-        <input type="checkbox" checked={Boolean(valor)} onChange={(e) => aoMudar(e.target.checked)} className="size-4" />
-        <span className="font-mono text-xs">{rotulo}</span>
-      </label>
+      <div className="flex flex-col gap-1">
+        <span className="font-mono text-xs text-zinc-500">{rotulo}</span>
+        <div
+          role="group"
+          aria-label={rotulo}
+          className="grid h-9 grid-cols-2 gap-1 rounded-md border border-zinc-300 bg-white p-0.5 dark:border-zinc-700 dark:bg-zinc-900"
+        >
+          <button type="button" aria-pressed={ligado} onClick={() => aoMudar(true)} className={segmento(ligado)}>
+            Sim
+          </button>
+          <button type="button" aria-pressed={!ligado} onClick={() => aoMudar(false)} className={segmento(!ligado)}>
+            Não
+          </button>
+        </div>
+      </div>
     );
   }
 
