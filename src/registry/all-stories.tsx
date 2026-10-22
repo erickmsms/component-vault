@@ -53,6 +53,7 @@ import seletorMultiplo from "@/library/seletor-multiplo/stories";
 import seletorUnico from "@/library/seletor-unico/stories";
 import tabelaDados from "@/library/tabela-dados/stories";
 import textoAceso from "@/library/texto-aceso/stories";
+import tituloVivo from "@/library/titulo-vivo/stories";
 import trilhaDeNavegacao from "@/library/trilha-de-navegacao/stories";
 import type { StoriesModule } from "./stories";
 
@@ -113,5 +114,6 @@ export const allStories: Record<string, StoriesModule> = {
   "seletor-unico": seletorUnico,
   "tabela-dados": tabelaDados,
   "texto-aceso": textoAceso,
+  "titulo-vivo": tituloVivo,
   "trilha-de-navegacao": trilhaDeNavegacao,
 };

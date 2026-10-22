@@ -53,6 +53,7 @@ import { meta as seletorMultiplo } from "@/library/seletor-multiplo/meta";
 import { meta as seletorUnico } from "@/library/seletor-unico/meta";
 import { meta as tabelaDados } from "@/library/tabela-dados/meta";
 import { meta as textoAceso } from "@/library/texto-aceso/meta";
+import { meta as tituloVivo } from "@/library/titulo-vivo/meta";
 import { meta as trilhaDeNavegacao } from "@/library/trilha-de-navegacao/meta";
 import type { ComponentMeta } from "./types";
 
@@ -112,6 +113,7 @@ export const registry: ComponentMeta[] = [
   seletorUnico,
   tabelaDados,
   textoAceso,
+  tituloVivo,
   trilhaDeNavegacao,
 ].sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
 
