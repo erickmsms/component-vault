@@ -10,6 +10,15 @@ export default function VitrineLayout({ children }: LayoutProps<"/">) {
           valendo na página inteira. */}
       <div data-theme={THEME_ATTR} className="contents">
         <VitrineHeader />
+        {/* Fundo sutil: duas cores do tema saindo dos cantos superior esquerdo e inferior direito */}
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 70% at 0% 0%, color-mix(in oklab, var(--accent) 21%, transparent), transparent 70%), radial-gradient(ellipse 70% 70% at 100% 100%, color-mix(in oklab, var(--series-2) 21%, transparent), transparent 70%)",
+          }}
+        />
       </div>
       <main className="w-full flex-1 px-6 py-8">
         <SelecaoProvider>
