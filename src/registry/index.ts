@@ -22,6 +22,7 @@ import { meta as cartaoKpi } from "@/library/cartao-kpi/meta";
 import { meta as chamadaFinal } from "@/library/chamada-final/meta";
 import { meta as contador } from "@/library/contador/meta";
 import { meta as controleDeslizante } from "@/library/controle-deslizante/meta";
+import { meta as diagramaAluvial } from "@/library/diagrama-aluvial/meta";
 import { meta as diagramaSankey } from "@/library/diagrama-sankey/meta";
 import { meta as dialogo } from "@/library/dialogo/meta";
 import { meta as dica } from "@/library/dica/meta";
@@ -95,6 +96,7 @@ export const registry: ComponentMeta[] = [
   chamadaFinal,
   contador,
   controleDeslizante,
+  diagramaAluvial,
   diagramaSankey,
   dialogo,
   dica,
