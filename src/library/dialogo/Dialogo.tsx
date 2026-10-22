@@ -50,11 +50,11 @@ export type PosicaoDoDialogo = keyof typeof POSICOES;
 /**
  * Arredondamento concêntrico, de dentro para fora: o raio dos botões é o do tema (`--radius-lg`),
  * limitado à metade da altura deles (h-10), e o painel é esse raio mais a folga de 3 unidades até a
- * borda. Calculado ao contrário (painel fixo menos a folga), um tema bem arredondado pedia um raio
+ * borda (só quando o tema tem arredondamento: com raio 0, o painel fica reto). Calculado ao contrário (painel fixo menos a folga), um tema bem arredondado pedia um raio
  * maior que o botão comporta, e o canto dele escapava da curva do painel.
  */
 const RAIOS =
-  "[--raio-do-botao:min(var(--radius-lg),var(--spacing)*5)] rounded-[calc(min(var(--radius-lg),var(--spacing)*5)_+_var(--spacing)*3)]";
+  "[--raio-do-botao:min(var(--radius-lg),var(--spacing)*5)] rounded-[calc(min(var(--radius-lg),var(--spacing)*5)_+_min(var(--radius-lg)*100,var(--spacing)*3))]";
 const DURACAO = 220;
 
 type Contexto = { fechar: () => void };

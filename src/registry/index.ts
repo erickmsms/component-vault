@@ -21,6 +21,7 @@ import { meta as campoDeMoeda } from "@/library/campo-de-moeda/meta";
 import { meta as cartaoKpi } from "@/library/cartao-kpi/meta";
 import { meta as chamadaFinal } from "@/library/chamada-final/meta";
 import { meta as contador } from "@/library/contador/meta";
+import { meta as controleDeslizante } from "@/library/controle-deslizante/meta";
 import { meta as dialogo } from "@/library/dialogo/meta";
 import { meta as dica } from "@/library/dica/meta";
 import { meta as esqueleto } from "@/library/esqueleto/meta";
@@ -82,6 +83,7 @@ export const registry: ComponentMeta[] = [
   cartaoKpi,
   chamadaFinal,
   contador,
+  controleDeslizante,
   dialogo,
   dica,
   esqueleto,
