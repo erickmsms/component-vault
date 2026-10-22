@@ -184,7 +184,7 @@ export function ThemeEditor({ aoFechar }: { aoFechar: () => void }) {
     <aside
       role="dialog"
       aria-label="Editor de tema"
-      className="fixed inset-y-0 right-0 z-50 flex w-[24rem] max-w-full flex-col border-l border-zinc-200 bg-white font-sans text-zinc-900 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+      className="fixed inset-y-3 right-3 z-50 flex w-[24rem] max-w-[calc(100%-1.5rem)] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white font-sans text-zinc-900 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
     >
       <header className="flex items-start justify-between gap-3 border-b border-zinc-200 px-5 py-4 dark:border-zinc-800">
         <div>
