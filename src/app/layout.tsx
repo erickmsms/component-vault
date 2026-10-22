@@ -9,6 +9,7 @@ import {
   Nunito,
   Space_Grotesk,
 } from "next/font/google";
+import { SITE_DESCRICAO, SITE_NOME, SITE_TITULO, SITE_URL } from "@/showcase/site";
 import { THEME_HEAD_SCRIPT } from "@/showcase/theme/head-script";
 import { ThemeSync } from "@/showcase/theme/theme-sync";
 import { DEFAULT_PRESET, presetValues } from "@/themes/presets";
@@ -36,8 +37,28 @@ const fontes = [geistSans, geistMono, archivo, inter, plex, fraunces, nunito, sp
   .join(" ");
 
 export const metadata: Metadata = {
-  title: { default: "Component Vault", template: "%s · Component Vault" },
-  description: "Biblioteca pessoal de componentes React, organizados por tipo, tema e projeto de origem.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_TITULO, template: `%s · ${SITE_NOME}` },
+  description: SITE_DESCRICAO,
+  applicationName: SITE_NOME,
+  keywords: [
+    "biblioteca de componentes",
+    "componentes React",
+    "component library",
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "open source",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: SITE_NOME,
+    title: SITE_TITULO,
+    description: SITE_DESCRICAO,
+    url: "/",
+  },
+  twitter: { card: "summary_large_image", title: SITE_TITULO, description: SITE_DESCRICAO },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

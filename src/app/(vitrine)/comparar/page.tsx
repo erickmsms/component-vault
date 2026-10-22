@@ -7,7 +7,8 @@ import { categories } from "@/registry/categories";
 import { ComponentPreview } from "@/showcase/preview/component-preview";
 import { THEME_ATTR } from "@/themes/tokens";
 
-export const metadata: Metadata = { title: "Comparar" };
+// Depende dos componentes escolhidos na URL: fica fora do Google
+export const metadata: Metadata = { title: "Comparar", robots: { index: false } };
 
 export default function ComparePage({ searchParams }: PageProps<"/comparar">) {
   // Ler searchParams fora de Suspense bloqueia a navegação instantânea do Next 16
