@@ -1,6 +1,8 @@
 # Component Vault
 
-Biblioteca pessoal de componentes React **genéricos**, garimpados de outros projetos, com uma vitrine em Next.js para navegar por **tipo**, **tema** e **projeto de origem**, testar cada componente com temas, fontes e tamanhos de tela diferentes e mexer nas props ao vivo.
+Biblioteca open source de componentes React **genéricos**, com uma vitrine em Next.js para navegar por **tipo**, **tema** e **projeto de origem**, testar cada componente com temas, fontes e tamanhos de tela diferentes e mexer nas props ao vivo. Sem login: abre e usa.
+
+No ar em **https://vault-components.vercel.app**. Contribuições são bem-vindas por pull request: veja o [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Rodando
 
@@ -13,15 +15,16 @@ Abre em http://localhost:3000.
 
 ## O que a vitrine faz
 
-- **Catálogo** com busca e filtros na lateral, que fica parada ao rolar a página (é o componente **Barra de Filtros** da própria biblioteca, com **Filtros Ativos** acima dos resultados): tema e projeto de origem no próprio Seletor Múltiplo da biblioteca (com busca e contagem; vários marcados combinam por "qualquer um") e tipo numa lista com contagem. Os filtros ativos aparecem em pílulas removíveis acima dos resultados, com "Limpar tudo", e ficam na URL para compartilhar: `/componentes?tipo=forms&tema=dropdown,kpi&projeto=nexco,acktalabs`.
-- **Tema global no cabeçalho:** cinco temas prontos (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), modo Claro / Escuro / Sistema e troca das fontes de títulos e texto (qualquer família do Google Fonts). Vale para o catálogo, os previews e o próprio cabeçalho.
-- **Editor de tema** (botão "Editar tema"): cores de cada token nos dois modos, cor da marca que gera o destaque e tinge os neutros, contraste WCAG dos pares de texto e fundo, fontes, tamanho do texto, escala dos títulos, arredondamento, densidade e sombra.
+- **Landing** (`/`): a primeira tela, com a marca do site (cores e fonte fixas, não seguem o tema). "Ver componentes" ou um clique no bloco vermelho descem para o catálogo com uma transição. Links antigos com filtros (`/?tipo=...`) são redirecionados para `/componentes`.
+- **Catálogo** (`/componentes`) com busca e filtros na lateral, que fica parada ao rolar a página (é o componente **Barra de Filtros** da própria biblioteca, com **Filtros Ativos** acima dos resultados): tema e projeto de origem no próprio Seletor Múltiplo da biblioteca (com busca e contagem; vários marcados combinam por "qualquer um") e tipo numa lista com contagem. Os filtros ativos aparecem em pílulas removíveis acima dos resultados, com "Limpar tudo", e ficam na URL para compartilhar: `/componentes?tipo=forms&tema=dropdown,kpi&projeto=nexco,acktalabs`.
+- **Tema global no cabeçalho** (menu "Aparência"): cinco temas prontos (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), modo Claro / Escuro / Sistema e troca das fontes de títulos e texto (qualquer família do Google Fonts). Vale para o catálogo, os previews e o próprio cabeçalho.
+- **Editor de tema** ("Editar tema…" no menu Aparência, num card flutuante): cores de cada token nos dois modos, cor da marca que gera o destaque e tinge os neutros, contraste WCAG dos pares de texto e fundo, fontes, tamanho do texto, escala dos títulos, arredondamento, densidade e sombra.
   - **JSON do tema:** "Copiar JSON" copia o tema inteiro; "Colar JSON" aplica um tema colado (aceita parcial e o bloco ```` ```json ```` das IAs, e avisa o que foi ignorado); "Copiar prompt para IA" copia um pedido que explica o formato, para gerar temas no ChatGPT e colar de volta.
-  - **Exportar:** um `.css` único para outro projeto com Tailwind 4.
+  - **Exportar:** "Baixar .css" gera um arquivo único para outro projeto com Tailwind 4.
 - **Comparar** (`/comparar?a=botao&b=botao-flutuante`): no catálogo, **Ctrl (ou Cmd) + clique** em dois cards (ou o botão `+` no canto de cada um) abre uma barra no pé da tela com o botão "Comparar". A página mostra os dois lado a lado, cada um com suas variações, tamanhos de tela e playground. Marcar um terceiro tira o mais antigo.
-- **Fundamentos** (`/fundamentos`): todos os tokens do tema atual em amostras.
+- **Gradientes** (`/gradientes`, pelo atalho redondo no cabeçalho): gerador de gradientes com manchas de cor sobre um fundo, presets e cópia do CSS.
 - **Página de cada componente:**
-  - a barra de filtros continua à esquerda (só nos Fundamentos ela some): mexer num filtro ou buscar leva para o catálogo já filtrado. No topo, o caminho clicável (`Botões → Botão Flutuante`) leva ao catálogo do tipo;
+  - a barra de filtros continua à esquerda: mexer num filtro ou buscar leva para o catálogo já filtrado. No topo, o caminho clicável (`Botões → Botão Flutuante`) leva ao catálogo do tipo;
   - preview num iframe, com as variações em abas, tamanhos de tela (celular, tablet, notebook, desktop: os breakpoints respondem de verdade) e fundo pontilhado;
   - playground para mexer nas props ao vivo;
   - tabela de props gerada dos tipos TypeScript;
@@ -46,9 +49,10 @@ src/
     stories.tsx          formato das variações (defineStories)
     props.ts             leitura das props pelos tipos TypeScript
     categories.ts        tipos disponíveis e a ordem das seções
-  showcase/              UI da vitrine (catálogo, preview, playground, tema)
+  showcase/              UI da vitrine (landing, catálogo, preview, playground, tema)
   app/
-    (vitrine)/           catálogo, /components/[slug] e /fundamentos
+    page.tsx             a landing (/)
+    (vitrine)/           /componentes, /components/[slug], /comparar e /gradientes
     preview/[slug]/      a página que vai dentro do iframe de preview
 scripts/
   gerar-registro.mjs     monta o registro a partir das pastas de src/library
@@ -130,14 +134,6 @@ Um tema é um conjunto de valores (`ThemeValues` em `src/themes/tokens.ts`): as 
 
 Uma cor só (`"page": "#ffffff"`) vale para os dois modos. Campos que faltarem continuam como no tema atual. Os tokens de cor e as faixas de cada número estão no prompt do botão "Copiar prompt para IA".
 
-## Origem dos componentes
+## Licença
 
-| Projeto      | Origem                                      | Componentes |
-| ------------ | ------------------------------------------- | ----------- |
-| `acktalabs`  | `AcktaLabs1/acktalabstask/frontend` (app)    | 20          |
-| `nexco`      | `SiteNexcoBioform/site_nexcobioformula` (site) | 16        |
-| `climatempo` | `webscreaping-climatempo/dashboard`         | 15          |
-| `component-vault` | criado aqui (a barra de filtros do catálogo) | 1      |
-| `heroui`     | documentação do Button do HeroUI v3 e do shadcn/ui (recriado, sem dependências) | 1 |
-
-Os componentes vieram genéricos: o que era do domínio (textos, rotas, APIs, stores) virou props, as cores viraram tokens do tema, e as dependências dos projetos (GSAP, lucide-react, recharts, sonner, dnd-kit, react-hook-form, react-imask) foram trocadas por código próprio. O Campo de Formulário junta o melhor dos dois projetos.
+[MIT](LICENSE).
