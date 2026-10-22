@@ -25,7 +25,7 @@ export function VitrineHeader() {
             onChange={(valor) => {
               setQuery(valor);
               // Buscar a partir da página de um componente leva para o catálogo
-              if (pathname !== "/" && valor.trim()) router.push("/");
+              if (pathname !== "/componentes" && valor.trim()) router.push("/componentes");
             }}
             placeholder="Buscar por nome, tema, projeto..."
             aria-label="Buscar componentes"

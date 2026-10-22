@@ -63,15 +63,15 @@ export function useFiltrosDaUrl() {
       else params.delete(key);
     }
     const qs = params.toString();
-    const destino = qs ? `/?${qs}` : "/";
+    const destino = qs ? `/componentes?${qs}` : "/componentes";
     // No catálogo só troca a URL; vindo de outra página, é uma navegação de verdade
-    if (pathname === "/") router.replace(destino, { scroll: false });
+    if (pathname === "/componentes") router.replace(destino, { scroll: false });
     else router.push(destino);
   }
 
   function clearFilters() {
     setQuery("");
-    router.replace("/", { scroll: false });
+    router.replace("/componentes", { scroll: false });
   }
 
   return { category, tags, sources, setParams, clearFilters };
@@ -105,7 +105,7 @@ function useTopoDaLinha(ativo: boolean) {
 function BarraDoCatalogo({ topo }: { topo: number }) {
   const pathname = usePathname();
   const { category, tags, sources, setParams } = useFiltrosDaUrl();
-  const noCatalogo = pathname === "/";
+  const noCatalogo = pathname === "/componentes";
 
   return (
     // Usa o tema escolhido no cabeçalho; "contents" não cria caixa nova, então o sticky

@@ -102,7 +102,7 @@ async function ComponentDetails({ params }: { params: Params }) {
           <TrilhaDeNavegacao
             componenteDeLink={Link}
             itens={[
-              { rotulo: categories[component.category], href: `/?tipo=${component.category}` },
+              { rotulo: categories[component.category], href: `/componentes?tipo=${component.category}` },
               { rotulo: component.name, href: `/components/${component.slug}` },
             ]}
           />
@@ -114,7 +114,7 @@ async function ComponentDetails({ params }: { params: Params }) {
               <span className="text-zinc-500">
                 extraído de{" "}
                 <Link
-                  href={`/?projeto=${encodeURIComponent(component.source)}`}
+                  href={`/componentes?projeto=${encodeURIComponent(component.source)}`}
                   className="font-medium text-zinc-700 underline-offset-4 hover:underline dark:text-zinc-300"
                 >
                   {component.source}
@@ -128,7 +128,7 @@ async function ComponentDetails({ params }: { params: Params }) {
             {component.tags.map((tag) => (
               <li key={tag}>
                 <Link
-                  href={`/?tema=${encodeURIComponent(tag)}`}
+                  href={`/componentes?tema=${encodeURIComponent(tag)}`}
                   className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
                 >
                   {tag}

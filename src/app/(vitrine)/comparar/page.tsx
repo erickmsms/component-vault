@@ -27,7 +27,7 @@ async function Comparacao({ searchParams }: { searchParams: PageProps<"/comparar
   return (
     <div className="space-y-6">
       <div data-theme={THEME_ATTR}>
-        <TrilhaDeNavegacao componenteDeLink={Link} itens={[{ rotulo: "Catálogo", href: "/" }, { rotulo: "Comparar", href: "/comparar" }]} />
+        <TrilhaDeNavegacao componenteDeLink={Link} itens={[{ rotulo: "Catálogo", href: "/componentes" }, { rotulo: "Comparar", href: "/comparar" }]} />
       </div>
 
       {componentes.length < 2 ? (
