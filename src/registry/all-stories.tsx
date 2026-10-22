@@ -56,6 +56,7 @@ import seletorDeCor from "@/library/seletor-de-cor/stories";
 import seletorDePeriodo from "@/library/seletor-de-periodo/stories";
 import seletorMultiplo from "@/library/seletor-multiplo/stories";
 import seletorUnico from "@/library/seletor-unico/stories";
+import superficie3d from "@/library/superficie-3d/stories";
 import tabelaDados from "@/library/tabela-dados/stories";
 import textoAceso from "@/library/texto-aceso/stories";
 import textoCircular from "@/library/texto-circular/stories";
@@ -131,6 +132,7 @@ export const allStories: Record<string, StoriesModule> = {
   "seletor-de-periodo": seletorDePeriodo,
   "seletor-multiplo": seletorMultiplo,
   "seletor-unico": seletorUnico,
+  "superficie-3d": superficie3d,
   "tabela-dados": tabelaDados,
   "texto-aceso": textoAceso,
   "texto-circular": textoCircular,

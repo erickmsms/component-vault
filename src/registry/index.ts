@@ -56,6 +56,7 @@ import { meta as seletorDeCor } from "@/library/seletor-de-cor/meta";
 import { meta as seletorDePeriodo } from "@/library/seletor-de-periodo/meta";
 import { meta as seletorMultiplo } from "@/library/seletor-multiplo/meta";
 import { meta as seletorUnico } from "@/library/seletor-unico/meta";
+import { meta as superficie3d } from "@/library/superficie-3d/meta";
 import { meta as tabelaDados } from "@/library/tabela-dados/meta";
 import { meta as textoAceso } from "@/library/texto-aceso/meta";
 import { meta as textoCircular } from "@/library/texto-circular/meta";
@@ -130,6 +131,7 @@ export const registry: ComponentMeta[] = [
   seletorDePeriodo,
   seletorMultiplo,
   seletorUnico,
+  superficie3d,
   tabelaDados,
   textoAceso,
   textoCircular,
