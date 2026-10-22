@@ -7,7 +7,7 @@ const ORDENS = ["Mais recentes", "Mais vendidos", "Menor preço", "Maior preço"
 function Exemplo({ rotulo, largura }: { rotulo: string; largura: string }) {
   const [ordem, setOrdem] = useState(ORDENS[0]);
   return (
-    <div className="flex min-h-64 items-start justify-center">
+    <div className="flex min-h-64 items-start justify-center in-data-miniatura:min-h-0">
       <MenuSuspenso rotulo={rotulo} resumo={ordem} larguraDoPainel={largura}>
         {(fechar) => (
           <ul className="py-1">

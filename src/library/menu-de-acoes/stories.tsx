@@ -103,7 +103,7 @@ function ExemploDeAcoes({
   const [ultima, setUltima] = useState<string | null>(null);
   return (
     <div
-      className={`flex min-h-80 w-full max-w-md flex-col gap-4 ${alinhamento === "fim" ? "items-end" : "items-start"}`}
+      className={`flex min-h-80 w-full max-w-md flex-col gap-4 in-data-miniatura:min-h-0 in-data-miniatura:items-center ${alinhamento === "fim" ? "items-end" : "items-start"}`}
     >
       <MenuDeAcoes
         gatilho={rotulo}

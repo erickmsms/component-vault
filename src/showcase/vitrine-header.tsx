@@ -39,7 +39,7 @@ export function VitrineHeader() {
             title="Gerador de gradientes"
             className="flex size-11 items-center justify-center rounded-full border border-axis/50 bg-page outline-accent hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2"
           >
-            <span aria-hidden="true" className="size-5 rounded-md bg-linear-135 from-indigo-500 to-pink-500" />
+            <span aria-hidden="true" className="size-5 rounded-full bg-linear-135 from-indigo-500 to-pink-500" />
           </Link>
           <ThemeControls />
         </div>
