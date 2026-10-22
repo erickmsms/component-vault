@@ -7,7 +7,7 @@ const biblioteca = path.resolve(import.meta.dirname, "..", "src", "library");
 
 // Tipos cujo componente é um bloco de tela e pode ter largura fixa de miniatura.
 // Nos demais (botões, campos, avisos...) a miniatura se ajusta sozinha.
-const COM_LARGURA = new Set(["sections", "pages", "layout", "navigation", "charts", "data-display"]);
+const COM_LARGURA = new Set(["sections", "pages", "layout", "navigation", "charts", "dataviz", "data-display"]);
 const LARGURA_MIN = 600;
 const LARGURA_MAX = 1400;
 

@@ -5,6 +5,7 @@ export const categories = {
   feedback: "Feedback",
   "data-display": "Exibição de dados",
   charts: "Gráficos",
+  dataviz: "DataViz",
   navigation: "Navegação",
   layout: "Layout",
   sections: "Seções",

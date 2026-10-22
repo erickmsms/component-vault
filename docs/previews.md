@@ -17,7 +17,7 @@ Não existe zoom manual: o campo `thumbnailZoom` foi removido.
 
 Só para blocos de tela, que dependem de breakpoints da janela (e não do card): renderiza nessa largura, como numa tela larga, e reduz para caber.
 
-- Vale para os tipos `sections`, `pages`, `layout`, `navigation`, `charts` e `data-display`.
+- Vale para os tipos `sections`, `pages`, `layout`, `navigation`, `charts`, `dataviz` e `data-display`.
 - Valor entre 600 e 1400.
 - Em botões, campos, avisos, overlays e afins, **não use**: o ajuste automático já resolve.
 
