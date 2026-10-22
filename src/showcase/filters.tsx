@@ -42,7 +42,7 @@ export function useBusca() {
 
 /**
  * Os filtros do catálogo, guardados na URL para dar pra compartilhar:
- * /?tipo=forms&tema=dropdown,kpi&projeto=nexco. Mudar um filtro fora do catálogo
+ * /?tipo=forms&tema=dropdown,kpi&projeto=component-vault. Mudar um filtro fora do catálogo
  * (na página de um componente) leva para o catálogo já filtrado.
  */
 export function useFiltrosDaUrl() {

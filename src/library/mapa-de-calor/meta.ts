@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Grade de linhas × colunas (como dias da semana × horas) com a cor de cada célula pela intensidade do valor, balão com o valor ao passar o mouse ou focar, legenda do menor ao maior e células sem dado. Navegável pelas setas do teclado.",
   category: "charts",
   tags: ["heatmap", "grade", "intensidade", "dashboard", "acessibilidade"],
-  source: "acktalabs",
+  source: "component-vault",
 };

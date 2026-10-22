@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Campo de dinheiro que formata enquanto se digita (Intl, qualquer moeda e localidade) e guarda o número. Com um valor calculado de referência, oferece restaurá-lo quando a pessoa o substitui.",
   category: "forms",
   tags: ["moeda", "dinheiro", "máscara", "input"],
-  source: "acktalabs",
+  source: "component-vault",
 };

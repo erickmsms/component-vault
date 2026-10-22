@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Campo de busca com lupa, botão de limpar, Esc para apagar e atalho Ctrl+K (⌘K no Mac) para focar de qualquer lugar da página. É a busca do topo da vitrine.",
   category: "forms",
   tags: ["busca", "input", "atalho", "acessibilidade"],
-  source: "nexco",
+  source: "component-vault",
 };

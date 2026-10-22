@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Pilha de títulos grandes em que só um fica aceso: o mais perto do centro da tela ao rolar, ou o que recebe mouse, foco ou clique. O aceso abre a descrição e uma ação opcional.",
   category: "sections",
   tags: ["lista", "scroll", "destaque", "editorial", "interação"],
-  source: "nexco",
+  source: "component-vault",
   previewHeight: 600,
 };

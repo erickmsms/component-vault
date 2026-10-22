@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Cartão de indicador com número grande, explicação opcional, ícone, variação contra o período anterior (com cor pelo sentido bom ou ruim) e mini gráfico de tendência em área, linha ou barras. Exporta também o Sparkline e o IndicadorDeVariacao avulsos.",
   category: "data-display",
   tags: ["kpi", "indicador", "sparkline", "variação", "dashboard"],
-  source: "acktalabs",
+  source: "component-vault",
 };

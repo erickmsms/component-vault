@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Abertura de página em duas colunas: link de voltar, chapéu, título grande, resumo e chamada de um lado; imagem ou mídia de cantos bem arredondados do outro. Empilha no celular.",
   category: "sections",
   tags: ["hero", "manchete", "imagem", "página interna"],
-  source: "nexco",
+  source: "component-vault",
   thumbnailWidth: 1100,
 };

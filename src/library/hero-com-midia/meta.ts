@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Abertura de página sobre vídeo, imagem ou fundo próprio. A mídia se revela por faixas que recuam para as bordas e o título entra palavra por palavra, tudo em CSS (sem piscar antes da hidratação). Véu e texto ficam legíveis nos modos claro e escuro.",
   category: "sections",
   tags: ["hero", "vídeo", "animação", "landing page"],
-  source: "nexco",
+  source: "component-vault",
   thumbnailWidth: 1200,
 };

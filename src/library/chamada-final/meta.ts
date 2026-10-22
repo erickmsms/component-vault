@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Painel largo e bem arredondado para fechar a página: convite em letras grandes, texto de apoio e até dois botões. Sobe e aparece ao entrar na tela. Tons de destaque, escuro e superfície, legíveis nos dois modos.",
   category: "sections",
   tags: ["cta", "landing page", "animação"],
-  source: "nexco",
+  source: "component-vault",
   thumbnailWidth: 1100,
 };

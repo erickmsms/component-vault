@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Gráfico de linhas por dia em SVG puro, sem biblioteca: escala automática, legenda, valores do dia com o mouse ou as setas do teclado e anotações.",
   category: "charts",
   tags: ["svg", "série temporal", "interativo", "acessibilidade", "sem dependências"],
-  source: "climatempo",
+  source: "component-vault",
 };

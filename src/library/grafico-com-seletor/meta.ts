@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Seção com gráfico de linhas e um seletor para trocar a métrica exibida, com um painel opcional ao lado (por exemplo, um resumo com números).",
   category: "charts",
   tags: ["gráfico de linhas", "seletor", "interativo"],
-  source: "climatempo",
+  source: "component-vault",
   thumbnailWidth: 1100,
 };

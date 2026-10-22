@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Abertura de página com chapéu, manchete grande e linha fina. Para relatórios, landing pages e páginas editoriais.",
   category: "sections",
   tags: ["hero", "manchete", "tipografia"],
-  source: "climatempo",
+  source: "component-vault",
   thumbnailWidth: 1100,
 };

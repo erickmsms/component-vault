@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Revelar faz o conteúdo subir e aparecer ao entrar na tela. Movimento.tsx traz o que as animações da biblioteca compartilham: useSemMovimento (respeita “reduzir movimento”), useEmTela e o ProvedorDeMovimento, que desliga as animações de um trecho.",
   category: "animation",
   tags: ["animação", "scroll", "acessibilidade", "sem dependências"],
-  source: "nexco",
+  source: "component-vault",
   previewHeight: 520,
 };

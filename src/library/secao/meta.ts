@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Seção de página com título em fonte display e tooltip opcional ao lado do título.",
   category: "layout",
   tags: ["título", "tooltip"],
-  source: "climatempo",
+  source: "component-vault",
 };

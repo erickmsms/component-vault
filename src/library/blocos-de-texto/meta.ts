@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Blocos de texto lado a lado num fundo destacado, cada um com título: método e limitações, perguntas frequentes, notas. As colunas se ajustam à largura.",
   category: "sections",
   tags: ["texto", "colunas", "notas"],
-  source: "climatempo",
+  source: "component-vault",
   thumbnailWidth: 1000,
 };

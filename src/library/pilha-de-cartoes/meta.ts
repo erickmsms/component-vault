@@ -7,7 +7,7 @@ export const meta: ComponentMeta = {
     "Cartões que grudam no topo ao rolar: o seguinte sobe por cima e o de baixo recua, encolhendo e perdendo opacidade. Feito com position: sticky e um cálculo por quadro, sem bibliotecas; em telas pequenas vira uma lista simples.",
   category: "sections",
   tags: ["cartões", "scroll", "sticky", "animação", "serviços"],
-  source: "nexco",
+  source: "component-vault",
   previewHeight: 640,
   thumbnailWidth: 1000,
 };

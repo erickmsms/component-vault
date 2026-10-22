@@ -7,6 +7,6 @@ export const meta: ComponentMeta = {
     "Os números que resumem a página, grandes e lado a lado com divisórias. Uma coluna por número em telas largas.",
   category: "data-display",
   tags: ["kpi", "destaque", "tipografia"],
-  source: "climatempo",
+  source: "component-vault",
   thumbnailWidth: 1100,
 };

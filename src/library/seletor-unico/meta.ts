@@ -7,5 +7,5 @@ export const meta: ComponentMeta = {
     "Seleção de uma opção num menu suspenso: mostra a escolhida no botão e fecha ao escolher outra.",
   category: "forms",
   tags: ["dropdown", "radio"],
-  source: "climatempo",
+  source: "component-vault",
 };
