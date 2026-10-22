@@ -2,6 +2,7 @@
   "name": "component-vault",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "registro": "node scripts/gerar-registro.mjs",
     "predev": "node scripts/gerar-registro.mjs",
