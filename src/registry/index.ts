@@ -57,6 +57,7 @@ import { meta as tabelaDados } from "@/library/tabela-dados/meta";
 import { meta as textoAceso } from "@/library/texto-aceso/meta";
 import { meta as textoCircular } from "@/library/texto-circular/meta";
 import { meta as textoContornado } from "@/library/texto-contornado/meta";
+import { meta as textoDeParticulas } from "@/library/texto-de-particulas/meta";
 import { meta as textoDesfocado } from "@/library/texto-desfocado/meta";
 import { meta as textoDigitado } from "@/library/texto-digitado/meta";
 import { meta as textoDistorcido } from "@/library/texto-distorcido/meta";
@@ -127,6 +128,7 @@ export const registry: ComponentMeta[] = [
   textoAceso,
   textoCircular,
   textoContornado,
+  textoDeParticulas,
   textoDesfocado,
   textoDigitado,
   textoDistorcido,

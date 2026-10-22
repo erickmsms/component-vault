@@ -57,6 +57,7 @@ import tabelaDados from "@/library/tabela-dados/stories";
 import textoAceso from "@/library/texto-aceso/stories";
 import textoCircular from "@/library/texto-circular/stories";
 import textoContornado from "@/library/texto-contornado/stories";
+import textoDeParticulas from "@/library/texto-de-particulas/stories";
 import textoDesfocado from "@/library/texto-desfocado/stories";
 import textoDigitado from "@/library/texto-digitado/stories";
 import textoDistorcido from "@/library/texto-distorcido/stories";
@@ -128,6 +129,7 @@ export const allStories: Record<string, StoriesModule> = {
   "texto-aceso": textoAceso,
   "texto-circular": textoCircular,
   "texto-contornado": textoContornado,
+  "texto-de-particulas": textoDeParticulas,
   "texto-desfocado": textoDesfocado,
   "texto-digitado": textoDigitado,
   "texto-distorcido": textoDistorcido,
