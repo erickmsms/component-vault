@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Inter_Tight } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,10 @@ const interTight = Inter_Tight({ subsets: ["latin"], weight: ["400", "700", "800
 const REPO = "https://github.com/erickmsms/component-vault";
 const CATALOGO = "/componentes";
 const DURACAO_MS = 700;
+// Grade em que o bloco vermelho se desfaz ao ser clicado
+const COLUNAS = 8;
+const LINHAS = 6;
+const ABERTURA_MS = 550;
 
 const SELOS = ["Sem login", "Open source", "Aberto a contribuições"];
 
@@ -24,13 +28,18 @@ export function Landing() {
   // Com cacheComponents a página fica guardada ao sair; zera a animação para o "voltar" mostrar a tela inteira
   useEffect(() => () => setSaindo(false), []);
 
+  /** Desliza a tela para cima e abre o catálogo; `antes` é o tempo de outra animação que roda primeiro. */
+  function descer(antes = 0) {
+    setTimeout(() => setSaindo(true), antes);
+    setTimeout(() => router.push(CATALOGO), antes + DURACAO_MS);
+  }
+
   function irParaCatalogo(e: React.MouseEvent<HTMLAnchorElement>) {
     // Ctrl/Cmd + clique abre em outra aba normalmente
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return router.push(CATALOGO);
-    setSaindo(true);
-    setTimeout(() => router.push(CATALOGO), DURACAO_MS);
+    if (semMovimento()) return router.push(CATALOGO);
+    descer();
   }
 
   return (
@@ -64,16 +73,18 @@ export function Landing() {
         </div>
       </div>
 
-      <div
-        aria-hidden="true"
-        className="relative hidden min-h-80 md:col-span-5 md:col-start-8 md:block"
-        style={{ background: "radial-gradient(120% 120% at 100% 100%, #3B0A2A 0%, #E5231B 55%, #FF5A36 100%)" }}
-      >
-        <div className="absolute inset-x-6 bottom-6 flex items-end justify-between font-mono text-xs text-white">
-          <span>■ {registry.length} componentes</span>
-          <span>open source</span>
-        </div>
-      </div>
+      <BlocoCofre
+        onAbrir={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return false;
+          e.preventDefault();
+          if (semMovimento()) {
+            router.push(CATALOGO);
+            return false;
+          }
+          descer(ABERTURA_MS);
+          return true;
+        }}
+      />
 
       <div className="flex flex-wrap items-center justify-between gap-6 border-t border-[#3A3A3A] pt-5 md:col-span-12">
         <ul className="flex flex-wrap gap-x-10 gap-y-2 text-[15px]">
@@ -100,5 +111,83 @@ export function Landing() {
         </div>
       </div>
     </section>
+  );
+}
+
+function semMovimento() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/**
+ * O bloco vermelho: o ponto claro do gradiente segue o mouse, e ao clicar o bloco se desfaz
+ * numa grade de quadrados (como o do logo) antes de descer para o catálogo.
+ */
+function BlocoCofre({ onAbrir }: { onAbrir: (e: React.MouseEvent<HTMLAnchorElement>) => boolean }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const alvo = useRef({ x: 0, y: 0 });
+  const [abrindo, setAbrindo] = useState(false);
+
+  // Zera ao sair da página (cacheComponents guarda o estado para o "voltar")
+  useEffect(() => () => setAbrindo(false), []);
+
+  // Anima o ponto claro em direção ao alvo, sem re-renderizar o React
+  useEffect(() => {
+    const bloco = ref.current;
+    if (!bloco || semMovimento()) return;
+    const atual = { x: 0, y: 0 };
+    let quadro = 0;
+    const passo = () => {
+      atual.x += (alvo.current.x - atual.x) * 0.08;
+      atual.y += (alvo.current.y - atual.y) * 0.08;
+      bloco.style.setProperty("--x", `${atual.x}%`);
+      bloco.style.setProperty("--y", `${atual.y}%`);
+      quadro = requestAnimationFrame(passo);
+    };
+    quadro = requestAnimationFrame(passo);
+    return () => cancelAnimationFrame(quadro);
+  }, []);
+
+  function mover(e: React.PointerEvent<HTMLAnchorElement>) {
+    const caixa = e.currentTarget.getBoundingClientRect();
+    alvo.current = {
+      x: ((e.clientX - caixa.left) / caixa.width) * 100,
+      y: ((e.clientY - caixa.top) / caixa.height) * 100,
+    };
+  }
+
+  return (
+    <Link
+      ref={ref}
+      href={CATALOGO}
+      aria-label="Ver componentes"
+      onPointerMove={mover}
+      onPointerLeave={() => (alvo.current = { x: 0, y: 0 })}
+      onClick={(e) => {
+        if (onAbrir(e)) setAbrindo(true);
+      }}
+      className="relative hidden min-h-80 cursor-pointer overflow-hidden outline-offset-4 outline-[#F5F5F4] focus-visible:outline-2 md:col-span-5 md:col-start-8 md:block"
+      style={{
+        background:
+          // Luz que segue o mouse por cima do gradiente original (parada no canto já laranja)
+          "radial-gradient(60% 60% at var(--x, 0%) var(--y, 0%), rgb(255 90 54 / 0.7), transparent), radial-gradient(120% 120% at 100% 100%, #3B0A2A 0%, #E5231B 55%, #FF5A36 100%)",
+      }}
+    >
+      <span aria-hidden="true" className="absolute inset-x-6 bottom-6 flex items-end justify-between font-mono text-xs text-white">
+        <span>■ {registry.length} componentes</span>
+        <span>open source</span>
+      </span>
+      <span aria-hidden="true" className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${COLUNAS}, 1fr)` }}>
+        {Array.from({ length: COLUNAS * LINHAS }, (_, i) => {
+          const atraso = ((i % COLUNAS) + Math.floor(i / COLUNAS)) * (ABERTURA_MS / (COLUNAS + LINHAS));
+          return (
+            <span
+              key={i}
+              className={`bg-[#0A0A0A] transition-transform duration-300 ease-out ${abrindo ? "scale-100" : "scale-0"}`}
+              style={{ transitionDelay: abrindo ? `${atraso}ms` : "0ms" }}
+            />
+          );
+        })}
+      </span>
+    </Link>
   );
 }
