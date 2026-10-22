@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Botao as BotaoDaBiblioteca } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { EstadoVazio, type VarianteDeEstadoVazio } from "./EstadoVazio";
 
@@ -74,13 +75,10 @@ function Botao({
   icone?: ReactNode;
   children: ReactNode;
 }) {
-  const cores = variante === "primaria" ? "bg-ink text-page" : "border border-rule text-ink hover:bg-surface";
-  const medidas = tamanho === "sm" ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm";
   return (
-    <button type="button" className={`inline-flex items-center gap-2 rounded-lg font-medium transition-colors ${cores} ${medidas}`}>
-      {icone}
+    <BotaoDaBiblioteca variante={variante === "primaria" ? "primario" : "contorno"} tamanho={tamanho} icone={icone}>
       {children}
-    </button>
+    </BotaoDaBiblioteca>
   );
 }
 

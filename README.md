@@ -68,6 +68,7 @@ Só componentes **genéricos**, que servem em qualquer projeto:
 - Valores para exibir chegam já formatados (`valor: "R$ 48 mil"`), ou o componente aceita uma função de formatação (`formatarValor`, `formatar`).
 - Nenhum import de fora da biblioteca, além de React. Um componente pode usar outros da biblioteca (`@/library/<slug>/<Arquivo>`).
 - Estilo só por classes comuns do Tailwind e pelos tokens de cor do tema (`bg-page`, `text-ink`, `border-rule`, `var(--series-1)`...). Nada de valores fixos como `text-[13px]` ou `#hex`: o tema controla tamanhos de texto, espaçamento e raios redefinindo as variáveis que o Tailwind usa (`--text-*`, `--spacing`, `--radius-*`). Para sombras flutuantes, use `shadow-flutuante`.
+- Botões de ação usam o `Botao` da biblioteca (`@/library/botao/Botao`), não um `<button>` próprio. Para o raio ficar concêntrico ao contêiner, defina `--raio-do-botao` nele, como em `[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))]` (raio de fora menos a distância até a borda); sem isso, vale `--radius-lg`.
 - Comente as props com `/** */`: o comentário vira a descrição na tabela de props.
 - Sem dependências de animação: CSS, IntersectionObserver e rolagem nativa. Use `src/library/revelar/Movimento.tsx`: `useSemMovimento()` (respeita "reduzir movimento" do sistema e o `ProvedorDeMovimento`), `useEmTela()` e `CURVA_SUAVE`. Com movimento desligado, o componente aparece direto no estado final (as miniaturas do catálogo usam isso).
 - Ícones em SVG inline; quando o ícone é escolha de quem usa, vira prop `ReactNode`.

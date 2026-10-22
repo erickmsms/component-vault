@@ -1,14 +1,12 @@
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { ListaEmFoco, type ItemEmFoco } from "./ListaEmFoco";
 
 function Acao({ children }: { children: string }) {
   return (
-    <button
-      type="button"
-      className="inline-flex h-11 items-center rounded-full bg-accent px-6 text-sm font-medium text-page outline-accent transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
+    <Botao tamanho="lg" arredondado>
       {children}
-    </button>
+    </Botao>
   );
 }
 

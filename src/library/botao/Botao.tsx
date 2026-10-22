@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode, Ref } from "react";
 
 const VARIANTES = {
   primario: "border-transparent bg-accent text-page hover:bg-accent/90",
@@ -9,6 +9,9 @@ const VARIANTES = {
   perigo: "border-transparent bg-critical text-page hover:bg-critical/90",
   "perigo-suave": "border-transparent bg-critical/10 text-critical hover:bg-critical/20",
   link: "border-transparent text-accent underline-offset-4 hover:underline",
+  // Ações de apoio (ícones numa linha, fechar): apagadas até o hover
+  discreto: "border-transparent text-muted hover:bg-ink/10 hover:text-ink",
+  "discreto-perigo": "border-transparent text-muted hover:bg-critical/10 hover:text-critical",
 } as const;
 
 const TAMANHOS = {
@@ -42,13 +45,14 @@ export function classesDoBotao({
   arredondado = false,
 }: OpcoesDeEstilo = {}) {
   // O link é só texto: sem altura fixa nem espaçamento (a não ser que seja só ícone)
-  const medidas = soIcone ? TAMANHOS[tamanho].quadrado : variante === "link" ? "text-sm" : TAMANHOS[tamanho].caixa;
+  const medidas = soIcone ? TAMANHOS[tamanho].quadrado : variante === "link" ? (tamanho === "xs" ? "text-xs" : "text-sm") : TAMANHOS[tamanho].caixa;
   return [
     "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 border font-medium whitespace-nowrap select-none",
     "outline-accent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:active:scale-[0.97]",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:cursor-progress",
     "[&_svg]:size-4 [&_svg]:shrink-0",
-    arredondado ? "rounded-full" : "rounded-lg",
+    // Quem envolve o botão pode definir --raio-do-botao para deixá-lo concêntrico ao próprio raio
+    arredondado ? "rounded-full" : "rounded-[var(--raio-do-botao,var(--radius-lg))]",
     VARIANTES[variante],
     medidas,
     larguraTotal ? "w-full" : "",
@@ -68,6 +72,8 @@ function Girando() {
 
 export type BotaoProps = OpcoesDeEstilo &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> & {
+    /** Ref do elemento (útil para gatilhos de menus e popovers). */
+    ref?: Ref<HTMLButtonElement>;
     /** Com `href`, vira um link (`<a>`) com o visual de botão. */
     href?: string;
     /** Abre o link em nova aba (com rel="noopener noreferrer"). Só vale com `href`. */
@@ -85,8 +91,8 @@ export type BotaoProps = OpcoesDeEstilo &
   };
 
 /**
- * Botão com oito variantes (primário, secundário, terciário, contorno, fantasma, perigo,
- * perigo suave e link), quatro tamanhos, formato arredondado, versão só com ícone e estado de carregamento. Com `href`
+ * Botão com dez variantes (primário, secundário, terciário, contorno, fantasma, perigo,
+ * perigo suave, link, discreto e discreto de perigo), quatro tamanhos, formato arredondado, versão só com ícone e estado de carregamento. Com `href`
  * vira link. Quando só há ícone, passe `aria-label`.
  */
 export function Botao({

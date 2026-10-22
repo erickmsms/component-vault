@@ -1,3 +1,4 @@
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { Acordeao, type ItemDoAcordeao } from "./Acordeao";
 
@@ -54,17 +55,16 @@ const PEDIDOS: ItemDoAcordeao[] = [
 ];
 
 // Botão no lado direito do cartão (rounded-2xl, a 4 unidades da borda): o raio acompanha o do cartão
-const BOTAO =
-  "inline-flex min-h-9 cursor-pointer items-center rounded-[max(var(--radius-sm),calc(var(--radius-2xl)_-_var(--spacing)*4))] border border-rule bg-page px-3 text-xs font-medium text-ink outline-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2";
+const RAIO = "[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-2xl)_-_var(--spacing)*4))]";
 
 const VERSOES: ItemDoAcordeao[] = [
   {
     titulo: "21/10/2026, 09:42",
     subtitulo: "por Marina Lopes · ajuste do frete",
     extra: (
-      <button type="button" className={BOTAO}>
+      <Botao variante="contorno" tamanho="sm" className={RAIO}>
         Restaurar
-      </button>
+      </Botao>
     ),
     conteudo: <p>Frete por região: Sul passa de 8% para 9,5% do subtotal.</p>,
   },
@@ -72,9 +72,9 @@ const VERSOES: ItemDoAcordeao[] = [
     titulo: "02/10/2026, 17:15",
     subtitulo: "por Rafael Dias",
     extra: (
-      <button type="button" className={BOTAO}>
+      <Botao variante="contorno" tamanho="sm" className={RAIO}>
         Restaurar
-      </button>
+      </Botao>
     ),
     conteudo: <p>Desconto progressivo a partir de 50 unidades.</p>,
   },

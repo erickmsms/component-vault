@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useId, type ReactNode } from "react";
 import { BarraDeBusca } from "@/library/barra-de-busca/BarraDeBusca";
 import { SeletorMultiplo, type OpcaoDoSeletor, type TextosDoSeletor } from "@/library/seletor-multiplo/SeletorMultiplo";
@@ -209,13 +210,9 @@ export function FiltrosAtivos({
         </button>
       ))}
       {aoLimparTudo && filtros.length >= minimoParaLimpar && (
-        <button
-          type="button"
-          onClick={aoLimparTudo}
-          className="rounded-sm px-1 text-xs font-medium text-muted underline-offset-4 outline-accent hover:text-ink hover:underline focus-visible:outline-2"
-        >
+        <Botao variante="link" tamanho="xs" onClick={aoLimparTudo}>
           {rotuloLimpar}
-        </button>
+        </Botao>
       )}
     </div>
   );

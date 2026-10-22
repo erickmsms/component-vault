@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useId, useMemo, useRef, type ChangeEvent } from "react";
 
 /** Até 15 dígitos (centavos incluídos): fica dentro da precisão exata de um number. */
@@ -88,21 +89,22 @@ export function CampoDeMoeda({
           <span className="sr-only"> ({formato.simbolo})</span>
         </label>
         {valorCalculado !== undefined && editado && !desativado && (
-          <button
-            type="button"
+          <Botao
+            variante="link"
+            tamanho="xs"
             onClick={() => {
               aoMudar(valorCalculado ?? null);
               // O botão some depois de restaurar: o foco vai para o campo em vez de se perder
               campo.current?.focus();
             }}
-            className="inline-flex cursor-pointer items-center gap-1 rounded-sm text-xs font-medium text-ink-2 outline-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2"
+
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
               <path d="M3 3v5h5" />
             </svg>
             {rotuloRestaurar(formato.comMoeda.format(valorCalculado))}
-          </button>
+          </Botao>
         )}
       </div>
       <div

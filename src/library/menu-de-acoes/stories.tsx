@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { MenuDeAcoes, type AcaoDoMenu, type ItemDoMenu } from "./MenuDeAcoes";
 
@@ -55,8 +56,6 @@ const ICONES = {
   ),
 };
 
-const BOTAO_ICONE =
-  "grid size-10 cursor-pointer place-items-center rounded-lg border border-rule bg-page text-ink-2 outline-accent hover:bg-surface hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 aria-expanded:bg-surface aria-expanded:text-ink";
 
 function acoesDeTarefa({
   comIcones,
@@ -165,13 +164,13 @@ function ExemploDeGatilhos() {
           { rotulo: "Exportar planilha", aoEscolher: () => {} },
         ]}
         gatilho={(props) => (
-          <button {...props} aria-label="Mais opções" className={BOTAO_ICONE}>
+          <Botao {...props} variante="contorno" soIcone aria-label="Mais opções" className="aria-expanded:bg-surface">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="currentColor">
               <circle cx="5" cy="12" r="1.8" />
               <circle cx="12" cy="12" r="1.8" />
               <circle cx="19" cy="12" r="1.8" />
             </svg>
-          </button>
+          </Botao>
         )}
       />
       <MenuDeAcoes
@@ -240,13 +239,13 @@ export default defineStories({
               { rotulo: "Exportar planilha", aoEscolher: () => {} },
             ]}
             gatilho={(props) => (
-              <button {...props} aria-label="Mais opções" className={BOTAO_ICONE}>
+              <Botao {...props} variante="contorno" soIcone aria-label="Mais opções" className="aria-expanded:bg-surface">
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="currentColor">
                   <circle cx="5" cy="12" r="1.8" />
                   <circle cx="12" cy="12" r="1.8" />
                   <circle cx="19" cy="12" r="1.8" />
                 </svg>
-              </button>
+              </Botao>
             )}
           />
         </div>

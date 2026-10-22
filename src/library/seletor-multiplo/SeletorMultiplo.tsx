@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useState } from "react";
 import { MenuSuspenso } from "@/library/menu-suspenso/MenuSuspenso";
 
@@ -33,9 +34,6 @@ function resumir(opcoes: OpcaoDoSeletor[], selecionados: string[], textos: Texto
   }
   return `${selecionados.length} de ${opcoes.length}`;
 }
-
-const BOTAO_DE_ACAO =
-  "cursor-pointer rounded-sm px-1 text-sm font-medium text-accent underline-offset-2 outline-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-default disabled:text-muted disabled:no-underline";
 
 /** Para buscar sem diferenciar maiúsculas nem acentos ("ceara" acha "Ceará"). */
 const normalizar = (texto: string) =>
@@ -161,12 +159,12 @@ function PainelDoSeletor({
         </div>
       )}
       <div className="flex items-center justify-between border-b border-rule px-3 py-2">
-        <button type="button" className={BOTAO_DE_ACAO} disabled={visiveis.length === 0 || todasMarcadas} onClick={marcarTodos}>
+        <Botao variante="link" disabled={visiveis.length === 0 || todasMarcadas} onClick={marcarTodos}>
           {textos.marcarTodos}
-        </button>
-        <button type="button" className={BOTAO_DE_ACAO} disabled={visiveis.length === 0 || nenhumaMarcada} onClick={limpar}>
+        </Botao>
+        <Botao variante="link" disabled={visiveis.length === 0 || nenhumaMarcada} onClick={limpar}>
           {textos.limpar}
-        </button>
+        </Botao>
       </div>
       {visiveis.length === 0 ? (
         <p role="status" className="px-3 py-4 text-sm text-muted">

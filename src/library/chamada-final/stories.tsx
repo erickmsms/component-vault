@@ -1,3 +1,4 @@
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { ChamadaFinal, type TomDaChamada } from "./ChamadaFinal";
 
@@ -53,12 +54,10 @@ export default defineStories({
                   placeholder="voce@empresa.com"
                   className="h-12 min-w-0 flex-1 rounded-2xl border border-rule-strong bg-page px-4 text-ink outline-accent placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2"
                 />
-                <button
-                  type="submit"
-                  className="h-12 cursor-pointer rounded-2xl bg-accent px-6 text-sm font-medium text-page outline-accent hover:bg-accent/90 focus-visible:outline-2 focus-visible:outline-offset-2"
-                >
+                {/* Mesmo raio do campo ao lado */}
+                <Botao type="submit" tamanho="lg" className="[--raio-do-botao:var(--radius-2xl)]">
                   Assinar
-                </button>
+                </Botao>
               </form>
             }
           />

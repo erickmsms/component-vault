@@ -80,6 +80,8 @@ const VARIANTES: { variante: VarianteDoBotao; rotulo: string }[] = [
   { variante: "perigo", rotulo: "Perigo" },
   { variante: "perigo-suave", rotulo: "Perigo suave" },
   { variante: "link", rotulo: "Link" },
+  { variante: "discreto", rotulo: "Discreto" },
+  { variante: "discreto-perigo", rotulo: "Discreto de perigo" },
 ];
 
 /** Clica e fica "Enviando..." por dois segundos, como num envio de verdade. */

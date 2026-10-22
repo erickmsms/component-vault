@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { Botao } from "@/library/botao/Botao";
 import { useSemMovimento } from "@/library/revelar/Movimento";
 
 export type ItemDaLista = { id: string; texto: string; feito: boolean };
@@ -43,9 +44,10 @@ const svg = (children: ReactNode) => (
   </svg>
 );
 
-const BOTAO_BASE =
-  "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*6))] text-muted outline-accent focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent";
-const BOTAO_ICONE = `${BOTAO_BASE} hover:bg-surface hover:text-ink`;
+// Raios concêntricos ao cartão da lista (rounded-xl): o botão de adicionar fica a 4 unidades
+// da borda e os de cada item, a 6
+const RAIO_ADICIONAR = "[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))]";
+const RAIO_ITEM = "[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*6))]";
 
 /** Foco a restaurar depois que a lista renderiza de novo (o item mudou de lugar ou saiu). */
 type FocoPendente = { id: string; alvo: "caixa" | "subir" | "descer" | "editar" } | { id: null; alvo: "novo" };
@@ -193,18 +195,19 @@ export function ListaDeTarefas({
             }}
             placeholder={textos.novoItem}
             aria-label={textos.novoItem}
-            className="h-11 min-w-0 flex-1 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] border border-rule bg-page px-3 text-sm text-ink outline-accent placeholder:text-muted focus-visible:outline-2 focus-visible:-outline-offset-1"
+            className="h-12 min-w-0 flex-1 rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] border border-rule bg-page px-3 text-sm text-ink outline-accent placeholder:text-muted focus-visible:outline-2 focus-visible:-outline-offset-1"
           />
-          <button
-            type="button"
+          <Botao
+            soIcone
+            tamanho="lg"
             onClick={adicionar}
             disabled={!novo.trim()}
             aria-label={textos.adicionar}
             title={textos.adicionar}
-            className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))] bg-accent text-page outline-accent hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+            className={RAIO_ADICIONAR}
           >
             {svg(<path d="M12 5v14M5 12h14" />)}
-          </button>
+          </Botao>
         </div>
       )}
 
@@ -277,40 +280,42 @@ export function ListaDeTarefas({
 
                 {/* Com mouse, as ações aparecem no hover/foco; em telas de toque ficam sempre visíveis. */}
                 {!emEdicao && (editavel || reordenavel) && (
-                  <div className="flex shrink-0 items-center gap-0.5 pointer-fine:opacity-0 pointer-fine:group-focus-within:opacity-100 pointer-fine:group-hover:opacity-100">
+                  <div className={`flex shrink-0 items-center gap-0.5 ${RAIO_ITEM} pointer-fine:opacity-0 pointer-fine:group-focus-within:opacity-100 pointer-fine:group-hover:opacity-100`}>
                     {editavel && (
-                      <button type="button" data-foco="editar" onClick={() => comecarEdicao(item)} aria-label={`${textos.editar}: ${item.texto}`} title={textos.editar} className={BOTAO_ICONE}>
+                      <Botao variante="discreto" tamanho="sm" soIcone data-foco="editar" onClick={() => comecarEdicao(item)} aria-label={`${textos.editar}: ${item.texto}`} title={textos.editar}>
                         {svg(<path d="M4 20h4L19 9l-4-4L4 16v4z" />)}
-                      </button>
+                      </Botao>
                     )}
                     {reordenavel && (
                       <>
-                        <button type="button" data-foco="subir" onClick={() => mover(i, -1)} disabled={i === 0} aria-label={`${textos.subir}: ${item.texto}`} title={textos.subir} className={BOTAO_ICONE}>
+                        <Botao variante="discreto" tamanho="sm" soIcone data-foco="subir" onClick={() => mover(i, -1)} disabled={i === 0} aria-label={`${textos.subir}: ${item.texto}`} title={textos.subir}>
                           {svg(<path d="M12 19V5m-6 6 6-6 6 6" />)}
-                        </button>
-                        <button
-                          type="button"
+                        </Botao>
+                        <Botao
+                          variante="discreto"
+                          tamanho="sm"
+                          soIcone
                           data-foco="descer"
                           onClick={() => mover(i, 1)}
                           disabled={i === itens.length - 1}
                           aria-label={`${textos.descer}: ${item.texto}`}
                           title={textos.descer}
-                          className={BOTAO_ICONE}
                         >
                           {svg(<path d="M12 5v14m-6-6 6 6 6-6" />)}
-                        </button>
+                        </Botao>
                       </>
                     )}
                     {editavel && (
-                      <button
-                        type="button"
+                      <Botao
+                        variante="discreto-perigo"
+                        tamanho="sm"
+                        soIcone
                         onClick={() => remover(i)}
                         aria-label={`${textos.remover}: ${item.texto}`}
                         title={textos.remover}
-                        className={`${BOTAO_BASE} hover:bg-critical/10 hover:text-critical`}
                       >
                         {svg(<path d="M6 6l12 12M18 6 6 18" />)}
-                      </button>
+                      </Botao>
                     )}
                   </div>
                 )}

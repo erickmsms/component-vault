@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { EtapasInterativas, type EtapaInterativa } from "./EtapasInterativas";
 
@@ -89,13 +90,13 @@ function ExemploComRepetir(a: Valores) {
         duracaoDaLinha={a.duracaoDaLinha}
         alturaDoPainel={a.alturaDoPainel}
       />
-      <button
-        type="button"
+      <Botao
+        variante="contorno"
+        arredondado
         onClick={() => setVez((v) => v + 1)}
-        className="rounded-full border border-rule-strong px-4 py-2 text-sm font-medium text-ink outline-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         Ver a entrada de novo
-      </button>
+      </Botao>
     </div>
   );
 }

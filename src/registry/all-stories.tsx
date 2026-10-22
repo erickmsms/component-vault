@@ -21,6 +21,7 @@ import campoDeMoeda from "@/library/campo-de-moeda/stories";
 import cartaoKpi from "@/library/cartao-kpi/stories";
 import chamadaFinal from "@/library/chamada-final/stories";
 import contador from "@/library/contador/stories";
+import dialogo from "@/library/dialogo/stories";
 import dica from "@/library/dica/stories";
 import esqueleto from "@/library/esqueleto/stories";
 import estadoVazio from "@/library/estado-vazio/stories";
@@ -82,6 +83,7 @@ export const allStories: Record<string, StoriesModule> = {
   "cartao-kpi": cartaoKpi,
   "chamada-final": chamadaFinal,
   contador,
+  dialogo,
   dica,
   esqueleto,
   "estado-vazio": estadoVazio,

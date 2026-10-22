@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useId, useRef, useState, type DragEvent } from "react";
 import { extensao, MiniaturaDeArquivo } from "./MiniaturaDeArquivo";
 
@@ -252,19 +253,21 @@ export function AreaDeUpload({
             const pct = progresso?.get(arquivo);
             const meta = [extensao(arquivo.name), formatarTamanho(arquivo.size)].filter(Boolean).join(" · ");
             // O botão fica a 3 (grade) ou 4 (lista) unidades da borda do cartão: o raio acompanha essa folga
-            const raioDoBotao = exibicao === "grade" ? "rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))]" : "rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))]";
+            const raioDoBotao = exibicao === "grade" ? "[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*3))]" : "[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*4))]";
             const botaoRemover = (
-              <button
-                type="button"
+              <Botao
+                variante="discreto-perigo"
+                tamanho="sm"
+                soIcone
                 onClick={() => remover(i)}
                 aria-label={mensagens.remover(arquivo.name)}
                 title={mensagens.remover(arquivo.name)}
-                className={`flex size-8 shrink-0 cursor-pointer items-center justify-center ${raioDoBotao} text-muted outline-accent hover:bg-critical/10 hover:text-critical focus-visible:outline-2`}
+                className={raioDoBotao}
               >
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
                   <path d="M6 6l12 12M18 6 6 18" />
                 </svg>
-              </button>
+              </Botao>
             );
             const barra = pct !== undefined && (
               <div className="mt-1.5 flex items-center gap-2">

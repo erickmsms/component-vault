@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { useSemMovimento } from "@/library/revelar/Movimento";
 
@@ -200,33 +201,24 @@ export function Notificacao({
   const estilo = ESTILO[tipo];
   return (
     <div
-      className={`flex w-full items-start gap-3 rounded-lg border border-l-4 border-rule ${estilo.borda} bg-page p-3.5 text-sm text-ink shadow-flutuante`}
+      className={`flex w-full items-start gap-3 rounded-lg border border-l-4 border-rule ${estilo.borda} bg-page p-3.5 [--raio-do-botao:max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3.5))] text-sm text-ink shadow-flutuante`}
     >
       <Icone tipo={tipo} className={`mt-px size-5 shrink-0 ${estilo.cor}`} />
       <div className="min-w-0 flex-1">
         <p className="font-medium">{titulo}</p>
         {descricao && <p className="mt-0.5 text-xs text-ink-2">{descricao}</p>}
         {acao && (
-          <button
-            type="button"
-            onClick={acao.aoClicar}
-            className="mt-2.5 inline-flex min-h-8 cursor-pointer items-center rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3.5))] bg-accent px-3 text-xs font-semibold text-page outline-accent hover:bg-accent/85 focus-visible:outline-2 focus-visible:outline-offset-2"
-          >
+          <Botao tamanho="sm" onClick={acao.aoClicar} className="mt-2.5">
             {acao.rotulo}
-          </button>
+          </Botao>
         )}
       </div>
       {aoFechar && (
-        <button
-          type="button"
-          onClick={aoFechar}
-          aria-label={rotuloFechar}
-          className="-mt-0.5 -mr-0.5 grid size-7 shrink-0 cursor-pointer place-items-center rounded-[max(var(--radius-sm),calc(var(--radius-lg)_-_var(--spacing)*3))] border border-rule text-ink-2 outline-accent transition-colors hover:bg-surface hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1"
-        >
+        <Botao variante="discreto" tamanho="xs" soIcone onClick={aoFechar} aria-label={rotuloFechar} className="-mt-0.5 -mr-0.5">
           <svg aria-hidden="true" viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
             <path d="M6 6l12 12M18 6 6 18" />
           </svg>
-        </button>
+        </Botao>
       )}
     </div>
   );

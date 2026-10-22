@@ -1,3 +1,4 @@
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import {
   fecharNotificacao,
@@ -17,8 +18,6 @@ const EXEMPLOS: Record<TipoDeNotificacao, { titulo: string; descricao: string }>
 
 const ROTULOS: Record<TipoDeNotificacao, string> = { sucesso: "Sucesso", erro: "Erro", aviso: "Aviso", info: "Info" };
 
-const BOTAO =
-  "inline-flex min-h-10 cursor-pointer items-center rounded-lg border border-rule bg-page px-4 text-sm font-medium text-ink outline-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2";
 
 function Exemplo({
   posicao,
@@ -52,13 +51,13 @@ function Exemplo({
     >
       <div className="flex flex-wrap justify-center gap-2 p-5">
         {(Object.keys(EXEMPLOS) as TipoDeNotificacao[]).map((tipo) => (
-          <button key={tipo} type="button" className={BOTAO} onClick={() => disparar(tipo)}>
+          <Botao key={tipo} variante="contorno" onClick={() => disparar(tipo)}>
             {ROTULOS[tipo]}
-          </button>
+          </Botao>
         ))}
-        <button type="button" className={BOTAO} onClick={() => fecharNotificacao()}>
+        <Botao variante="contorno" onClick={() => fecharNotificacao()}>
           Fechar todas
-        </button>
+        </Botao>
       </div>
       <HospedeiroDeNotificacoes posicao={posicao} contido={contido} />
     </div>
@@ -77,9 +76,9 @@ function ExemploPeloId() {
   return (
     <div className="relative min-h-80 w-full max-w-3xl overflow-hidden rounded-2xl border border-dashed border-rule">
       <div className="flex justify-center p-5">
-        <button type="button" className={BOTAO} onClick={salvar}>
+        <Botao onClick={salvar}>
           Salvar
-        </button>
+        </Botao>
       </div>
       <HospedeiroDeNotificacoes contido posicao="inferior-centro" />
     </div>

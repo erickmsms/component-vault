@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useSyncExternalStore } from "react";
 
 export type UnidadeDoPeriodo = "mes" | "semana" | "dia";
@@ -105,8 +106,7 @@ function Seta({ direcao }: { direcao: "esquerda" | "direita" }) {
 }
 
 // As setas ficam a 1 unidade da borda do controle (rounded-xl, p-1): o raio acompanha essa folga
-const SETA =
-  "inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-[max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*1))] text-ink-2 outline-accent hover:bg-surface hover:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-2";
+const RAIO_DAS_SETAS = "[--raio-do-botao:max(var(--radius-sm),calc(var(--radius-xl)_-_var(--spacing)*1))]";
 
 /**
  * Navegação de período ‹ rótulo › por mês, semana ou dia, num controle só: o período em
@@ -187,16 +187,17 @@ export function SeletorDePeriodo({
 
   return (
     <div role="group" aria-label={rotulo} className="inline-flex flex-col items-center gap-2">
-      <div className="inline-flex items-center rounded-xl border border-rule bg-page p-1">
-        <button
-          type="button"
+      <div className={`inline-flex items-center rounded-xl border border-rule bg-page p-1 ${RAIO_DAS_SETAS}`}>
+        <Botao
+          variante="fantasma"
+          tamanho="sm"
+          soIcone
           aria-label={`${textos.anterior}: ${descrever(anterior)}`}
           aria-disabled={!podeVoltar || undefined}
           onClick={() => podeVoltar && aoMudar(dataParaIso(anterior))}
-          className={SETA}
         >
           <Seta direcao="esquerda" />
-        </button>
+        </Botao>
         <span
           aria-live="polite"
           aria-atomic="true"
@@ -208,15 +209,16 @@ export function SeletorDePeriodo({
             {partes.ano && <span className="ml-1.5 font-normal text-muted">{partes.ano}</span>}
           </span>
         </span>
-        <button
-          type="button"
+        <Botao
+          variante="fantasma"
+          tamanho="sm"
+          soIcone
           aria-label={`${textos.proximo}: ${descrever(proximo)}`}
           aria-disabled={!podeAvancar || undefined}
           onClick={() => podeAvancar && aoMudar(dataParaIso(proximo))}
-          className={SETA}
         >
           <Seta direcao="direita" />
-        </button>
+        </Botao>
       </div>
       {/* Altura reservada: o texto só aparece no navegador (depende de "hoje") e não deve empurrar nada */}
       <p className="flex min-h-5 items-center gap-2 text-xs text-muted">
@@ -224,13 +226,9 @@ export function SeletorDePeriodo({
         {comBotaoAtual && distancia !== null && distancia !== 0 && (
           <>
             <span aria-hidden="true">·</span>
-            <button
-              type="button"
-              onClick={irParaHoje}
-              className="cursor-pointer rounded-sm font-medium text-accent underline-offset-4 outline-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
+            <Botao variante="link" tamanho="xs" onClick={irParaHoje}>
               {rotuloAtual ?? textos.ir}
-            </button>
+            </Botao>
           </>
         )}
       </p>

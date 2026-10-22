@@ -1,5 +1,6 @@
 "use client";
 
+import { Botao } from "@/library/botao/Botao";
 import { useId, useState, type ReactNode } from "react";
 import { useSemMovimento } from "@/library/revelar/Movimento";
 
@@ -193,14 +194,17 @@ export function BarraLateral({
         semMovimento ? "" : "transition-[width] duration-300 ease-in-out"
       }`}
     >
-      <button
-        type="button"
+      <Botao
+        variante="contorno"
+        tamanho="xs"
+        soIcone
+        arredondado
         onClick={() => mudarRecolhida(!recolhida)}
         aria-label={recolhida ? textos.expandir : textos.recolher}
         title={recolhida ? textos.expandir : textos.recolher}
         aria-expanded={!recolhida}
         aria-controls={idNav}
-        className="absolute top-6 -right-3.5 z-10 flex size-7 cursor-pointer items-center justify-center rounded-full border border-rule bg-page text-muted outline-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="absolute top-6 -right-3.5 z-10 bg-page"
       >
         <svg
           aria-hidden="true"
@@ -214,7 +218,7 @@ export function BarraLateral({
         >
           <path d="m15 6-6 6 6 6" />
         </svg>
-      </button>
+      </Botao>
 
       {cabecalho !== undefined && <div className="mb-4 flex min-h-10 shrink-0 items-center overflow-hidden px-4">{resolver(cabecalho)}</div>}
 

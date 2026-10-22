@@ -1,5 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Aviso } from "@/library/aviso/Aviso";
+import { Botao } from "@/library/botao/Botao";
 import { defineStories } from "@/registry/stories";
 import { AreaDeTexto, Campo, Entrada, EntradaDeSenha, Selecao, type TamanhoDoCampo } from "./Campo";
 
@@ -63,8 +64,6 @@ const ICONES = {
   ),
 };
 
-const BOTAO =
-  "inline-flex h-12 cursor-pointer items-center justify-center rounded-full bg-accent px-7 text-sm font-medium text-page outline-accent transition-colors hover:bg-accent/90 focus-visible:outline-2 focus-visible:outline-offset-2";
 
 const ASSUNTOS = [
   { valor: "orcamento", rotulo: "Pedir orçamento" },
@@ -156,9 +155,9 @@ function FormularioDeContato() {
         </Campo>
       </div>
       <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center">
-        <button type="submit" className={BOTAO}>
+        <Botao type="submit" tamanho="lg" arredondado>
           Enviar mensagem
-        </button>
+        </Botao>
         {enviado && <Aviso tipo="sucesso">Mensagem enviada. Respondemos em até 1 dia útil.</Aviso>}
       </div>
     </form>
