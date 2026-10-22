@@ -12,6 +12,7 @@ const TAU = Math.PI * 2;
 const REST_ANGLE = -Math.PI / 4;
 const BURST_SPRING = 18;
 const BURST_DAMPING = 7.5;
+const SOLID_GAP = 1.5;
 const SCAN_FADE = [0, 0.12, 0.42, 0.78, 1, 0.78, 0.42, 0.12, 0];
 const FADE_FLOOR: Record<Entrada, number> = { juntar: 0, chuva: 0.55, espiral: 0.45, varredura: 0.35 };
 
@@ -40,6 +41,7 @@ type Ajustes = {
   pesoFonte: number;
   fonte: string;
   brilho: boolean;
+  final: "particulas" | "texto";
   semMovimento: boolean;
 };
 
@@ -130,6 +132,7 @@ export function TextoDeParticulas({
   pesoFonte = 800,
   fonte = "inherit",
   brilho = true,
+  final = "particulas",
   className = "text-ink",
   style,
 }: {
@@ -171,6 +174,11 @@ export function TextoDeParticulas({
   fonte?: string;
   /** Brilho em volta das partículas com destaque. */
   brilho?: boolean;
+  /**
+   * Como o texto fica depois de montado. `texto`: as partículas se dissolvem num texto normal,
+   * na mesma fonte; ao fugir do ponteiro ou explodir, voltam a ser partículas e depois se refazem.
+   */
+  final?: "particulas" | "texto";
   /** Classes do contêiner (a cor do texto vira a cor das partículas). Dê uma altura: o mínimo é 240 px. */
   className?: string;
   style?: CSSProperties;
@@ -205,6 +213,7 @@ export function TextoDeParticulas({
       pesoFonte,
       fonte,
       brilho,
+      final,
       semMovimento,
     };
     wakeRef.current();
@@ -245,6 +254,9 @@ export function TextoDeParticulas({
     let colorKey = "";
     let palette: string[] = [];
     let glowColor = "#000000";
+    // 0 = só partículas, 1 = só o texto sólido (final "texto")
+    let solid = 0;
+    const solidText = { font: "", x: 0, y: 0, content: "" };
     let accent = { r: 0, g: 0, b: 0 };
     const bounds = { left: 0, right: 0, top: 0, bottom: 0 };
     const swirl = { x: 0, y: 0, aspect: 1 };
@@ -451,7 +463,8 @@ export function TextoDeParticulas({
       pointer.smoothY += (pointer.y - pointer.smoothY) * chase;
 
       const repel = pointer.active && !reducedMotion && s.repulsao > 0 && s.raioRepulsao > 0;
-      const drift = !reducedMotion && s.flutuacao > 0;
+      const solidFinal = s.final === "texto";
+      const drift = !reducedMotion && s.flutuacao > 0 && !solidFinal;
       const motionHeat = s.destaque !== "gradiente";
       const lines = s.forma === "linha";
       const floor = gathering ? (FADE_FLOOR[introMode] ?? 0) : 0;
@@ -461,6 +474,7 @@ export function TextoDeParticulas({
       let complete = true;
       let moving = false;
       let settling = false;
+      let maxGap = 0;
 
       for (const bucket of buckets) bucket.length = 0;
 
@@ -524,6 +538,7 @@ export function TextoDeParticulas({
         particle.x += moveX;
         particle.y += moveY;
         if (Math.abs(moveX) + Math.abs(moveY) > 0.02) moving = true;
+        if (solidFinal) maxGap = Math.max(maxGap, Math.abs(particle.x - particle.targetX) + Math.abs(particle.y - particle.targetY));
 
         if (lines) {
           const speed = Math.hypot(moveX, moveY) / frames;
@@ -551,6 +566,12 @@ export function TextoDeParticulas({
       if (gathering && complete) gathering = false;
       if (bursting && !settling) bursting = false;
 
+      const solidTarget = solidFinal && !gathering && !bursting && maxGap < SOLID_GAP ? 1 : 0;
+      solid = reducedMotion ? solidTarget : solid + (solidTarget - solid) * (1 - Math.pow(0.86, frames));
+      if (Math.abs(solidTarget - solid) < 0.01) solid = solidTarget;
+      const melting = solid !== solidTarget;
+      const particleAlpha = 1 - solid;
+
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.globalAlpha = 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -562,7 +583,7 @@ export function TextoDeParticulas({
         ctx.lineCap = "round";
       }
 
-      if (s.brilho) {
+      if (s.brilho && particleAlpha > 0) {
         layerCtx.setTransform(1, 0, 0, 1, 0, 0);
         layerCtx.clearRect(0, 0, layer.width, layer.height);
         layerCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -584,14 +605,16 @@ export function TextoDeParticulas({
         if (lit) {
           ctx.shadowColor = glowColor;
           ctx.shadowBlur = (3 + sizeBase * 1.5) * dpr;
+          ctx.globalAlpha = particleAlpha;
           ctx.drawImage(layer, 0, 0, width, height);
           ctx.shadowBlur = 0;
           ctx.shadowColor = "transparent";
+          ctx.globalAlpha = 1;
         }
       }
 
-      for (let fade = 0; fade < FADES; fade++) {
-        ctx.globalAlpha = fadeAlpha(fade);
+      for (let fade = 0; fade < FADES && particleAlpha > 0; fade++) {
+        ctx.globalAlpha = fadeAlpha(fade) * particleAlpha;
         for (let tone = 0; tone < TONES; tone++) {
           const group = buckets[fade * TONES + tone];
           if (!group.length) continue;
@@ -602,9 +625,19 @@ export function TextoDeParticulas({
       }
       ctx.globalAlpha = 1;
 
+      if (solid > 0 && solidText.font) {
+        ctx.globalAlpha = solid;
+        ctx.font = solidText.font;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+        ctx.fillStyle = palette[0];
+        ctx.fillText(solidText.content, solidText.x, solidText.y);
+        ctx.globalAlpha = 1;
+      }
+
       const scanning = drawScan(now, s);
 
-      return gathering || moving || repel || drift || bursting || scanning;
+      return gathering || moving || repel || drift || bursting || scanning || melting;
     };
 
     const frame = (now: number) => {
@@ -685,6 +718,10 @@ export function TextoDeParticulas({
       offCtx.textBaseline = "alphabetic";
       offCtx.fillStyle = "#ffffff";
       offCtx.fillText(content, padding - left, padding + ascent);
+      solidText.font = font;
+      solidText.content = content;
+      solidText.x = nextWidth / 2 - offscreen.width / 2 + padding - left;
+      solidText.y = nextHeight / 2 - offscreen.height / 2 + padding + ascent;
 
       const imageData = offCtx.getImageData(0, 0, offscreen.width, offscreen.height);
       const targets: { x: number; y: number; alpha: number }[] = [];

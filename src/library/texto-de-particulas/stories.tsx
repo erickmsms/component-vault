@@ -16,6 +16,7 @@ export default defineStories({
     explodirAoClicar: true,
     gatilho: "montar",
     brilho: true,
+    final: "particulas",
   },
   controls: {
     texto: { type: "text" },
@@ -31,6 +32,7 @@ export default defineStories({
     explodirAoClicar: { type: "boolean" },
     gatilho: { type: "select", options: ["montar", "passar", "clicar"] },
     brilho: { type: "boolean" },
+    final: { type: "select", options: ["particulas", "texto"] },
   },
   render: (a) => (
     <div className="h-64 w-full max-w-3xl">
@@ -50,6 +52,7 @@ export default defineStories({
         explodirAoClicar={a.explodirAoClicar}
         gatilho={a.gatilho as "montar"}
         brilho={a.brilho}
+        final={a.final as "particulas"}
       />
     </div>
   ),
@@ -57,6 +60,7 @@ export default defineStories({
     { name: "Padrão" },
     { name: "Chuva", args: { texto: "Chuva", entrada: "chuva", corDestaque: "#38bdf8" } },
     { name: "Espiral em linhas", args: { texto: "Espiral", entrada: "espiral", forma: "linha", corDestaque: "#a78bfa" } },
+    { name: "Termina em texto", args: { texto: "Sólido", final: "texto" } },
     { name: "Varredura em gradiente", args: { texto: "Scanner", entrada: "varredura", destaque: "gradiente", forma: "quadrado" } },
   ],
 });
