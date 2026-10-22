@@ -2,6 +2,8 @@
 
 Contribuições são bem-vindas! Tudo entra por **pull request**: ninguém faz push direto na `main`.
 
+Ao participar, siga o [código de conduta](CODE_OF_CONDUCT.md).
+
 ## Como contribuir
 
 1. Faça um fork do repositório e crie uma branch a partir da `main`.

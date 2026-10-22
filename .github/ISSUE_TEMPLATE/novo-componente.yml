@@ -1,0 +1,28 @@
+name: Sugerir um componente
+description: Ideia de componente novo para a biblioteca
+title: "Componente: "
+labels: ["componente novo"]
+body:
+  - type: textarea
+    id: oque
+    attributes:
+      label: O que o componente faz
+      description: Para que serve e em que tipo de tela ele aparece.
+    validations:
+      required: true
+  - type: textarea
+    id: props
+    attributes:
+      label: Props e variações
+      description: O que deveria ser configurável (textos, tamanhos, estados...).
+  - type: textarea
+    id: referencia
+    attributes:
+      label: Referências
+      description: Links ou imagens de exemplos parecidos.
+  - type: checkboxes
+    id: fazer
+    attributes:
+      label: Contribuição
+      options:
+        - label: Quero abrir o PR com esse componente

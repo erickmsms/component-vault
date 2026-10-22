@@ -1,0 +1,25 @@
+name: Reportar um bug
+description: Algo não funciona como deveria na vitrine ou num componente
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: input
+    id: onde
+    attributes:
+      label: Onde
+      description: Link da página ou nome do componente.
+      placeholder: https://vault-components.vercel.app/components/...
+    validations:
+      required: true
+  - type: textarea
+    id: oque
+    attributes:
+      label: O que aconteceu
+      description: O que você fez, o que esperava e o que aconteceu. Prints ajudam.
+    validations:
+      required: true
+  - type: input
+    id: ambiente
+    attributes:
+      label: Navegador e tema
+      placeholder: Chrome 140, tema Editorial, modo escuro
