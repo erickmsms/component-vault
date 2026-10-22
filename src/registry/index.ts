@@ -56,6 +56,7 @@ import { meta as seletorUnico } from "@/library/seletor-unico/meta";
 import { meta as tabelaDados } from "@/library/tabela-dados/meta";
 import { meta as textoAceso } from "@/library/texto-aceso/meta";
 import { meta as textoCircular } from "@/library/texto-circular/meta";
+import { meta as textoDesfocado } from "@/library/texto-desfocado/meta";
 import { meta as textoDigitado } from "@/library/texto-digitado/meta";
 import { meta as textoTech } from "@/library/texto-tech/meta";
 import { meta as tituloVivo } from "@/library/titulo-vivo/meta";
@@ -121,6 +122,7 @@ export const registry: ComponentMeta[] = [
   tabelaDados,
   textoAceso,
   textoCircular,
+  textoDesfocado,
   textoDigitado,
   textoTech,
   tituloVivo,
