@@ -8,4 +8,5 @@ export const meta: ComponentMeta = {
   category: "animation",
   tags: ["número", "kpi", "animação", "contagem", "acessibilidade"],
   source: "component-vault",
+  miniaturaRepete: 4000,
 };

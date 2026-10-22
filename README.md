@@ -108,6 +108,7 @@ Controles: `text`, `number` (`min`, `max`, `step`), `boolean`, `select` (`option
 | `dependencies`   | Pacotes npm exibidos na página do componente                         |
 | `thumbnailWidth` | Largura (px) da miniatura no catálogo, para seções e páginas         |
 | `previewHeight`  | Altura fixa (px) do iframe de preview, que rola por dentro: para componentes que reagem à rolagem |
+| `miniaturaRepete` | Animações de entrada (tocam uma vez): de quantos em quantos ms a miniatura do catálogo toca de novo |
 
 Regras das miniaturas do catálogo (e o pre-commit que as confere): [docs/previews.md](docs/previews.md).
 

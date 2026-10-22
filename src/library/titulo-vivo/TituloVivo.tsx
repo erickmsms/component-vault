@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useSemMovimento } from "@/library/revelar/Movimento";
+import { assinarPonteiro, useMiniatura, useSemMovimento } from "@/library/revelar/Movimento";
 
 /**
  * Título em que cada palavra fica mais leve conforme o mouse se aproxima (o efeito do
@@ -32,10 +32,13 @@ export function TituloVivo({
 }) {
   const palavras = useRef<(HTMLSpanElement | null)[]>([]);
   const semMovimento = useSemMovimento();
+  const miniatura = useMiniatura();
+  const titulo = useRef<HTMLHeadingElement>(null);
   const assinatura = linhas.join("\n");
 
   useEffect(() => {
-    if (semMovimento) return;
+    const h1 = titulo.current;
+    if (semMovimento || !h1) return;
     const els = palavras.current.filter((el): el is HTMLSpanElement => el !== null);
     const atual = els.map(() => pesoBase);
     const alvo = els.map(() => pesoBase);
@@ -72,10 +75,9 @@ export function TituloVivo({
       if (!quadro) quadro = requestAnimationFrame(passo);
     };
 
-    const mover = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
-      const px = e.pageX;
-      const py = e.pageY;
+    const mover = (ponteiro: { x: number; y: number }) => {
+      const px = ponteiro.x + scrollX;
+      const py = ponteiro.y + scrollY;
       caixas.forEach((c, i) => {
         const dx = px - Math.max(c.x1, Math.min(px, c.x2));
         const dy = py - Math.max(c.y1, Math.min(py, c.y2));
@@ -92,24 +94,25 @@ export function TituloVivo({
     let vivo = true;
     document.fonts.ready.then(() => vivo && medir());
     window.addEventListener("resize", medir);
-    window.addEventListener("pointermove", mover, { passive: true });
-    document.documentElement.addEventListener("pointerleave", sair);
+    const cancelar = assinarPonteiro(h1, miniatura, (p) => {
+      if (!p) sair();
+      else if (p.mouse) mover(p);
+    });
     return () => {
       vivo = false;
       cancelAnimationFrame(quadro);
       window.removeEventListener("resize", medir);
-      window.removeEventListener("pointermove", mover);
-      document.documentElement.removeEventListener("pointerleave", sair);
+      cancelar();
       for (const el of els) {
         el.style.fontVariationSettings = "";
         el.style.minWidth = "";
       }
     };
-  }, [semMovimento, pesoBase, pesoPerto, alcance, assinatura]);
+  }, [semMovimento, miniatura, pesoBase, pesoPerto, alcance, assinatura]);
 
   let i = 0;
   return (
-    <h1 className={className}>
+    <h1 ref={titulo} className={className}>
       {linhas.map((linha, l) => (
         <span key={l} className="block">
           {linha

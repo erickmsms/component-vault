@@ -23,4 +23,9 @@ export type ComponentMeta = {
    * componentes que reagem à rolagem; sem isso, o iframe cresce com o conteúdo.
    */
   previewHeight?: number;
+  /**
+   * Só para animações de entrada, que tocam uma vez: a miniatura do catálogo monta o exemplo
+   * de novo a cada tantos milissegundos, para a animação voltar a tocar.
+   */
+  miniaturaRepete?: number;
 };

@@ -9,4 +9,5 @@ export const meta: ComponentMeta = {
   tags: ["animação", "scroll", "acessibilidade", "sem dependências"],
   source: "component-vault",
   previewHeight: 520,
+  miniaturaRepete: 4000,
 };

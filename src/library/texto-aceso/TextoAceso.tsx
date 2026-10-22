@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import { useSemMovimento } from "@/library/revelar/Movimento";
+import { useMiniatura, useSemMovimento } from "@/library/revelar/Movimento";
 
 const limitar = (n: number) => Math.min(Math.max(n, 0), 1);
 
@@ -54,7 +54,9 @@ export function TextoAceso({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const semMovimento = useSemMovimento();
-  const fixo = progresso !== undefined;
+  // Na miniatura do catálogo, o progresso vai e volta sozinho (ignora o progresso fixo)
+  const miniatura = useMiniatura();
+  const fixo = progresso !== undefined && !miniatura;
   const animar = !fixo && !semMovimento;
 
   const palavras = paragrafos.map((p) => p.split(/\s+/).filter(Boolean));
@@ -69,15 +71,30 @@ export function TextoAceso({
     const elementos = Array.from(bloco.querySelectorAll<HTMLElement>("[data-palavra]"));
 
     let quadro = 0;
+    const pintar = (p: number) =>
+      elementos.forEach((el, i) => {
+        el.style.opacity = String(opacidadeDaPalavra(i, elementos.length, p, opacidadeApagada));
+      });
+
+    if (miniatura) {
+      const ciclo = (agora: number) => {
+        // 0 → 1 em 4 s, segura aceso 1 s e recomeça
+        pintar(limitar(((agora % 5000) / 4000)));
+        quadro = requestAnimationFrame(ciclo);
+      };
+      quadro = requestAnimationFrame(ciclo);
+      return () => {
+        cancelAnimationFrame(quadro);
+        elementos.forEach((el) => el.style.removeProperty("opacity"));
+      };
+    }
+
     const atualizar = () => {
       quadro = 0;
       const caixa = bloco.getBoundingClientRect();
       const altura = window.innerHeight;
       const percurso = (inicio - fim) * altura + caixa.height;
-      const p = percurso > 0 ? limitar((inicio * altura - caixa.top) / percurso) : 1;
-      elementos.forEach((el, i) => {
-        el.style.opacity = String(opacidadeDaPalavra(i, elementos.length, p, opacidadeApagada));
-      });
+      pintar(percurso > 0 ? limitar((inicio * altura - caixa.top) / percurso) : 1);
     };
     const agendar = () => {
       if (!quadro) quadro = requestAnimationFrame(atualizar);
@@ -93,7 +110,7 @@ export function TextoAceso({
       // O React cuida só da variável --opacidade; a opacidade escrita aqui sai junto com o efeito.
       elementos.forEach((el) => el.style.removeProperty("opacity"));
     };
-  }, [animar, inicio, fim, opacidadeApagada, assinatura]);
+  }, [animar, miniatura, inicio, fim, opacidadeApagada, assinatura]);
 
   return (
     <div

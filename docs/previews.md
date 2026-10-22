@@ -21,6 +21,16 @@ Só para blocos de tela, que dependem de breakpoints da janela (e não do card):
 - Valor entre 600 e 1400.
 - Em botões, campos, avisos, overlays e afins, **não use**: o ajuste automático já resolve.
 
+## Animações
+
+Nos outros tipos a miniatura fica parada no estado final; em **Animações** ela se mexe, para dar para entender o efeito sem abrir a página. O card envolve o exemplo num `ProvedorDeMiniatura` ([src/library/revelar/Movimento.tsx](../src/library/revelar/Movimento.tsx)):
+
+- Efeitos que seguem o mouse usam `assinarPonteiro`, que na miniatura troca o mouse real por um ponteiro de mentira passeando pelo componente.
+- Efeitos presos à rolagem usam `useMiniatura()` para rodar o progresso em ciclo.
+- Animações de entrada, que tocam uma vez, pedem `miniaturaRepete` (ms) no `meta.ts` para tocar de novo.
+
+Ao criar uma animação nova, confira se a miniatura dela se mexe sozinha.
+
 ## Exemplos altos demais
 
 Se a escala fica abaixo de uns 30%, o texto some. A solução é **encurtar o primeiro exemplo** do `stories.tsx` (menos itens, menos linhas), não mexer na miniatura. Hoje passam disso: Lojas virtuais, Consultoria, Hero com Mídia, Rodapé em Colunas, Barra Lateral, Área de Upload e outros.
