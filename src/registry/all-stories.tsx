@@ -7,6 +7,7 @@ import acordeaoComMidia from "@/library/acordeao-com-midia/stories";
 import areaDeUpload from "@/library/area-de-upload/stories";
 import avatar from "@/library/avatar/stories";
 import aviso from "@/library/aviso/stories";
+import barraDeBusca from "@/library/barra-de-busca/stories";
 import barraDeFiltros from "@/library/barra-de-filtros/stories";
 import barraDeProgresso from "@/library/barra-de-progresso/stories";
 import barraLateral from "@/library/barra-lateral/stories";
@@ -66,6 +67,7 @@ export const allStories: Record<string, StoriesModule> = {
   "area-de-upload": areaDeUpload,
   avatar,
   aviso,
+  "barra-de-busca": barraDeBusca,
   "barra-de-filtros": barraDeFiltros,
   "barra-de-progresso": barraDeProgresso,
   "barra-lateral": barraLateral,

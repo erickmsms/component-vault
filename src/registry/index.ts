@@ -7,6 +7,7 @@ import { meta as acordeaoComMidia } from "@/library/acordeao-com-midia/meta";
 import { meta as areaDeUpload } from "@/library/area-de-upload/meta";
 import { meta as avatar } from "@/library/avatar/meta";
 import { meta as aviso } from "@/library/aviso/meta";
+import { meta as barraDeBusca } from "@/library/barra-de-busca/meta";
 import { meta as barraDeFiltros } from "@/library/barra-de-filtros/meta";
 import { meta as barraDeProgresso } from "@/library/barra-de-progresso/meta";
 import { meta as barraLateral } from "@/library/barra-lateral/meta";
@@ -65,6 +66,7 @@ export const registry: ComponentMeta[] = [
   areaDeUpload,
   avatar,
   aviso,
+  barraDeBusca,
   barraDeFiltros,
   barraDeProgresso,
   barraLateral,

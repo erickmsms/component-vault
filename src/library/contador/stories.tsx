@@ -16,7 +16,7 @@ type Valores = {
 function ExemploComRepetir(a: Valores) {
   const [vez, setVez] = useState(0);
   return (
-    <div className="flex flex-col items-start gap-6">
+    <div className="flex flex-col items-center gap-6 text-center">
       <span className="font-display text-6xl leading-none font-extrabold tracking-[-0.03em] text-accent">
         <Contador key={vez} valor={a.valor} de={a.de} duracao={a.duracao} casas={a.casas} prefixo={a.prefixo} sufixo={a.sufixo} />
       </span>

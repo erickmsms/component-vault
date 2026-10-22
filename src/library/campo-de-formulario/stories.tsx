@@ -1,7 +1,7 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Aviso } from "@/library/aviso/Aviso";
 import { defineStories } from "@/registry/stories";
-import { AreaDeTexto, Campo, Entrada, EntradaDeBusca, EntradaDeSenha, Selecao, type TamanhoDoCampo } from "./Campo";
+import { AreaDeTexto, Campo, Entrada, EntradaDeSenha, Selecao, type TamanhoDoCampo } from "./Campo";
 
 function Traco({ children }: { children: ReactNode }) {
   return (
@@ -205,8 +205,6 @@ function ExemploCampo({
           <AreaDeTexto {...comum} />
         ) : controle === "EntradaDeSenha" ? (
           <EntradaDeSenha {...comum} autoComplete="new-password" />
-        ) : controle === "EntradaDeBusca" ? (
-          <EntradaDeBusca {...comum} />
         ) : (
           <Entrada {...comum} />
         )}
@@ -243,25 +241,11 @@ function ExemploMascaras() {
   );
 }
 
-const PRODUTOS = [
-  "Cadeira de escritório",
-  "Mesa regulável",
-  "Monitor 27 polegadas",
-  "Teclado sem fio",
-  "Mouse vertical",
-  "Suporte para notebook",
-  "Luminária de mesa",
-  "Fone com microfone",
-];
-
-function ExemploSenhaEBusca() {
+function ExemploSenha() {
   const [senha, setSenha] = useState("");
-  const [busca, setBusca] = useState("");
-  const termo = busca.trim().toLowerCase();
-  const achados = PRODUTOS.filter((p) => p.toLowerCase().includes(termo));
   const curta = senha.length > 0 && senha.length < 8;
   return (
-    <div className="grid w-full max-w-3xl gap-10 md:grid-cols-2">
+    <div className="w-full max-w-sm">
       <Campo
         rotulo="Senha"
         icone={ICONES.cadeado}
@@ -270,28 +254,6 @@ function ExemploSenhaEBusca() {
       >
         <EntradaDeSenha value={senha} onChange={setSenha} autoComplete="new-password" placeholder="Crie uma senha" />
       </Campo>
-
-      <div>
-        <EntradaDeBusca
-          aria-label="Buscar produtos"
-          aria-controls="produtos-encontrados"
-          value={busca}
-          onChange={setBusca}
-          placeholder="Buscar produtos..."
-        />
-        <p role="status" className="mt-3 text-xs text-muted">
-          {achados.length === PRODUTOS.length
-            ? `${PRODUTOS.length} produtos`
-            : `${achados.length} de ${PRODUTOS.length} produtos`}
-        </p>
-        <ul id="produtos-encontrados" className="mt-2 divide-y divide-rule text-sm">
-          {achados.map((p) => (
-            <li key={p} className="py-2">
-              {p}
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 }
@@ -314,7 +276,9 @@ function ExemploTamanhos() {
               ]}
             />
           </Campo>
-          <EntradaDeBusca aria-label={`Busca (${t})`} tamanho={t} valorInicial="relatório" />
+          <Campo rotulo="Senha" tamanho={t}>
+            <EntradaDeSenha defaultValue="segredo123" />
+          </Campo>
         </div>
       ))}
     </div>
@@ -337,7 +301,7 @@ export default defineStories({
     controle: {
       type: "select",
       label: "controle (filho do Campo)",
-      options: ["Entrada", "Selecao", "AreaDeTexto", "EntradaDeSenha", "EntradaDeBusca"],
+      options: ["Entrada", "Selecao", "AreaDeTexto", "EntradaDeSenha"],
     },
     rotulo: { type: "text" },
     placeholder: { type: "text" },
@@ -354,7 +318,7 @@ export default defineStories({
     { name: "Formulário de contato", render: () => <FormularioDeContato /> },
     { name: "Com erro", args: { erro: "Informe um e-mail válido, como voce@empresa.com." } },
     { name: "Máscaras", render: () => <ExemploMascaras /> },
-    { name: "Senha e busca", render: () => <ExemploSenhaEBusca /> },
+    { name: "Senha", render: () => <ExemploSenha /> },
     { name: "Tamanhos", render: () => <ExemploTamanhos /> },
   ],
 });

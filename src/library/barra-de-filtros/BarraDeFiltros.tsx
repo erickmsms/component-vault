@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, type ReactNode } from "react";
-import { EntradaDeBusca } from "@/library/campo-de-formulario/Campo";
+import { BarraDeBusca } from "@/library/barra-de-busca/BarraDeBusca";
 import { SeletorMultiplo, type OpcaoDoSeletor, type TextosDoSeletor } from "@/library/seletor-multiplo/SeletorMultiplo";
 
 /** Grupo com um Seletor Múltiplo: bom para listas longas (temas, marcas, autores). */
@@ -151,7 +151,7 @@ export function BarraDeFiltros({
       style={fixa ? { top: topo } : undefined}
     >
       {busca && (
-        <EntradaDeBusca
+        <BarraDeBusca
           value={busca.valor}
           onChange={busca.aoMudar}
           placeholder={busca.placeholder ?? "Buscar..."}

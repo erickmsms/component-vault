@@ -4,7 +4,6 @@ import {
   cloneElement,
   isValidElement,
   useId,
-  useRef,
   useState,
   type InputHTMLAttributes,
   type ReactElement,
@@ -42,7 +41,7 @@ export function aplicarMascara(valor: string, mascara: string) {
  * classes que aparecem escritas no código. `folga` abre espaço à direita para a
  * seta da seleção ou para os botões de mostrar senha e limpar busca.
  */
-const TAMANHOS = {
+export const TAMANHOS = {
   sm: {
     altura: "h-9",
     raio: "rounded-lg",
@@ -138,7 +137,7 @@ type PreenchidoPeloCampo = {
  * Rótulo, ícone opcional à esquerda, controle e mensagem de erro ou de ajuda,
  * já ligados por id (`aria-invalid` e `aria-describedby` vão para o controle).
  * O filho é o controle: Entrada, Selecao, AreaDeTexto, EntradaDeSenha,
- * EntradaDeBusca ou qualquer input/select/textarea.
+ * BarraDeBusca ou qualquer input/select/textarea.
  */
 export function Campo({
   rotulo,
@@ -151,7 +150,7 @@ export function Campo({
 }: {
   rotulo: ReactNode;
   /**
-   * Ícone (SVG) dentro do controle, à esquerda. Na EntradaDeBusca a lupa já vem
+   * Ícone (SVG) dentro do controle, à esquerda. Na BarraDeBusca a lupa já vem
    * com ela; num <input> comum, abra o espaço com `classesDoControle({ comIcone: true })`.
    */
   icone?: ReactNode;
@@ -175,10 +174,12 @@ export function Campo({
   const t = TAMANHOS[medida];
 
   const tipo = valido ? children.type : null;
+  // A BarraDeBusca (de outra pasta) se marca com `temLupa`, sem import circular
+  const comLupa = Boolean(tipo && (tipo as { temLupa?: boolean }).temLupa);
   // Os controles da biblioteca recebem também o estado visual; um <input> comum, só o que é HTML
   const nosso =
-    tipo === Entrada || tipo === Selecao || tipo === AreaDeTexto || tipo === EntradaDeSenha || tipo === EntradaDeBusca;
-  const comIcone = Boolean(icone) && tipo !== EntradaDeBusca;
+    tipo === Entrada || tipo === Selecao || tipo === AreaDeTexto || tipo === EntradaDeSenha || comLupa;
+  const comIcone = Boolean(icone) && !comLupa;
   const descritoPor = [propsDoFilho["aria-describedby"], mensagem ? idMensagem : undefined].filter(Boolean).join(" ");
 
   const controle = valido
@@ -189,7 +190,7 @@ export function Campo({
         "aria-required": obrigatorio || propsDoFilho["aria-required"] || undefined,
         ...(nosso ? { erro: Boolean(erro), tamanho: medida } : {}),
         // A busca não recebe comIcone: a lupa dela já ocupa a esquerda
-        ...(nosso && tipo !== EntradaDeBusca ? { comIcone } : {}),
+        ...(nosso && !comLupa ? { comIcone } : {}),
       })
     : children;
 
@@ -226,7 +227,7 @@ export function Campo({
   );
 }
 
-type Visual = {
+export type Visual = {
   /** Preenchido pelo Campo quando ele tem ícone. */
   comIcone?: boolean;
   /** Borda de erro. Dentro de um Campo, vem da prop `erro` dele. */
@@ -305,7 +306,7 @@ export function Selecao({ opcoes, vazio, onChange, comIcone, erro, tamanho = "md
   );
 }
 
-const BOTAO_INTERNO =
+export const BOTAO_INTERNO =
   "absolute top-1/2 grid -translate-y-1/2 cursor-pointer place-items-center rounded-lg text-muted outline-accent transition-colors hover:bg-track hover:text-ink focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-50";
 
 type PropsDaSenha = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "type" | "size"> &
@@ -362,94 +363,6 @@ export function EntradaDeSenha({
           )}
         </svg>
       </button>
-    </div>
-  );
-}
-
-type PropsDaBusca = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "type" | "size" | "value" | "defaultValue"> &
-  Omit<Visual, "comIcone"> & {
-    /** Texto buscado. Sem `value`, o campo guarda o próprio estado (começando em `valorInicial`). */
-    value?: string;
-    valorInicial?: string;
-    onChange?: (valor: string) => void;
-    /** Chamado depois do botão de limpar (ou do Esc com texto), quando o campo já está vazio. */
-    aoLimpar?: () => void;
-    /** Nome do botão × para leitores de tela. */
-    rotuloLimpar?: string;
-  };
-
-/**
- * Busca com a lupa à esquerda e um botão para limpar quando há texto. O Esc
- * também limpa (e só fecha um modal em volta quando o campo já está vazio).
- */
-export function EntradaDeBusca({
-  value,
-  valorInicial = "",
-  onChange,
-  aoLimpar,
-  rotuloLimpar = "Limpar busca",
-  erro,
-  tamanho = "md",
-  placeholder = "Buscar...",
-  className = "",
-  ...props
-}: PropsDaBusca) {
-  const entrada = useRef<HTMLInputElement>(null);
-  const [interno, setInterno] = useState(valorInicial);
-  const atual = value ?? interno;
-  const t = TAMANHOS[tamanho];
-
-  function mudar(valor: string) {
-    if (value === undefined) setInterno(valor);
-    onChange?.(valor);
-  }
-
-  function limpar() {
-    mudar("");
-    aoLimpar?.();
-    entrada.current?.focus();
-  }
-
-  return (
-    <div className="relative">
-      <input
-        {...props}
-        ref={entrada}
-        type="search"
-        enterKeyHint="search"
-        placeholder={placeholder}
-        value={atual}
-        onChange={(e) => mudar(e.target.value)}
-        onKeyDown={(e) => {
-          props.onKeyDown?.(e);
-          if (e.key === "Escape" && atual) {
-            e.preventDefault();
-            limpar();
-          }
-        }}
-        // O × nativo do navegador some: o botão de limpar é o nosso
-        className={`${classesDoControle({ erro, comIcone: true, tamanho, folgaDireita: Boolean(atual) })} [&::-webkit-search-cancel-button]:appearance-none ${className}`}
-      />
-      <span aria-hidden className={`pointer-events-none absolute top-1/2 -translate-y-1/2 text-muted ${t.icone}`}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-3.5-3.5" />
-        </svg>
-      </span>
-      {atual && (
-        <button
-          type="button"
-          onClick={limpar}
-          disabled={props.disabled}
-          aria-label={rotuloLimpar}
-          title={rotuloLimpar}
-          className={`${BOTAO_INTERNO} ${t.acao}`}
-        >
-          <svg aria-hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
-        </button>
-      )}
     </div>
   );
 }

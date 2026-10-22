@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { MenuSuspenso } from "@/library/menu-suspenso/MenuSuspenso";
 import { PRESET_IDS, PRESETS, presetValues, type PresetId } from "@/themes/presets";
@@ -36,9 +35,6 @@ export function ThemeControls() {
 
   return (
     <>
-      <Link href="/fundamentos" className="px-2 text-sm text-ink-2 underline-offset-4 hover:text-ink hover:underline">
-        Fundamentos
-      </Link>
       <MenuSuspenso rotulo="Aparência" resumo={editado ? `${nomeDoTema} (editado)` : nomeDoTema} larguraDoPainel="w-80">
         {(fechar) => (
           <div className="flex flex-col gap-5 p-4">
