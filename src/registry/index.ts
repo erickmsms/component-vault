@@ -66,6 +66,8 @@ import { meta as textoDesfocado } from "@/library/texto-desfocado/meta";
 import { meta as textoDigitado } from "@/library/texto-digitado/meta";
 import { meta as textoDistorcido } from "@/library/texto-distorcido/meta";
 import { meta as textoEmCiclo } from "@/library/texto-em-ciclo/meta";
+import { meta as textoEmFoco } from "@/library/texto-em-foco/meta";
+import { meta as textoRotativo } from "@/library/texto-rotativo/meta";
 import { meta as textoTech } from "@/library/texto-tech/meta";
 import { meta as tituloMascarado } from "@/library/titulo-mascarado/meta";
 import { meta as tituloVivo } from "@/library/titulo-vivo/meta";
@@ -142,6 +144,8 @@ export const registry: ComponentMeta[] = [
   textoDigitado,
   textoDistorcido,
   textoEmCiclo,
+  textoEmFoco,
+  textoRotativo,
   textoTech,
   tituloMascarado,
   tituloVivo,
