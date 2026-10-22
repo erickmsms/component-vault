@@ -70,6 +70,7 @@ import { meta as textoTech } from "@/library/texto-tech/meta";
 import { meta as tituloMascarado } from "@/library/titulo-mascarado/meta";
 import { meta as tituloVivo } from "@/library/titulo-vivo/meta";
 import { meta as trilhaDeNavegacao } from "@/library/trilha-de-navegacao/meta";
+import { meta as vistaExplodida } from "@/library/vista-explodida/meta";
 import type { ComponentMeta } from "./types";
 
 // Metadados de todos os componentes, em ordem alfabética de nome.
@@ -145,6 +146,7 @@ export const registry: ComponentMeta[] = [
   tituloMascarado,
   tituloVivo,
   trilhaDeNavegacao,
+  vistaExplodida,
 ].sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
 
 export function getComponent(slug: string) {

@@ -70,6 +70,7 @@ import textoTech from "@/library/texto-tech/stories";
 import tituloMascarado from "@/library/titulo-mascarado/stories";
 import tituloVivo from "@/library/titulo-vivo/stories";
 import trilhaDeNavegacao from "@/library/trilha-de-navegacao/stories";
+import vistaExplodida from "@/library/vista-explodida/stories";
 import type { StoriesModule } from "./stories";
 
 // Exemplos de cada componente (src/library/<slug>/stories.tsx). Ficam separados dos
@@ -146,4 +147,5 @@ export const allStories: Record<string, StoriesModule> = {
   "titulo-mascarado": tituloMascarado,
   "titulo-vivo": tituloVivo,
   "trilha-de-navegacao": trilhaDeNavegacao,
+  "vista-explodida": vistaExplodida,
 };
