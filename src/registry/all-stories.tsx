@@ -60,6 +60,7 @@ import textoDesfocado from "@/library/texto-desfocado/stories";
 import textoDigitado from "@/library/texto-digitado/stories";
 import textoEmCiclo from "@/library/texto-em-ciclo/stories";
 import textoTech from "@/library/texto-tech/stories";
+import tituloMascarado from "@/library/titulo-mascarado/stories";
 import tituloVivo from "@/library/titulo-vivo/stories";
 import trilhaDeNavegacao from "@/library/trilha-de-navegacao/stories";
 import type { StoriesModule } from "./stories";
@@ -128,6 +129,7 @@ export const allStories: Record<string, StoriesModule> = {
   "texto-digitado": textoDigitado,
   "texto-em-ciclo": textoEmCiclo,
   "texto-tech": textoTech,
+  "titulo-mascarado": tituloMascarado,
   "titulo-vivo": tituloVivo,
   "trilha-de-navegacao": trilhaDeNavegacao,
 };

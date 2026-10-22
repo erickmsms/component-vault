@@ -60,6 +60,7 @@ import { meta as textoDesfocado } from "@/library/texto-desfocado/meta";
 import { meta as textoDigitado } from "@/library/texto-digitado/meta";
 import { meta as textoEmCiclo } from "@/library/texto-em-ciclo/meta";
 import { meta as textoTech } from "@/library/texto-tech/meta";
+import { meta as tituloMascarado } from "@/library/titulo-mascarado/meta";
 import { meta as tituloVivo } from "@/library/titulo-vivo/meta";
 import { meta as trilhaDeNavegacao } from "@/library/trilha-de-navegacao/meta";
 import type { ComponentMeta } from "./types";
@@ -127,6 +128,7 @@ export const registry: ComponentMeta[] = [
   textoDigitado,
   textoEmCiclo,
   textoTech,
+  tituloMascarado,
   tituloVivo,
   trilhaDeNavegacao,
 ].sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
