@@ -1,5 +1,7 @@
 # Component Vault
 
+**Português** · [English](README.en.md)
+
 Biblioteca open source de componentes React **genéricos**, com uma vitrine em Next.js para navegar por **tipo**, **tema** e **projeto de origem**, testar cada componente com temas, fontes e tamanhos de tela diferentes e mexer nas props ao vivo. Sem login: abre e usa.
 
 No ar em **https://vault-components.vercel.app**. Contribuições são bem-vindas por pull request: veja o [CONTRIBUTING.md](CONTRIBUTING.md).

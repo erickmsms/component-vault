@@ -1,5 +1,7 @@
 # Contribuindo
 
+**Português** · [English](CONTRIBUTING.en.md)
+
 Contribuições são bem-vindas! Tudo entra por **pull request**: ninguém faz push direto na `main`.
 
 Ao participar, siga o [código de conduta](CODE_OF_CONDUCT.md).
