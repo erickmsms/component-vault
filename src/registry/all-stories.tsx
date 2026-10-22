@@ -36,6 +36,7 @@ import linhaDoTempoDeAtividades from "@/library/linha-do-tempo-de-atividades/sto
 import listaDeTarefas from "@/library/lista-de-tarefas/stories";
 import listaEmFoco from "@/library/lista-em-foco/stories";
 import mapaDeCalor from "@/library/mapa-de-calor/stories";
+import medidorSolido from "@/library/medidor-solido/stories";
 import menuDeAcoes from "@/library/menu-de-acoes/stories";
 import menuSuspenso from "@/library/menu-suspenso/stories";
 import navegacaoFlutuante from "@/library/navegacao-flutuante/stories";
@@ -108,6 +109,7 @@ export const allStories: Record<string, StoriesModule> = {
   "lista-de-tarefas": listaDeTarefas,
   "lista-em-foco": listaEmFoco,
   "mapa-de-calor": mapaDeCalor,
+  "medidor-solido": medidorSolido,
   "menu-de-acoes": menuDeAcoes,
   "menu-suspenso": menuSuspenso,
   "navegacao-flutuante": navegacaoFlutuante,

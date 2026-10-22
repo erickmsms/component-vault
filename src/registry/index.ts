@@ -36,6 +36,7 @@ import { meta as linhaDoTempoDeAtividades } from "@/library/linha-do-tempo-de-at
 import { meta as listaDeTarefas } from "@/library/lista-de-tarefas/meta";
 import { meta as listaEmFoco } from "@/library/lista-em-foco/meta";
 import { meta as mapaDeCalor } from "@/library/mapa-de-calor/meta";
+import { meta as medidorSolido } from "@/library/medidor-solido/meta";
 import { meta as menuDeAcoes } from "@/library/menu-de-acoes/meta";
 import { meta as menuSuspenso } from "@/library/menu-suspenso/meta";
 import { meta as navegacaoFlutuante } from "@/library/navegacao-flutuante/meta";
@@ -107,6 +108,7 @@ export const registry: ComponentMeta[] = [
   listaDeTarefas,
   listaEmFoco,
   mapaDeCalor,
+  medidorSolido,
   menuDeAcoes,
   menuSuspenso,
   navegacaoFlutuante,
