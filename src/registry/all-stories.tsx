@@ -22,6 +22,7 @@ import cartaoKpi from "@/library/cartao-kpi/stories";
 import chamadaFinal from "@/library/chamada-final/stories";
 import contador from "@/library/contador/stories";
 import controleDeslizante from "@/library/controle-deslizante/stories";
+import diagramaSankey from "@/library/diagrama-sankey/stories";
 import dialogo from "@/library/dialogo/stories";
 import dica from "@/library/dica/stories";
 import esqueleto from "@/library/esqueleto/stories";
@@ -95,6 +96,7 @@ export const allStories: Record<string, StoriesModule> = {
   "chamada-final": chamadaFinal,
   contador,
   "controle-deslizante": controleDeslizante,
+  "diagrama-sankey": diagramaSankey,
   dialogo,
   dica,
   esqueleto,
