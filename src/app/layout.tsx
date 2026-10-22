@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import {
   Archivo,
@@ -72,6 +73,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <ThemeSync />
         {children}
+        {/* Vercel Web Analytics: visitas e páginas mais vistas, sem cookies */}
+        <Analytics />
       </body>
     </html>
   );
