@@ -37,3 +37,22 @@ body {
   background-image: radial-gradient(color-mix(in oklab, var(--ink) 22%, transparent) 1px, transparent 1px);
   background-size: 16px 16px;
 }
+
+/* Quadrado do logo piscando como um cursor (LogoVault piscar) */
+/* O logo-vault.tsx tem linhas enormes (SVG em curvas) e o Tailwind não acha a classe lá */
+@source inline("motion-safe:animate-piscar");
+
+@theme {
+  --animate-piscar: piscar 1.4s step-end 0.3s;
+
+  @keyframes piscar {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    25%,
+    75% {
+      opacity: 0;
+    }
+  }
+}

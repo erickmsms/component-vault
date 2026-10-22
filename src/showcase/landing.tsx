@@ -48,7 +48,7 @@ export function Landing() {
       style={{ transitionDuration: `${DURACAO_MS}ms` }}
     >
       <nav className="flex items-center justify-between gap-6 md:col-span-12">
-        <LogoVault />
+        <LogoVault piscar />
         <div className="flex gap-4 text-sm whitespace-nowrap md:gap-7">
           <Link href={CATALOGO} onClick={irParaCatalogo} className="flex min-h-11 items-center hover:text-white">
             Catálogo
