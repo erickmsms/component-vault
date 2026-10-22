@@ -70,7 +70,15 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/components/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  return { title: getComponent(slug)?.name };
+  const component = getComponent(slug);
+  if (!component) return {};
+  const title = `${component.name}: componente React`;
+  return {
+    title,
+    description: component.description,
+    alternates: { canonical: `/components/${slug}` },
+    openGraph: { title, description: component.description, url: `/components/${slug}` },
+  };
 }
 
 type Params = PageProps<"/components/[slug]">["params"];
