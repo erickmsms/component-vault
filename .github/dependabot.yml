@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Dependências do projeto: um PR por semana com as atualizações menores e de correção juntas
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      menores-e-correcoes:
+        update-types: [minor, patch]
+
+  # As próprias actions do CI (fixadas por SHA): o Dependabot troca o SHA e o comentário da versão
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
