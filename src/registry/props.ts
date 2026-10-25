@@ -63,6 +63,18 @@ function padroes(parametro: ts.ParameterDeclaration) {
   return resultado;
 }
 
+/**
+ * Props de ref (`ref?: Ref<HTMLButtonElement>`): o TypeScript expande o tipo até os nomes internos do
+ * React (como DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES), que não ajudam quem lê a
+ * documentação. Nesses casos mostra o tipo como foi escrito no componente.
+ */
+function tipoDeRef(prop: ts.Symbol) {
+  const declaracao = prop.valueDeclaration ?? prop.declarations?.[0];
+  const escrito = declaracao && ts.isPropertySignature(declaracao) ? declaracao.type : undefined;
+  if (!escrito || !ts.isTypeReferenceNode(escrito)) return undefined;
+  return /^(Ref|LegacyRef|RefObject|RefCallback|ForwardedRef)$/.test(escrito.typeName.getText()) ? escrito.getText() : undefined;
+}
+
 function documentar(checker: ts.TypeChecker, funcao: ts.FunctionDeclaration): ComponentDoc {
   const simbolo = funcao.name && checker.getSymbolAtLocation(funcao.name);
   const description = simbolo ? ts.displayPartsToString(simbolo.getDocumentationComment(checker)) : "";
@@ -82,7 +94,7 @@ function documentar(checker: ts.TypeChecker, funcao: ts.FunctionDeclaration): Co
     if (opcional) tipoDaProp = checker.getNonNullableType(tipoDaProp);
     return {
       name: prop.name,
-      type: checker.typeToString(tipoDaProp, parametro, FORMATO),
+      type: tipoDeRef(prop) ?? checker.typeToString(tipoDaProp, parametro, FORMATO),
       required: !opcional,
       defaultValue: valoresPadrao.get(prop.name),
       description: ts.displayPartsToString(prop.getDocumentationComment(checker)) || undefined,
