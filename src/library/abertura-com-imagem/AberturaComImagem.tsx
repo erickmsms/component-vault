@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 /**
  * Abertura de página em duas colunas: link de voltar, chapéu, título grande,
@@ -57,7 +58,7 @@ export function AberturaComImagem({
         <div>
           {voltar && (
             <a
-              href={voltar.href}
+              href={enderecoSeguro(voltar.href)}
               className="inline-flex items-center gap-2 rounded-sm text-sm text-ink-2 outline-accent transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               <span aria-hidden="true">←</span> {voltar.rotulo}

@@ -1,4 +1,5 @@
 import type { ComponentType, ReactNode } from "react";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 export type ItemDaTrilha = {
   rotulo: ReactNode;
@@ -40,7 +41,7 @@ export function TrilhaDeNavegacao({
               )}
               {item.href ? (
                 <Link
-                  href={item.href}
+                  href={enderecoSeguro(item.href)}
                   aria-current={atual ? "page" : undefined}
                   className={`rounded-sm underline-offset-4 outline-accent hover:underline focus-visible:outline-2 ${
                     atual ? "font-medium text-ink" : "text-muted hover:text-ink"

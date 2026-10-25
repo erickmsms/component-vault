@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode, Ref } from "react";
+import { enderecoSeguro } from "./enderecoSeguro";
 
 const VARIANTES = {
   primario: "border-transparent bg-accent text-page hover:bg-accent/90",
@@ -138,7 +139,7 @@ export function Botao({
     return (
       <a
         {...(resto as AnchorHTMLAttributes<HTMLAnchorElement>)}
-        href={disabled ? undefined : href}
+        href={disabled ? undefined : enderecoSeguro(href)}
         target={novaAba ? "_blank" : undefined}
         rel={novaAba ? "noopener noreferrer" : undefined}
         aria-disabled={disabled || undefined}

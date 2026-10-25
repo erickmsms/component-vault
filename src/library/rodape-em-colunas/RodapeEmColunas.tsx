@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 export type LinkDoRodape = { rotulo: string; href: string };
 
@@ -115,7 +116,7 @@ export function RodapeEmColunas({
               {redes.map((r) => (
                 <li key={`${r.nome}-${r.href}`}>
                   <a
-                    href={r.href}
+                    href={enderecoSeguro(r.href)}
                     aria-label={r.nome}
                     className={`block text-ink-2 transition-colors hover:text-ink ${FOCO}`}
                     {...novaAba(r.href)}
@@ -136,7 +137,7 @@ export function RodapeEmColunas({
                 <ul className="mt-4 space-y-3">
                   {g.links.map((l) => (
                     <li key={`${l.rotulo}-${l.href}`}>
-                      <a href={l.href} className={LINK} {...novaAba(l.href)}>
+                      <a href={enderecoSeguro(l.href)} className={LINK} {...novaAba(l.href)}>
                         {l.rotulo}
                       </a>
                     </li>
@@ -162,7 +163,7 @@ export function RodapeEmColunas({
                   )}
                   {contato.telefone && (
                     <li>
-                      <a href={contato.telefone.href} className={LINK}>
+                      <a href={enderecoSeguro(contato.telefone.href)} className={LINK}>
                         {contato.telefone.rotulo}
                       </a>
                     </li>
@@ -176,7 +177,7 @@ export function RodapeEmColunas({
                   )}
                   {contato.extras?.map((l) => (
                     <li key={`${l.rotulo}-${l.href}`}>
-                      <a href={l.href} className={LINK} {...novaAba(l.href)}>
+                      <a href={enderecoSeguro(l.href)} className={LINK} {...novaAba(l.href)}>
                         {l.rotulo}
                       </a>
                     </li>

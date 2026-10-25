@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type FocusEvent, type ReactNode } from "react";
 import { CURVA_SUAVE, useSemMovimento } from "@/library/revelar/Movimento";
 import estilos from "./NavegacaoFlutuante.module.css";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 export type LinkDaNavegacao = { rotulo: string; href: string };
 
@@ -160,7 +161,7 @@ export function NavegacaoFlutuante({
           />
 
           <a
-            href={marca.href}
+            href={enderecoSeguro(marca.href)}
             aria-current={atual === marca.href ? "page" : undefined}
             className={`relative z-10 flex h-11 min-w-0 items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*1.5))] px-3 text-ink ${FOCO}`}
             {...eventosDaPilula}
@@ -194,7 +195,7 @@ export function NavegacaoFlutuante({
             {links.map((l) => (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={enderecoSeguro(l.href)}
                   aria-current={atual === l.href ? "page" : undefined}
                   className={`relative z-10 flex h-11 items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*1.5))] px-3.5 text-sm whitespace-nowrap transition-colors duration-300 ${FOCO} ${
                     atual === l.href ? "font-medium text-ink" : "text-ink-2 hover:text-ink"
@@ -257,7 +258,7 @@ export function NavegacaoFlutuante({
             {links.map((l) => (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={enderecoSeguro(l.href)}
                   aria-current={atual === l.href ? "page" : undefined}
                   onClick={() => setAberto(false)}
                   className={`flex min-h-11 items-center rounded-[max(var(--radius-sm),calc(var(--radius-3xl)_-_var(--spacing)*2))] px-4 text-base transition-colors hover:bg-ink/10 hover:text-ink ${FOCO} ${

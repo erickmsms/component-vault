@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 // Ícones prontos. O do WhatsApp é preenchido (vem do original); os outros, de traço.
 const ICONES = {
@@ -114,7 +115,7 @@ export function BotaoFlutuante({
     const abrirEmNovaAba = novaAba ?? /^https?:\/\//.test(href);
     return (
       <a
-        href={href}
+        href={enderecoSeguro(href)}
         onClick={aoClicar}
         aria-label={rotulo}
         title={rotulo}

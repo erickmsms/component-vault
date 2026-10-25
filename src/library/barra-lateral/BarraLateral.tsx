@@ -3,6 +3,7 @@
 import { Botao } from "@/library/botao/Botao";
 import { useId, useState, type ReactNode } from "react";
 import { useSemMovimento } from "@/library/revelar/Movimento";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 export type ItemDaBarraLateral = {
   rotulo: string;
@@ -166,7 +167,7 @@ export function BarraLateral({
     );
     if (item.href !== undefined) {
       return renderizarLink({
-        href: item.href,
+        href: enderecoSeguro(item.href),
         className: classe,
         title: recolhida ? item.rotulo : undefined,
         "aria-label": nomeRecolhido(item),

@@ -2,6 +2,7 @@
 
 import { isValidElement, type ReactNode } from "react";
 import { Revelar } from "@/library/revelar/Revelar";
+import { enderecoSeguro } from "@/library/botao/enderecoSeguro";
 
 /** Botão da chamada: vira <a> com `href` e <button> sem ele. */
 export type AcaoDaChamada = {
@@ -96,7 +97,7 @@ export function ChamadaFinal({
                     return acao.href ? (
                       <a
                         key={`${acao.rotulo}-${i}`}
-                        href={acao.href}
+                        href={enderecoSeguro(acao.href)}
                         onClick={acao.aoClicar}
                         className={classes}
                         {...(acao.novaAba ? { target: "_blank", rel: "noopener noreferrer" } : {})}
