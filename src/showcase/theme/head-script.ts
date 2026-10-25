@@ -1,8 +1,8 @@
 import { STORAGE_KEY } from "./constants";
 
 /**
- * Roda no <head>, antes da página pintar: aplica o modo claro/escuro, o CSS do
- * tema salvo e as fontes. Sem isso, a página apareceria um instante com o tema
+ * Roda no <head>, antes da página pintar: aplica o modo claro/escuro e o CSS do
+ * tema salvo. Sem isso, a página apareceria um instante com o tema
  * padrão antes do React carregar. O ThemeSync mantém tudo atualizado depois.
  */
 export const THEME_HEAD_SCRIPT = `(function () {
@@ -27,15 +27,4 @@ export const THEME_HEAD_SCRIPT = `(function () {
   estilo.id = "vault-tema-atual";
   estilo.textContent = salvo.css;
   document.head.appendChild(estilo);
-  (salvo.fontLinks || []).forEach(function (f) {
-    // Só o CSS de fontes do Google, com o endereço que o próprio site gera
-    var prefixo = "https://fonts.googleapis.com/css2?family=";
-    if (!f || typeof f.href !== "string" || f.href.indexOf(prefixo) !== 0) return;
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = f.href;
-    link.dataset.vaultFont = String(f.family);
-    link.onerror = function () { if (link.href !== f.fallback && String(f.fallback).indexOf(prefixo) === 0) link.href = f.fallback; };
-    document.head.appendChild(link);
-  });
 })();`;

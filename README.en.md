@@ -21,7 +21,7 @@ Opens at http://localhost:3000.
 
 - **Landing** (`/`): the first screen, with the site's brand (fixed colors and font, they don't follow the theme). "Ver componentes" or a click on the red block scrolls down to the catalog with a transition. Old links with filters (`/?tipo=...`) are redirected to `/componentes`.
 - **Catalog** (`/componentes`) with search and filters in a sidebar that stays put while scrolling (it is the library's own **Barra de Filtros** component, with **Filtros Ativos** above the results): topic and source project use the library's own Seletor Múltiplo (with search and counts; multiple selections combine as "any of"), and type is a list with counts. Active filters show up as removable pills above the results, with "Limpar tudo" (clear all), and live in the URL so they can be shared: `/componentes?tipo=forms&tema=dropdown,kpi&projeto=component-vault`.
-- **Global theme in the header** ("Aparência" menu): five ready-made themes (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), Light / Dark / System mode, and the heading and body fonts (any Google Fonts family). It applies to the catalog, the previews and the header itself.
+- **Global theme in the header** ("Aparência" menu): five ready-made themes (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), Light / Dark / System mode, and the heading and body fonts (27 families, served by the site itself). It applies to the catalog, the previews and the header itself.
 - **Theme editor** ("Editar tema…" in the Aparência menu, in a floating card): colors of each token in both modes, a brand color that generates the accent and tints the neutrals, WCAG contrast for text/background pairs, fonts, text size, heading scale, roundness, density and shadow.
   - **Theme JSON:** "Copiar JSON" copies the whole theme; "Colar JSON" applies a pasted theme (partial themes and the ```` ```json ```` block AIs produce are accepted, and it tells you what was ignored); "Copiar prompt para IA" copies a prompt that explains the format, so you can generate themes in ChatGPT and paste them back.
   - **Export:** "Baixar .css" generates a single file for another project using Tailwind 4.
@@ -117,7 +117,7 @@ Catalog thumbnail rules (and the pre-commit hook that checks them): [docs/previe
 
 A theme is a set of values (`ThemeValues` in `src/themes/tokens.ts`): the colors of each token in light and dark modes, the fonts, text size, heading scale, roundness, density and shadow. `themeCss()` turns that into the CSS variables components read inside `[data-theme="vault"]`.
 
-- **New ready-made theme:** add it to `src/themes/presets.ts`. If it uses a font that isn't in `src/themes/fonts.ts`, it's loaded from Google Fonts on the fly; to load it with the page, add it to `src/app/layout.tsx` and to `LOCAL_FONTS`.
+- **New ready-made theme:** add it to `src/themes/presets.ts`. If it uses a font that isn't in `src/themes/fonts.ts`, declare it in `src/app/fontes.ts` (next/font, which downloads the files at build time and serves them from the site itself, so the browser never talks to Google) and add it to `LOCAL_FONTS`. Pasted JSON and the font field only accept fonts from that list.
 - **Theme for another project:** build it in the editor and use "Baixar .css". The file has the Tailwind bridge and the tokens in `:root`; import it after `@import "tailwindcss"`.
 - The theme choice is kept in the browser's `localStorage` and applied before the page appears (no flash). Preview iframes get changes instantly.
 

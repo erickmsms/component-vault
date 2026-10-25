@@ -1,4 +1,4 @@
-import { fontStack, googleFontLink, type FontLink } from "./fonts";
+import { fontStack } from "./fonts";
 
 /** Seletor onde os tokens valem: os previews, o catálogo e o cabeçalho da vitrine. */
 export const THEME_ATTR = "vault";
@@ -54,7 +54,7 @@ export type Mode = "light" | "dark";
 
 export type ThemeValues = {
   colors: Record<ColorToken, ColorPair>;
-  /** Família das fontes (nome do Google Fonts ou de LOCAL_FONTS). */
+  /** Família das fontes (uma das de LOCAL_FONTS). */
   fontDisplay: string;
   fontBody: string;
   /** Tamanho do texto de corpo, em px. */
@@ -150,9 +150,4 @@ export function exportThemeCss(values: ThemeValues, nome: string) {
     "",
     themeCss(values, "export", ":root").replace("{\n", "{\n  color-scheme: light dark;\n"),
   ].join("\n");
-}
-
-/** Links do Google Fonts que o tema precisa (as fontes locais não precisam). */
-export function themeFontLinks(values: ThemeValues): FontLink[] {
-  return [...new Set([values.fontDisplay, values.fontBody])].flatMap((f) => googleFontLink(f) ?? []);
 }

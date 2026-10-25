@@ -1,12 +1,12 @@
 "use client";
 
 import { useId, useState } from "react";
-import { ALL_FONTS, fontStack } from "@/themes/fonts";
+import { ALL_FONTS, fonteConhecida, fontStack } from "@/themes/fonts";
 
 /**
- * Campo de fonte: sugere as fontes conhecidas, mas aceita qualquer nome do
- * Google Fonts. Aplica ao escolher uma sugestão, ao apertar Enter ou ao sair.
- * Para refletir mudanças de fora, renderize com `key={value}`.
+ * Campo de fonte: só aceita as fontes da vitrine (a lista de sugestões). Aplica ao
+ * escolher uma sugestão, ao apertar Enter ou ao sair; um nome fora da lista volta ao
+ * valor atual. Para refletir mudanças de fora, renderize com `key={value}`.
  */
 export function FontField({
   label,
@@ -23,8 +23,13 @@ export function FontField({
   const [texto, setTexto] = useState(value);
 
   function confirmar(nome = texto) {
-    const limpo = nome.trim();
-    if (limpo && limpo !== value) onChange(limpo);
+    const fonte = fonteConhecida(nome);
+    if (!fonte) {
+      setTexto(value);
+      return;
+    }
+    setTexto(fonte);
+    if (fonte !== value) onChange(fonte);
   }
 
   return (

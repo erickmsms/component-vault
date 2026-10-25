@@ -19,7 +19,7 @@ Abre em http://localhost:3000.
 
 - **Landing** (`/`): a primeira tela, com a marca do site (cores e fonte fixas, não seguem o tema). "Ver componentes" ou um clique no bloco vermelho descem para o catálogo com uma transição. Links antigos com filtros (`/?tipo=...`) são redirecionados para `/componentes`.
 - **Catálogo** (`/componentes`) com busca e filtros na lateral, que fica parada ao rolar a página (é o componente **Barra de Filtros** da própria biblioteca, com **Filtros Ativos** acima dos resultados): tema e projeto de origem no próprio Seletor Múltiplo da biblioteca (com busca e contagem; vários marcados combinam por "qualquer um") e tipo numa lista com contagem. Os filtros ativos aparecem em pílulas removíveis acima dos resultados, com "Limpar tudo", e ficam na URL para compartilhar: `/componentes?tipo=forms&tema=dropdown,kpi&projeto=component-vault`.
-- **Tema global no cabeçalho** (menu "Aparência"): cinco temas prontos (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), modo Claro / Escuro / Sistema e troca das fontes de títulos e texto (qualquer família do Google Fonts). Vale para o catálogo, os previews e o próprio cabeçalho.
+- **Tema global no cabeçalho** (menu "Aparência"): cinco temas prontos (Editorial, Minimalista, Corporativo, Acolhedor, Brutalista), modo Claro / Escuro / Sistema e troca das fontes de títulos e texto (27 famílias, servidas pelo próprio site). Vale para o catálogo, os previews e o próprio cabeçalho.
 - **Editor de tema** ("Editar tema…" no menu Aparência, num card flutuante): cores de cada token nos dois modos, cor da marca que gera o destaque e tinge os neutros, contraste WCAG dos pares de texto e fundo, fontes, tamanho do texto, escala dos títulos, arredondamento, densidade e sombra.
   - **JSON do tema:** "Copiar JSON" copia o tema inteiro; "Colar JSON" aplica um tema colado (aceita parcial e o bloco ```` ```json ```` das IAs, e avisa o que foi ignorado); "Copiar prompt para IA" copia um pedido que explica o formato, para gerar temas no ChatGPT e colar de volta.
   - **Exportar:** "Baixar .css" gera um arquivo único para outro projeto com Tailwind 4.
@@ -116,7 +116,7 @@ Regras das miniaturas do catálogo (e o pre-commit que as confere): [docs/previe
 
 Um tema é um conjunto de valores (`ThemeValues` em `src/themes/tokens.ts`): as cores de cada token nos modos claro e escuro, as fontes, o tamanho do texto, a escala dos títulos, o arredondamento, a densidade e a sombra. `themeCss()` transforma isso nas variáveis CSS que os componentes leem dentro de `[data-theme="vault"]`.
 
-- **Tema novo pronto:** acrescente em `src/themes/presets.ts`. Se usar uma fonte que não está em `src/themes/fonts.ts`, ela é carregada do Google Fonts na hora; para carregar junto com a página, adicione no `src/app/layout.tsx` e em `LOCAL_FONTS`.
+- **Tema novo pronto:** acrescente em `src/themes/presets.ts`. Se usar uma fonte que não está em `src/themes/fonts.ts`, declare-a em `src/app/fontes.ts` (next/font, que baixa os arquivos no build e os serve do próprio site, sem o navegador falar com o Google) e adicione em `LOCAL_FONTS`. O JSON colado e o campo de fonte só aceitam as fontes dessa lista.
 - **Tema para outro projeto:** monte no editor e use "Baixar .css". O arquivo tem a ponte com o Tailwind e os tokens em `:root`; importe depois de `@import "tailwindcss"`.
 - A escolha de tema fica no `localStorage` do navegador e é aplicada antes da página aparecer (sem piscar). Os iframes de preview recebem as mudanças na hora.
 

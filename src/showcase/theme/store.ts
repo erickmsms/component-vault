@@ -1,5 +1,4 @@
 import { useSyncExternalStore } from "react";
-import type { FontLink } from "@/themes/fonts";
 import { fonteConhecida } from "@/themes/fonts";
 import { LIMITES, normalizarHex } from "@/themes/json";
 import { DEFAULT_PRESET, PRESETS, presetValues, type PresetId } from "@/themes/presets";
@@ -7,7 +6,6 @@ import {
   COLOR_TOKENS,
   SHADOWS,
   themeCss,
-  themeFontLinks,
   type ColorPair,
   type ColorToken,
   type ThemeValues,
@@ -26,7 +24,7 @@ export type ThemeSettings = {
 };
 
 /** O que fica salvo: as escolhas e o CSS já gerado, que o script do <head> aplica antes da pintura. */
-export type StoredTheme = { settings: ThemeSettings; css: string; fontLinks: FontLink[] };
+export type StoredTheme = { settings: ThemeSettings; css: string };
 
 export const DEFAULT_SETTINGS: ThemeSettings = {
   preset: DEFAULT_PRESET,
@@ -123,7 +121,7 @@ function subscribe(ouvinte: () => void) {
 }
 
 export function storedTheme(settings: ThemeSettings): StoredTheme {
-  return { settings, css: themeCss(settings.values, "vault"), fontLinks: themeFontLinks(settings.values) };
+  return { settings, css: themeCss(settings.values, "vault") };
 }
 
 export function updateSettings(mudar: (atual: ThemeSettings) => ThemeSettings) {

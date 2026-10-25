@@ -1,41 +1,40 @@
 // Fontes que a vitrine oferece para títulos e texto.
 
-/** Carregadas pelo next/font no layout: trocam na hora, sem buscar nada na rede. */
+/**
+ * Todas vêm do next/font (src/app/fontes.ts): os arquivos são baixados no build e servidos
+ * pelo próprio site, então trocar de fonte não faz o navegador falar com o Google.
+ */
 export const LOCAL_FONTS: Record<string, string> = {
   Archivo: "var(--font-archivo)",
-  Inter: "var(--font-inter)",
+  "Bricolage Grotesque": "var(--font-bricolage)",
+  "DM Sans": "var(--font-dm-sans)",
+  "DM Serif Display": "var(--font-dm-serif)",
+  Fraunces: "var(--font-fraunces)",
   Geist: "var(--font-geist-sans)",
   "Geist Mono": "var(--font-geist-mono)",
   "IBM Plex Sans": "var(--font-plex)",
-  Fraunces: "var(--font-fraunces)",
+  "Instrument Serif": "var(--font-instrument-serif)",
+  Inter: "var(--font-inter)",
+  "JetBrains Mono": "var(--font-jetbrains)",
+  "Libre Baskerville": "var(--font-libre-baskerville)",
+  Lora: "var(--font-lora)",
+  Manrope: "var(--font-manrope)",
+  Merriweather: "var(--font-merriweather)",
+  Montserrat: "var(--font-montserrat)",
   Nunito: "var(--font-nunito)",
+  Outfit: "var(--font-outfit)",
+  "Playfair Display": "var(--font-playfair)",
+  "Plus Jakarta Sans": "var(--font-jakarta)",
+  Poppins: "var(--font-poppins)",
+  Rubik: "var(--font-rubik)",
+  Sora: "var(--font-sora)",
+  "Source Serif 4": "var(--font-source-serif)",
   "Space Grotesk": "var(--font-space-grotesk)",
+  "Space Mono": "var(--font-space-mono)",
+  "Work Sans": "var(--font-work-sans)",
 };
 
-/** Sugestões do Google Fonts, carregadas sob demanda. Qualquer outro nome do Google Fonts também funciona. */
-export const GOOGLE_SUGGESTIONS = [
-  "Bricolage Grotesque",
-  "DM Sans",
-  "DM Serif Display",
-  "Instrument Serif",
-  "JetBrains Mono",
-  "Libre Baskerville",
-  "Lora",
-  "Manrope",
-  "Merriweather",
-  "Montserrat",
-  "Outfit",
-  "Playfair Display",
-  "Plus Jakarta Sans",
-  "Poppins",
-  "Rubik",
-  "Sora",
-  "Source Serif 4",
-  "Space Mono",
-  "Work Sans",
-];
-
-export const ALL_FONTS = [...Object.keys(LOCAL_FONTS), ...GOOGLE_SUGGESTIONS].sort((a, b) => a.localeCompare(b));
+export const ALL_FONTS = Object.keys(LOCAL_FONTS).sort((a, b) => a.localeCompare(b));
 
 const FALLBACK = "system-ui, -apple-system, \"Segoe UI\", sans-serif";
 
@@ -63,25 +62,8 @@ export function fonteConhecida(valor: unknown): string | null {
  * Um nome fora do formato seguro vira só a fonte do sistema.
  */
 export function fontStack(family: string, target: "vault" | "export") {
-  const local = LOCAL_FONTS[family];
+  const local = Object.hasOwn(LOCAL_FONTS, family) ? LOCAL_FONTS[family] : undefined;
   if (target === "vault" && local) return `${local}, ${FALLBACK}`;
   if (!NOME_SEGURO.test(family)) return FALLBACK;
   return `"${family}", ${FALLBACK}`;
-}
-
-export type FontLink = { family: string; href: string; fallback: string };
-
-/**
- * Link do Google Fonts para uma família que não é local. Pede os pesos usados
- * pelos componentes; se a família não tiver algum deles, o Google responde erro
- * e o link troca para a versão sem pesos (`fallback`).
- */
-export function googleFontLink(family: string): FontLink | null {
-  if (LOCAL_FONTS[family] || !family.trim()) return null;
-  const nome = encodeURIComponent(family.trim()).replaceAll("%20", "+");
-  return {
-    family,
-    href: `https://fonts.googleapis.com/css2?family=${nome}:wght@400;500;600;700;800&display=swap`,
-    fallback: `https://fonts.googleapis.com/css2?family=${nome}&display=swap`,
-  };
 }

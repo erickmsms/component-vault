@@ -91,7 +91,7 @@ export function ThemeControls() {
                 className="border-rule bg-page text-ink focus:border-ink"
               />
               <p className="text-xs leading-snug text-muted">
-                Escolha uma sugestão ou digite qualquer família do Google Fonts e aperte Enter.
+                Escolha uma fonte da lista (digite para filtrar) e aperte Enter.
               </p>
             </div>
 
