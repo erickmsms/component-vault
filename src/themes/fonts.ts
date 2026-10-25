@@ -40,13 +40,33 @@ export const ALL_FONTS = [...Object.keys(LOCAL_FONTS), ...GOOGLE_SUGGESTIONS].so
 const FALLBACK = "system-ui, -apple-system, \"Segoe UI\", sans-serif";
 
 /**
+ * Nome de família aceito no CSS: letras, números, espaço, ponto, hífen e sublinhado.
+ * Nada de aspas, barras invertidas, quebras de linha, ponto e vírgula ou chaves, que
+ * permitiriam fechar a string e escrever CSS arbitrário no tema.
+ */
+const NOME_SEGURO = /^[\p{L}\p{N} ._-]{1,60}$/u;
+
+/**
+ * Devolve o nome canônico de uma fonte da vitrine (ignora maiúsculas e espaços nas
+ * pontas) ou null se o valor não for uma das fontes conhecidas. É o filtro de tudo
+ * o que vem de fora: JSON colado e dados salvos no navegador.
+ */
+export function fonteConhecida(valor: unknown): string | null {
+  if (typeof valor !== "string") return null;
+  const nome = valor.trim().toLowerCase();
+  return ALL_FONTS.find((f) => f.toLowerCase() === nome) ?? null;
+}
+
+/**
  * Pilha de fontes para o CSS. Na vitrine, as locais usam a variável do next/font;
  * no CSS exportado, sai o nome da família (o outro projeto carrega a fonte).
+ * Um nome fora do formato seguro vira só a fonte do sistema.
  */
 export function fontStack(family: string, target: "vault" | "export") {
   const local = LOCAL_FONTS[family];
   if (target === "vault" && local) return `${local}, ${FALLBACK}`;
-  return `"${family.replaceAll('"', "")}", ${FALLBACK}`;
+  if (!NOME_SEGURO.test(family)) return FALLBACK;
+  return `"${family}", ${FALLBACK}`;
 }
 
 export type FontLink = { family: string; href: string; fallback: string };

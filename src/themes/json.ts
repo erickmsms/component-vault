@@ -1,4 +1,5 @@
 import { isHex } from "./color";
+import { ALL_FONTS, fonteConhecida } from "./fonts";
 import { COLOR_GROUPS, COLOR_TOKENS, SHADOWS, type ColorPair, type ColorToken, type Shadow, type ThemeValues } from "./tokens";
 
 // Tema em JSON: para copiar, guardar, pedir para uma IA gerar e colar de volta no editor.
@@ -94,7 +95,13 @@ export function parseThemeJson(texto: string, atual: ThemeValues): ImportResult 
       avisos.push(`“${campo}” precisa ser o nome de uma fonte; ignorado.`);
       continue;
     }
-    values[campo] = valor.trim();
+    // Só entram fontes da vitrine: o nome vai direto para o CSS do tema
+    const fonte = fonteConhecida(valor);
+    if (!fonte) {
+      avisos.push(`“${campo}”: ${JSON.stringify(valor.slice(0, 40))} não é uma fonte da vitrine; ignorada. Use uma da lista do editor.`);
+      continue;
+    }
+    values[campo] = fonte;
     aplicados++;
   }
 
@@ -146,7 +153,7 @@ export function themePromptForAi(values: ThemeValues, nome: string) {
 - "name": nome do tema.
 - "colors": um objeto em que cada chave é um token e o valor é { "light": "#rrggbb", "dark": "#rrggbb" } (cores do modo claro e do escuro). Tokens:
 ${cores}
-- "fontDisplay": fonte dos títulos; "fontBody": fonte do texto. Use nomes de famílias do Google Fonts.
+- "fontDisplay": fonte dos títulos; "fontBody": fonte do texto. Use exatamente um destes nomes: ${ALL_FONTS.map((f) => `"${f}"`).join(", ")}.
 ${numeros}
 - "shadow": sombra de menus e balões, um de: ${Object.keys(SHADOWS).map((s) => `"${s}"`).join(", ")}.
 

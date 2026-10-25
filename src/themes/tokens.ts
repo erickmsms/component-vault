@@ -141,8 +141,10 @@ export function tailwindBridge() {
  */
 export function exportThemeCss(values: ThemeValues, nome: string) {
   const fontes = [...new Set([values.fontDisplay, values.fontBody])].map((f) => `"${f}"`).join(" e ");
+  // O nome entra num comentário CSS: sem "*/" para ele não conseguir fechá-lo
+  const nomeSeguro = nome.replaceAll("*/", "");
   return [
-    `/* Tema "${nome}", gerado no Component Vault.`,
+    `/* Tema "${nomeSeguro}", gerado no Component Vault.`,
     `   Importe depois de @import "tailwindcss". Carregue as fontes ${fontes} no projeto. */`,
     tailwindBridge(),
     "",
