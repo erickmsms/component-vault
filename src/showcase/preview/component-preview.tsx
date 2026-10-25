@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { allStories } from "@/registry/all-stories";
 import { storyArgs, type Args } from "@/registry/stories";
 import { Playground } from "./playground";
-import { MENSAGEM, type EstadoDoPreview, type Fundo } from "./protocol";
+import { lerAltura, MENSAGEM, type EstadoDoPreview, type Fundo } from "./protocol";
 
 const TELAS = [
   { id: "responsivo", rotulo: "Responsivo", largura: null },
@@ -68,7 +68,10 @@ export function ComponentPreview({ slug, nome, alturaFixa }: { slug: string; nom
     const aoReceber = (e: MessageEvent) => {
       if (e.origin !== location.origin || e.source !== iframe.current?.contentWindow) return;
       if (e.data?.tipo === MENSAGEM.pronto && ultimoEstado.current) enviar(iframe.current, ultimoEstado.current);
-      if (e.data?.tipo === MENSAGEM.altura) setAltura(Math.max(120, Number(e.data.altura) || 0));
+      if (e.data?.tipo === MENSAGEM.altura) {
+        const nova = lerAltura(e.data.altura);
+        if (nova !== null) setAltura(Math.max(120, nova));
+      }
     };
     window.addEventListener("message", aoReceber);
     return () => window.removeEventListener("message", aoReceber);

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { allStories } from "@/registry/all-stories";
 import { StoryView } from "@/registry/stories";
 import { THEME_ATTR } from "@/themes/tokens";
-import { MENSAGEM, type EstadoDoPreview } from "./protocol";
+import { lerEstado, MENSAGEM, type EstadoDoPreview } from "./protocol";
 
 const semMudancas = () => () => {};
 
@@ -43,9 +43,12 @@ export function PreviewFrame({ slug }: { slug: string }) {
 
     // A página e o iframe carregam em paralelo: se a página ainda não ouvia quando o
     // iframe avisou, ela manda o estado depois, e a resposta leva a altura de novo.
+    // Só vale mensagem da própria página que contém este iframe, e só com o formato esperado
     const aoReceber = (e: MessageEvent) => {
-      if (e.origin !== location.origin || e.data?.tipo !== MENSAGEM.estado) return;
-      setDoPai(e.data.estado as EstadoDoPreview);
+      if (e.origin !== location.origin || e.source !== window.parent || e.data?.tipo !== MENSAGEM.estado) return;
+      const novo = lerEstado(e.data.estado, allStories[slug]?.stories.length ?? 0);
+      if (!novo) return;
+      setDoPai(novo);
       setTimeout(() => medir(true), 50);
     };
     window.addEventListener("message", aoReceber);
@@ -61,7 +64,7 @@ export function PreviewFrame({ slug }: { slug: string }) {
       tamanho.disconnect();
       mudancas.disconnect();
     };
-  }, []);
+  }, [slug]);
 
   if (!exemplos) return <p className="p-6 text-sm">Componente sem exemplos.</p>;
 
