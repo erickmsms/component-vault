@@ -7,6 +7,8 @@
 1. Abra a aba [Security](https://github.com/erickmsms/component-vault/security) do repositório.
 2. Clique em **Report a vulnerability** e descreva o problema: onde está, como reproduzir e o impacto que você imagina.
 
+Se o botão **Report a vulnerability** não aparecer, abra uma [issue](https://github.com/erickmsms/component-vault/issues/new/choose) só dizendo que quer relatar um problema de segurança, **sem detalhes técnicos**, e combinamos um canal privado.
+
 Respondemos em até 7 dias. Se o relato se confirmar, corrigimos, publicamos a correção e damos o crédito a quem encontrou (se quiser).
 
 ## O que vale a pena relatar
@@ -32,6 +34,8 @@ Só a versão em `main` (a que está no ar) recebe correções.
 
 1. Open the [Security](https://github.com/erickmsms/component-vault/security) tab of the repository.
 2. Click **Report a vulnerability** and describe it: where it is, how to reproduce it and the impact you expect.
+
+If the **Report a vulnerability** button isn't shown, open an [issue](https://github.com/erickmsms/component-vault/issues/new/choose) saying only that you want to report a security problem, **with no technical details**, and we'll agree on a private channel.
 
 We reply within 7 days. If the report is confirmed we fix it, publish the fix and credit the reporter (if you want).
 
