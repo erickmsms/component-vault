@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import type { CodigoColorido } from "./destacar";
 
-export function CodeBlock({ title, code }: { title: string; code: string }) {
+/** `colorido` vem do destacar(); sem ele, o código aparece como texto puro. */
+export function CodeBlock({ title, code, colorido }: { title: string; code: string; colorido?: CodigoColorido | null }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -24,7 +26,16 @@ export function CodeBlock({ title, code }: { title: string; code: string }) {
         </button>
       </div>
       <pre className="max-h-[32rem] overflow-auto bg-zinc-950 p-4 text-[13px] leading-relaxed text-zinc-100">
-        <code className="font-mono">{code}</code>
+        <code className="font-mono">
+          {colorido
+            ? colorido.map((linha, i) => (
+                <Fragment key={i}>
+                  {i > 0 && "\n"}
+                  {linha.map(([texto, cor], j) => (cor ? <span key={j} style={{ color: cor }}>{texto}</span> : texto))}
+                </Fragment>
+              ))
+            : code}
+        </code>
       </pre>
     </div>
   );

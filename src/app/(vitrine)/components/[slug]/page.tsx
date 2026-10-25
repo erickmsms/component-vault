@@ -8,7 +8,8 @@ import { TrilhaDeNavegacao } from "@/library/trilha-de-navegacao/TrilhaDeNavegac
 import { getComponent, registry } from "@/registry";
 import { categories } from "@/registry/categories";
 import { readComponentDocs } from "@/registry/props";
-import { CodeBlock } from "@/showcase/code-block";
+import { CodeBlockDestacado } from "@/showcase/code-block-destacado";
+import { linguagemDoArquivo } from "@/showcase/destacar";
 import { ComponentPreview } from "@/showcase/preview/component-preview";
 import { PropsTable } from "@/showcase/props-table";
 import { CurrentThemeCss } from "@/showcase/theme/current-theme-css";
@@ -155,13 +156,13 @@ async function ComponentDetails({ params }: { params: Params }) {
 
       {component.dependencies && component.dependencies.length > 0 && (
         <Secao titulo="Dependências">
-          <CodeBlock title="terminal" code={`npm install ${component.dependencies.join(" ")}`} />
+          <CodeBlockDestacado title="terminal" code={`npm install ${component.dependencies.join(" ")}`} lang="bash" />
         </Secao>
       )}
 
       <Secao titulo="Código" descricao={`${EXEMPLOS} tem os exemplos usados no preview e no playground.`}>
         {sources.map(({ file, code }) => (
-          <CodeBlock key={file} title={`${component.slug}/${file}`} code={code} />
+          <CodeBlockDestacado key={file} title={`${component.slug}/${file}`} code={code} lang={linguagemDoArquivo(file)} />
         ))}
       </Secao>
 
@@ -201,7 +202,7 @@ async function ComponentDetails({ params }: { params: Params }) {
               <p className="text-sm text-zinc-500">
                 Na vitrine, a ponte com o Tailwind fica em <code className="font-mono text-xs">src/themes/tokens.css</code>:
               </p>
-              <CodeBlock title="src/themes/tokens.css" code={tokensCss} />
+              <CodeBlockDestacado title="src/themes/tokens.css" code={tokensCss} lang="css" />
             </div>
           </details>
         </div>
