@@ -1,7 +1,17 @@
 import { useSyncExternalStore } from "react";
 import type { FontLink } from "@/themes/fonts";
+import { fonteConhecida } from "@/themes/fonts";
+import { LIMITES, normalizarHex } from "@/themes/json";
 import { DEFAULT_PRESET, PRESETS, presetValues, type PresetId } from "@/themes/presets";
-import { themeCss, themeFontLinks, type ThemeValues } from "@/themes/tokens";
+import {
+  COLOR_TOKENS,
+  SHADOWS,
+  themeCss,
+  themeFontLinks,
+  type ColorPair,
+  type ColorToken,
+  type ThemeValues,
+} from "@/themes/tokens";
 import { STORAGE_KEY } from "./constants";
 
 export type ModePreference = "light" | "dark" | "system";
@@ -36,16 +46,50 @@ function lerBruto() {
   }
 }
 
-/** Aceita dados de versões antigas: o que faltar vem do tema de partida. */
+/**
+ * Revalida os valores salvos no navegador: o localStorage pode ter sido alterado (por
+ * outra aba, extensão ou script) e tudo aqui vira CSS. Cada campo que não passar nas
+ * mesmas regras do "Colar JSON" volta ao valor de partida.
+ */
+function valoresSeguros(base: ThemeValues, bruto: unknown): ThemeValues {
+  const v = (bruto && typeof bruto === "object" ? bruto : {}) as Partial<ThemeValues>;
+  const entradaCores = (v.colors && typeof v.colors === "object" ? v.colors : {}) as Partial<
+    Record<ColorToken, Partial<ColorPair> | null>
+  >;
+  const colors = structuredClone(base.colors);
+  for (const token of COLOR_TOKENS) {
+    for (const modo of ["light", "dark"] as const) {
+      const hex = normalizarHex(entradaCores[token]?.[modo]);
+      if (hex) colors[token][modo] = hex;
+    }
+  }
+  const numero = (campo: keyof typeof LIMITES) => {
+    const n = v[campo];
+    if (typeof n !== "number" || !Number.isFinite(n)) return base[campo];
+    return Math.min(LIMITES[campo].max, Math.max(LIMITES[campo].min, n));
+  };
+  return {
+    colors,
+    fontDisplay: fonteConhecida(v.fontDisplay) ?? base.fontDisplay,
+    fontBody: fonteConhecida(v.fontBody) ?? base.fontBody,
+    textBase: numero("textBase"),
+    textScale: numero("textScale"),
+    radius: numero("radius"),
+    density: numero("density"),
+    shadow: typeof v.shadow === "string" && Object.hasOwn(SHADOWS, v.shadow) ? v.shadow : base.shadow,
+  };
+}
+
+/** Aceita dados de versões antigas: o que faltar ou for inválido vem do tema de partida. */
 function normalizar(dado: unknown): ThemeSettings {
   const s = (dado as Partial<StoredTheme> | null)?.settings;
-  if (!s || !(s.preset in PRESETS)) return DEFAULT_SETTINGS;
+  if (!s || typeof s.preset !== "string" || !Object.hasOwn(PRESETS, s.preset)) return DEFAULT_SETTINGS;
   const base = presetValues(s.preset);
   return {
     preset: s.preset,
     mode: s.mode === "light" || s.mode === "dark" ? s.mode : "system",
-    values: { ...base, ...s.values, colors: { ...base.colors, ...s.values?.colors } },
-    ...(s.importado ? { importado: { ...base, ...s.importado, colors: { ...base.colors, ...s.importado.colors } } } : {}),
+    values: valoresSeguros(base, s.values),
+    ...(s.importado ? { importado: valoresSeguros(base, s.importado) } : {}),
   };
 }
 

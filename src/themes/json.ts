@@ -4,7 +4,7 @@ import { COLOR_GROUPS, COLOR_TOKENS, SHADOWS, type ColorPair, type ColorToken, t
 
 // Tema em JSON: para copiar, guardar, pedir para uma IA gerar e colar de volta no editor.
 
-const LIMITES = {
+export const LIMITES = {
   textBase: { min: 12, max: 22, descricao: "tamanho do texto de corpo, em px" },
   textScale: { min: 1.05, max: 1.6, descricao: "razão da escala dos títulos (1,2 contida; 1,333 dramática)" },
   radius: { min: 0, max: 32, descricao: "arredondamento base em px (0 = cantos retos)" },
@@ -21,7 +21,7 @@ export function themeToJson(values: ThemeValues, nome: string) {
 }
 
 /** "#abc" -> "#aabbcc"; devolve null se não for uma cor hexadecimal. */
-function normalizarHex(valor: unknown) {
+export function normalizarHex(valor: unknown) {
   if (typeof valor !== "string") return null;
   const v = valor.trim().toLowerCase();
   if (/^#[0-9a-f]{3}$/.test(v)) return `#${[...v.slice(1)].map((c) => c + c).join("")}`;
@@ -121,7 +121,7 @@ export function parseThemeJson(texto: string, atual: ThemeValues): ImportResult 
   }
 
   if (entrada.shadow !== undefined) {
-    if (typeof entrada.shadow === "string" && entrada.shadow in SHADOWS) {
+    if (typeof entrada.shadow === "string" && Object.hasOwn(SHADOWS, entrada.shadow)) {
       values.shadow = entrada.shadow as Shadow;
       aplicados++;
     } else {
