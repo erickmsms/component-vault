@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Paisagem de montanhas ao entardecer">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e2a5a"/>
+      <stop offset="0.55" stop-color="#c2527a"/>
+      <stop offset="1" stop-color="#f4a261"/>
+    </linearGradient>
+    <radialGradient id="sol" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff3d1"/>
+      <stop offset="0.45" stop-color="#ffd37a" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd37a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lago" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b4a7a"/>
+      <stop offset="1" stop-color="#14192e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#ceu)"/>
+  <circle cx="1060" cy="520" r="260" fill="url(#sol)"/>
+  <circle cx="1060" cy="520" r="62" fill="#fff3d1"/>
+  <path d="M0 640 L170 470 L300 570 L470 380 L640 560 L760 470 L930 640 L1100 520 L1280 640 L1440 500 L1600 620 L1600 900 L0 900 Z" fill="#4a3566" opacity="0.75"/>
+  <path d="M0 720 L140 600 L290 690 L460 540 L640 700 L820 590 L1010 720 L1190 610 L1370 720 L1500 640 L1600 700 L1600 900 L0 900 Z" fill="#2a2347"/>
+  <path d="M0 790 L180 700 L340 780 L520 690 L720 790 L930 710 L1130 790 L1330 720 L1600 800 L1600 900 L0 900 Z" fill="#161a33"/>
+  <rect y="800" width="1600" height="100" fill="url(#lago)" opacity="0.92"/>
+  <rect x="990" y="810" width="140" height="6" rx="3" fill="#ffd37a" opacity="0.7"/>
+  <rect x="1010" y="830" width="100" height="5" rx="2.5" fill="#ffd37a" opacity="0.5"/>
+  <rect x="1030" y="850" width="60" height="4" rx="2" fill="#ffd37a" opacity="0.35"/>
+</svg>

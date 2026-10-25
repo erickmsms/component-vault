@@ -1,5 +1,5 @@
-import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+import { AnalyticsComPrivacidade } from "@/showcase/analytics";
 import { SITE_DESCRICAO, SITE_NOME, SITE_TITULO, SITE_URL } from "@/showcase/site";
 import { THEME_HEAD_SCRIPT } from "@/showcase/theme/head-script";
 import { ThemeSync } from "@/showcase/theme/theme-sync";
@@ -44,8 +44,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <ThemeSync />
         {children}
-        {/* Vercel Web Analytics: visitas e páginas mais vistas, sem cookies */}
-        <Analytics />
+        {/* Vercel Web Analytics: visitas e páginas mais vistas, sem cookies (respeita Do Not Track) */}
+        <AnalyticsComPrivacidade />
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FiltrosProvider, VitrineShell } from "@/showcase/filters";
 import { SelecaoProvider } from "@/showcase/selecao";
 import { VitrineHeader } from "@/showcase/vitrine-header";
@@ -25,6 +26,11 @@ export default function VitrineLayout({ children }: LayoutProps<"/">) {
           <VitrineShell>{children}</VitrineShell>
         </SelecaoProvider>
       </main>
+      <footer className="px-6 pb-8 text-center text-xs text-zinc-500">
+        <Link href="/privacidade" className="underline-offset-4 hover:underline">
+          Privacidade
+        </Link>
+      </footer>
     </FiltrosProvider>
   );
 }

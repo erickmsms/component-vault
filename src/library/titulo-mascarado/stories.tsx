@@ -1,7 +1,8 @@
 import { defineStories } from "@/registry/stories";
 import { TituloMascarado } from "./TituloMascarado";
 
-const IMAGEM = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80";
+// Ilustração do próprio site (public/exemplos): os exemplos não buscam imagens de terceiros
+const IMAGEM = "/exemplos/paisagem.svg";
 
 export default defineStories({
   args: {

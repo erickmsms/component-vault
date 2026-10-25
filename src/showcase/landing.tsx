@@ -54,6 +54,9 @@ export function Landing() {
           <Link href={CATALOGO} onClick={irParaCatalogo} className="flex min-h-11 items-center hover:text-white">
             Catálogo
           </Link>
+          <Link href="/privacidade" className="flex min-h-11 items-center hover:text-white">
+            Privacidade
+          </Link>
           <a href={REPO} className="flex min-h-11 items-center hover:text-white">GitHub ↗</a>
         </div>
       </nav>
