@@ -44,6 +44,7 @@ import { meta as menuSuspenso } from "@/library/menu-suspenso/meta";
 import { meta as navegacaoFlutuante } from "@/library/navegacao-flutuante/meta";
 import { meta as notificacoes } from "@/library/notificacoes/meta";
 import { meta as numerosPrincipais } from "@/library/numeros-principais/meta";
+import { meta as paginacao } from "@/library/paginacao/meta";
 import { meta as passosNumerados } from "@/library/passos-numerados/meta";
 import { meta as pilhaDeCartoes } from "@/library/pilha-de-cartoes/meta";
 import { meta as quadroKanban } from "@/library/quadro-kanban/meta";
@@ -122,6 +123,7 @@ export const registry: ComponentMeta[] = [
   navegacaoFlutuante,
   notificacoes,
   numerosPrincipais,
+  paginacao,
   passosNumerados,
   pilhaDeCartoes,
   quadroKanban,
