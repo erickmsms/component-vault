@@ -44,6 +44,7 @@ import menuSuspenso from "@/library/menu-suspenso/stories";
 import navegacaoFlutuante from "@/library/navegacao-flutuante/stories";
 import notificacoes from "@/library/notificacoes/stories";
 import numerosPrincipais from "@/library/numeros-principais/stories";
+import paginacao from "@/library/paginacao/stories";
 import passosNumerados from "@/library/passos-numerados/stories";
 import pilhaDeCartoes from "@/library/pilha-de-cartoes/stories";
 import quadroKanban from "@/library/quadro-kanban/stories";
@@ -123,6 +124,7 @@ export const allStories: Record<string, StoriesModule> = {
   "navegacao-flutuante": navegacaoFlutuante,
   notificacoes,
   "numeros-principais": numerosPrincipais,
+  paginacao,
   "passos-numerados": passosNumerados,
   "pilha-de-cartoes": pilhaDeCartoes,
   "quadro-kanban": quadroKanban,

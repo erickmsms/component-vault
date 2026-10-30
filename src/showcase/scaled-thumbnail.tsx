@@ -31,7 +31,8 @@ export function FitThumbnail({ largura, children }: { largura?: number; children
 
       el.style.transform = "none";
       el.style.width = "max-content";
-      const natural = largura ?? Math.min(Math.max(el.offsetWidth, LARGURA_MINIMA), LARGURA_MAXIMA);
+      // Para cima: offsetWidth arredonda (451,3 vira 451) e o conteúdo que quebra linha quebraria
+      const natural = largura ?? Math.min(Math.max(Math.ceil(el.getBoundingClientRect().width), LARGURA_MINIMA), LARGURA_MAXIMA);
       const limite = largura ?? LARGURA_MAXIMA;
       const maxima = largura ? 1 : ESCALA_MAXIMA;
 
