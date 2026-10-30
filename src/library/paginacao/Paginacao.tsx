@@ -49,7 +49,8 @@ export function Paginacao({
 }) {
   if (totalDePaginas <= 1) return null;
   const textos = { ...TEXTOS_PADRAO, ...textosParciais };
-  const atual = Math.min(Math.max(1, pagina), totalDePaginas);
+  // Arredonda: página fracionária (1,5) não destacaria nenhum número e mandaria 0,5 no "Anterior"
+  const atual = Math.min(Math.max(1, Math.round(pagina)), totalDePaginas);
 
   return (
     <nav aria-label={rotulo}>
